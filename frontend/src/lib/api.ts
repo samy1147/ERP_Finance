@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8007/api';
+// Extract the backend base URL without /api for CSRF endpoint
+const BACKEND_BASE_URL = API_BASE_URL.replace('/api', '');
 
 // Function to get CSRF token from cookies
 function getCsrfToken(): string | null {
@@ -61,7 +63,7 @@ api.interceptors.response.use(
 export async function initCsrfToken(): Promise<void> {
   try {
     // Call the CSRF endpoint to get the token cookie
-    await axios.get('http://localhost:8000/api/csrf/', {
+    await axios.get(`${BACKEND_BASE_URL}/api/csrf/`, {
       withCredentials: true,
     });
     console.log('CSRF token initialized');

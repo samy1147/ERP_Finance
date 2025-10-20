@@ -8,6 +8,11 @@ environ.Env.read_env(BASE_DIR / ".env")
 
 DEBUG = env("DEBUG", default=True)
 SECRET_KEY = env("SECRET_KEY", default="dev-secret")
+
+# Get URLs from environment variables
+BACKEND_URL = env("BACKEND_URL", default="http://localhost:8007")
+FRONTEND_URL = env("FRONTEND_URL", default="http://localhost:3000")
+
 ALLOWED_HOSTS = ["*"]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -83,20 +88,25 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "Finance ERP API",
     "DESCRIPTION": "Finance module (GL, AR/AP)",
     "VERSION": "0.1.0",
-    "SERVERS": [{"url": "http://localhost:8000/api"}],
+    "SERVERS": [{"url": f"{BACKEND_URL}/api"}],
     "COMPONENT_SPLIT_REQUEST": True,
 }
 
 # CORS Settings - Allow Next.js frontend to connect
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Next.js development server
+    FRONTEND_URL,  # Use environment variable
+    "http://localhost:3000",  # Local development
     "http://127.0.0.1:3000",
 ]
 
 # CSRF Trusted Origins - Required for Django 4.0+
 CSRF_TRUSTED_ORIGINS = [
+    FRONTEND_URL,  # Use environment variable
+    BACKEND_URL,   # Backend URL
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://localhost:8007",
+    "http://127.0.0.1:8007",
 ]
 
 # CSRF Cookie Settings - For cross-origin requests

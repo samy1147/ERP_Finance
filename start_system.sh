@@ -58,7 +58,7 @@ else
     exit 1
 fi
 
-$PYTHON manage.py runserver 8007 > backend.log 2>&1 &
+$PYTHON manage.py runserver 0.0.0.0:8007 > backend.log 2>&1 &
 BACKEND_PID=$!
 echo "Django backend started (PID: $BACKEND_PID)"
 
