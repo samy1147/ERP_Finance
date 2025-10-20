@@ -5,7 +5,7 @@ echo ========================================
 echo.
 echo Starting both Backend and Frontend...
 echo.
-echo Backend will run on: http://localhost:8000
+echo Backend will run on: http://localhost:8007
 echo Frontend will run on: http://localhost:3000
 echo.
 echo Press Ctrl+C in either window to stop
@@ -13,7 +13,7 @@ echo ========================================
 echo.
 
 rem Start Django backend in a new window
-start "Finance ERP - Django Backend" cmd /k "cd /d %~dp0 && .\venv\Scripts\python.exe manage.py runserver"
+start "Finance ERP - Django Backend" cmd /k "cd /d %~dp0 && .\venv\Scripts\python.exe manage.py runserver 8007"
 
 rem Wait a moment for backend to start
 timeout /t 3 /nobreak > nul
@@ -24,7 +24,7 @@ start "Finance ERP - Next.js Frontend" cmd /k "cd /d %~dp0frontend && npm run de
 echo.
 echo Both servers are starting...
 echo.
-echo Django Backend: http://localhost:8000
+echo Django Backend: http://localhost:8007
 echo Next.js Frontend: http://localhost:3000
 echo.
 echo Your browser should open automatically to: http://localhost:3000
