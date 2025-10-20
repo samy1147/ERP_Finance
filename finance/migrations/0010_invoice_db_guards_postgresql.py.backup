@@ -1,0 +1,146 @@
+# finance/migrations/0010_invoice_db_guards_postgresql.py
+# POSTGRESQL VERSION - Full featured with triggers
+# This will replace 0010_invoice_db_guards.py when migrating to PostgreSQL
+
+from django.db import migrations, models
+
+CREATE_FN_VALIDATE_POSTING = r"""
+CREATE OR REPLACE FUNCTION finance_validate_invoice_posting() RETURNS trigger AS $$
+DECLARE
+    v_lines_count bigint;
+    v_missing_acct_tax bigint;
+    v_net numeric;
+    v_tax numeric;
+    v_gross numeric;
+BEGIN
+    -- Only enforce when transitioning to POSTED
+    IF (TG_OP = 'UPDATE' AND NEW.status = 'POSTED' AND OLD.status <> 'POSTED') THEN
+        SELECT COUNT(*) INTO v_lines_count
+        FROM finance_invoiceline
+        WHERE invoice_id = OLD.id;
+
+        IF v_lines_count = 0 THEN
+            RAISE EXCEPTION 'Cannot post invoice %: it has no lines.', NEW.invoice_no
+                  USING ERRCODE = '23514'; -- check_violation
+        END IF;
+
+        SELECT COUNT(*) INTO v_missing_acct_tax
+        FROM finance_invoiceline
+        WHERE invoice_id = OLD.id
+          AND (account_id IS NULL OR tax_code_id IS NULL);
+
+        IF v_missing_acct_tax > 0 THEN
+            RAISE EXCEPTION 'Cannot post invoice %: one or more lines missing account or tax.', NEW.invoice_no
+                  USING ERRCODE = '23514';
+        END IF;
+
+        SELECT
+            COALESCE(SUM(amount_net),0),
+            COALESCE(SUM(tax_amount),0),
+            COALESCE(SUM(amount_gross),0)
+        INTO v_net, v_tax, v_gross
+        FROM finance_invoiceline
+        WHERE invoice_id = OLD.id;
+
+        IF (v_gross = 0) THEN
+            RAISE EXCEPTION 'Cannot post invoice %: totals are zero.', NEW.invoice_no
+                  USING ERRCODE = '23514';
+        END IF;
+
+        -- Normalize header totals to line sums to avoid drift
+        NEW.total_net := v_net;
+        NEW.total_tax := v_tax;
+        NEW.total_gross := v_gross;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+"""
+
+DROP_FN_VALIDATE_POSTING = "DROP FUNCTION IF EXISTS finance_validate_invoice_posting() CASCADE;"
+
+CREATE_TRG_VALIDATE_POSTING = r"""
+CREATE TRIGGER trg_validate_invoice_posting
+BEFORE UPDATE OF status ON finance_invoice
+FOR EACH ROW
+EXECUTE FUNCTION finance_validate_invoice_posting();
+"""
+
+CREATE_FN_BLOCK_EDIT_POSTED = r"""
+CREATE OR REPLACE FUNCTION finance_block_edit_posted() RETURNS trigger AS $$
+BEGIN
+    -- Block edits to POSTED invoices, except a small whitelist
+    IF (TG_OP = 'UPDATE' AND OLD.status = 'POSTED') THEN
+        -- Whitelisted columns that can change after POSTED:
+        -- status (to REVERSED), reversal_ref_id, updated_at, posted_at
+        IF (NEW.invoice_no IS DISTINCT FROM OLD.invoice_no)
+           OR (NEW.customer_id IS DISTINCT FROM OLD.customer_id)
+           OR (NEW.currency IS DISTINCT FROM OLD.currency)
+           OR (NEW.total_net IS DISTINCT FROM OLD.total_net)
+           OR (NEW.total_tax IS DISTINCT FROM OLD.total_tax)
+           OR (NEW.total_gross IS DISTINCT FROM OLD.total_gross)
+        THEN
+            RAISE EXCEPTION 'Posted documents are read-only. Use reversal API.'
+                  USING ERRCODE = '42501'; -- insufficient_privilege
+        END IF;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+"""
+
+DROP_FN_BLOCK_EDIT_POSTED = "DROP FUNCTION IF EXISTS finance_block_edit_posted() CASCADE;"
+
+CREATE_TRG_BLOCK_EDIT_POSTED = r"""
+CREATE TRIGGER trg_block_edit_posted
+BEFORE UPDATE ON finance_invoice
+FOR EACH ROW
+EXECUTE FUNCTION finance_block_edit_posted();
+"""
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ("finance", "0009_taxcode_invoice_invoiceline_and_more"),
+    ]
+
+    operations = [
+        # Add check constraint for non-negative totals
+        migrations.AddConstraint(
+            model_name="invoice",
+            constraint=models.CheckConstraint(
+                name="ck_invoice_totals_nonnegative",
+                check=models.Q(total_net__gte=0) & models.Q(total_tax__gte=0) & models.Q(total_gross__gte=0),
+            ),
+        ),
+        
+        # Create unique index for reversal_ref_id
+        # This ensures only one reversal per original invoice
+        migrations.RunSQL(
+            sql="""
+                CREATE UNIQUE INDEX IF NOT EXISTS uq_invoice_reversal_ref
+                ON finance_invoice (reversal_ref_id)
+                WHERE reversal_ref_id IS NOT NULL;
+            """,
+            reverse_sql="DROP INDEX IF EXISTS uq_invoice_reversal_ref;",
+        ),
+        
+        # Create function to validate invoice posting
+        migrations.RunSQL(CREATE_FN_VALIDATE_POSTING, reverse_sql=DROP_FN_VALIDATE_POSTING),
+        
+        # Create trigger to call validation function on status update
+        migrations.RunSQL(
+            CREATE_TRG_VALIDATE_POSTING,
+            reverse_sql="DROP TRIGGER IF EXISTS trg_validate_invoice_posting ON finance_invoice;",
+        ),
+        
+        # Create function to block editing posted invoices
+        migrations.RunSQL(CREATE_FN_BLOCK_EDIT_POSTED, reverse_sql=DROP_FN_BLOCK_EDIT_POSTED),
+        
+        # Create trigger to call block-edit function on any update
+        migrations.RunSQL(
+            CREATE_TRG_BLOCK_EDIT_POSTED,
+            reverse_sql="DROP TRIGGER IF EXISTS trg_block_edit_posted ON finance_invoice;",
+        ),
+    ]

@@ -1,0 +1,2556 @@
+openapi: 3.0.3
+info:
+  title: Finance ERP API
+  version: 0.1.0
+  description: Finance module (GL, AR/AP)
+paths:
+  /api/accounts/:
+    get:
+      operationId: api_accounts_list
+      parameters:
+      - in: query
+        name: code
+        schema:
+          type: string
+      - in: query
+        name: name
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum:
+          - AS
+          - EQ
+          - EX
+          - IN
+          - LI
+        description: |-
+          * `AS` - Asset
+          * `LI` - Liability
+          * `EQ` - Equity
+          * `IN` - Income
+          * `EX` - Expense
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+          description: ''
+    post:
+      operationId: api_accounts_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Account'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Account'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+          description: ''
+  /api/accounts/{id}/:
+    get:
+      operationId: api_accounts_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this account.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+          description: ''
+    put:
+      operationId: api_accounts_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this account.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Account'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Account'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+          description: ''
+    patch:
+      operationId: api_accounts_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this account.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAccount'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAccount'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAccount'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+          description: ''
+    delete:
+      operationId: api_accounts_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this account.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/ap/invoices/:
+    get:
+      operationId: api_ap_invoices_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/APInvoice'
+          description: ''
+    post:
+      operationId: api_ap_invoices_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APInvoice'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/APInvoice'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/APInvoice'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APInvoice'
+          description: ''
+  /api/ap/invoices/{id}/:
+    get:
+      operationId: api_ap_invoices_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ap invoice.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APInvoice'
+          description: ''
+    put:
+      operationId: api_ap_invoices_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ap invoice.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APInvoice'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/APInvoice'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/APInvoice'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APInvoice'
+          description: ''
+    patch:
+      operationId: api_ap_invoices_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ap invoice.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAPInvoice'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAPInvoice'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAPInvoice'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APInvoice'
+          description: ''
+    delete:
+      operationId: api_ap_invoices_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ap invoice.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/ap/invoices/{id}/post-gl/:
+    post:
+      operationId: api_ap_invoices_post_gl_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ap invoice.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APInvoice'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/APInvoice'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/APInvoice'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APPostGLResponse'
+              examples:
+                FirstTimePosting—Created:
+                  value:
+                    already_posted: false
+                    journal:
+                      id: 456
+                      date: '2025-10-01'
+                      currency:
+                        code: AED
+                      memo: 'AP Invoice #INV-001'
+                      posted: true
+                      lines:
+                      - account_code: '2000'
+                        account_name: Accounts Payable
+                        debit: 115.0
+                        credit: 0.0
+                      - account_code: '5000'
+                        account_name: Expenses
+                        debit: 0.0
+                        credit: 100.0
+                      - account_code: '2150'
+                        account_name: VAT Input
+                        debit: 0.0
+                        credit: 15.0
+                  summary: First time posting — created
+                SubsequentCall—AlreadyPosted:
+                  value:
+                    already_posted: true
+                    journal:
+                      id: 456
+                      date: '2025-10-01'
+                      currency:
+                        code: AED
+                      memo: 'AP Invoice #INV-001'
+                      posted: true
+                      lines:
+                      - account_code: '2000'
+                        account_name: Accounts Payable
+                        debit: 115.0
+                        credit: 0.0
+                      - account_code: '5000'
+                        account_name: Expenses
+                        debit: 0.0
+                        credit: 100.0
+                      - account_code: '2150'
+                        account_name: VAT Input
+                        debit: 0.0
+                        credit: 15.0
+                  summary: Subsequent call — already posted
+          description: ''
+  /api/ap/payments/:
+    get:
+      operationId: api_ap_payments_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/APPayment'
+          description: ''
+    post:
+      operationId: api_ap_payments_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APPayment'
+            examples:
+              SimpleAPPayment:
+                value:
+                  invoice: 456
+                  date: '2025-10-02'
+                  amount: 115.0
+                  bank_account: 1
+                summary: Simple AP payment
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/APPayment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/APPayment'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APPaymentResponse'
+          description: ''
+  /api/ap/payments/{id}/:
+    get:
+      operationId: api_ap_payments_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ap payment.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APPayment'
+          description: ''
+    put:
+      operationId: api_ap_payments_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ap payment.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APPayment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/APPayment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/APPayment'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APPayment'
+          description: ''
+    patch:
+      operationId: api_ap_payments_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ap payment.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAPPayment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAPPayment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAPPayment'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APPayment'
+          description: ''
+    delete:
+      operationId: api_ap_payments_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ap payment.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/ap/payments/{id}/reconcile/:
+    post:
+      operationId: api_ap_payments_reconcile_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ap payment.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APPayment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/APPayment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/APPayment'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APPayment'
+          description: ''
+  /api/ap/payments/{id}/unreconcile/:
+    post:
+      operationId: api_ap_payments_unreconcile_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ap payment.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APPayment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/APPayment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/APPayment'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APPayment'
+          description: ''
+  /api/ar/invoices/:
+    get:
+      operationId: api_ar_invoices_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ARInvoice'
+          description: ''
+    post:
+      operationId: api_ar_invoices_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ARInvoice'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ARInvoice'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ARInvoice'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ARInvoice'
+          description: ''
+  /api/ar/invoices/{id}/:
+    get:
+      operationId: api_ar_invoices_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ar invoice.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ARInvoice'
+          description: ''
+    put:
+      operationId: api_ar_invoices_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ar invoice.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ARInvoice'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ARInvoice'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ARInvoice'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ARInvoice'
+          description: ''
+    patch:
+      operationId: api_ar_invoices_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ar invoice.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedARInvoice'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedARInvoice'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedARInvoice'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ARInvoice'
+          description: ''
+    delete:
+      operationId: api_ar_invoices_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ar invoice.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/ar/invoices/{id}/post-gl/:
+    post:
+      operationId: api_ar_invoices_post_gl_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ar invoice.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ARInvoice'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ARInvoice'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ARInvoice'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostGLResponse'
+              examples:
+                FirstTimePosting—Created:
+                  value:
+                    already_posted: false
+                    journal:
+                      id: 123
+                      date: '2025-10-01'
+                      currency:
+                        code: AED
+                      memo: 'AR Invoice #INV-001'
+                      posted: true
+                      lines:
+                      - account_code: '1100'
+                        account_name: Accounts Receivable
+                        debit: 0.0
+                        credit: 105.0
+                      - account_code: '4000'
+                        account_name: Revenue
+                        debit: 0.0
+                        credit: 100.0
+                      - account_code: '2100'
+                        account_name: VAT Output
+                        debit: 0.0
+                        credit: 5.0
+                  summary: First time posting — created
+                SubsequentCall—AlreadyPosted:
+                  value:
+                    already_posted: true
+                    journal:
+                      id: 123
+                      date: '2025-10-01'
+                      currency:
+                        code: AED
+                      memo: 'AR Invoice #INV-001'
+                      posted: true
+                      lines:
+                      - account_code: '1100'
+                        account_name: Accounts Receivable
+                        debit: 0.0
+                        credit: 105.0
+                      - account_code: '4000'
+                        account_name: Revenue
+                        debit: 0.0
+                        credit: 100.0
+                      - account_code: '2100'
+                        account_name: VAT Output
+                        debit: 0.0
+                        credit: 5.0
+                  summary: Subsequent call — already posted
+          description: ''
+  /api/ar/payments/:
+    get:
+      operationId: api_ar_payments_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ARPayment'
+          description: ''
+    post:
+      operationId: api_ar_payments_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ARPayment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ARPayment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ARPayment'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ARPayment'
+          description: ''
+  /api/ar/payments/{id}/:
+    get:
+      operationId: api_ar_payments_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ar payment.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ARPayment'
+          description: ''
+    put:
+      operationId: api_ar_payments_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ar payment.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ARPayment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ARPayment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ARPayment'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ARPayment'
+          description: ''
+    patch:
+      operationId: api_ar_payments_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ar payment.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedARPayment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedARPayment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedARPayment'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ARPayment'
+          description: ''
+    delete:
+      operationId: api_ar_payments_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ar payment.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/ar/payments/{id}/reconcile/:
+    post:
+      operationId: api_ar_payments_reconcile_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ar payment.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ARPayment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ARPayment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ARPayment'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ARPayment'
+          description: ''
+  /api/ar/payments/{id}/unreconcile/:
+    post:
+      operationId: api_ar_payments_unreconcile_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ar payment.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ARPayment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ARPayment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ARPayment'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ARPayment'
+          description: ''
+  /api/bank-accounts/:
+    get:
+      operationId: api_bank_accounts_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BankAccount'
+          description: ''
+    post:
+      operationId: api_bank_accounts_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankAccount'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BankAccount'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BankAccount'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccount'
+          description: ''
+  /api/bank-accounts/{id}/:
+    get:
+      operationId: api_bank_accounts_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this bank account.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccount'
+          description: ''
+    put:
+      operationId: api_bank_accounts_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this bank account.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankAccount'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BankAccount'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BankAccount'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccount'
+          description: ''
+    patch:
+      operationId: api_bank_accounts_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this bank account.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBankAccount'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBankAccount'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBankAccount'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccount'
+          description: ''
+    delete:
+      operationId: api_bank_accounts_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this bank account.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/journals/:
+    get:
+      operationId: api_journals_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JournalEntry'
+          description: ''
+    post:
+      operationId: api_journals_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JournalEntry'
+          description: ''
+  /api/journals/{id}/:
+    get:
+      operationId: api_journals_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this journal entry.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JournalEntry'
+          description: ''
+    put:
+      operationId: api_journals_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this journal entry.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JournalEntry'
+          description: ''
+    patch:
+      operationId: api_journals_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this journal entry.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedJournalEntry'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedJournalEntry'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedJournalEntry'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JournalEntry'
+          description: ''
+    delete:
+      operationId: api_journals_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this journal entry.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/journals/{id}/post/:
+    post:
+      operationId: api_journals_post_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this journal entry.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JournalEntry'
+          description: ''
+  /api/journals/export/:
+    get:
+      operationId: api_journals_export_retrieve
+      description: 'Export journal entries to CSV or XLSX. Query params: file_type=csv|xlsx,
+        date_from, date_to, posted_only=true|false'
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/reports/ap-aging/:
+    get:
+      operationId: api_reports_ap_aging_retrieve
+      description: AP Aging report. Supports ?as_of=YYYY-MM-DD, and bucket sizes b1,b2,b3.
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/reports/ar-aging/:
+    get:
+      operationId: api_reports_ar_aging_retrieve
+      description: AR Aging report. Supports ?as_of=YYYY-MM-DD, and bucket sizes b1,b2,b3.
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/reports/trial-balance/:
+    get:
+      operationId: api_reports_trial_balance_retrieve
+      description: Trial Balance report. Supports ?date_from=YYYY-MM-DD&date_to=YYYY-MM-DD
+        and format choices.
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/schema/:
+    get:
+      operationId: api_schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - ckb
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - ug
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/tax/corporate-accrual/:
+    post:
+      operationId: api_tax_corporate_accrual_create
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/tax/corporate-breakdown/:
+    get:
+      operationId: api_tax_corporate_breakdown_retrieve
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/tax/corporate-file/{filing_id}/:
+    post:
+      operationId: api_tax_corporate_file_create
+      parameters:
+      - in: path
+        name: filing_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/tax/corporate-reverse/{filing_id}/:
+    post:
+      operationId: api_tax_corporate_reverse_create
+      parameters:
+      - in: path
+        name: filing_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/tax/rates/:
+    get:
+      operationId: api_tax_rates_retrieve
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/tax/seed-presets/:
+    post:
+      operationId: api_tax_seed_presets_create
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    APCurrencyInline:
+      type: object
+      properties:
+        code:
+          type: string
+      required:
+      - code
+    APInvoice:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        supplier:
+          type: integer
+        number:
+          type: string
+          maxLength: 32
+        date:
+          type: string
+          format: date
+        due_date:
+          type: string
+          format: date
+        currency:
+          type: integer
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          readOnly: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/APItem'
+        totals:
+          type: string
+          readOnly: true
+      required:
+      - currency
+      - date
+      - due_date
+      - id
+      - items
+      - number
+      - status
+      - supplier
+      - totals
+    APItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        description:
+          type: string
+          maxLength: 255
+        quantity:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        unit_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        tax_rate:
+          type: integer
+          nullable: true
+      required:
+      - description
+      - id
+      - quantity
+      - unit_price
+    APJournalEntryInline:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date
+        currency:
+          $ref: '#/components/schemas/APCurrencyInline'
+        memo:
+          type: string
+          nullable: true
+        posted:
+          type: boolean
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/APJournalLineInline'
+      required:
+      - currency
+      - date
+      - id
+      - lines
+      - posted
+    APJournalLineInline:
+      type: object
+      properties:
+        account_code:
+          type: string
+        account_name:
+          type: string
+        debit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,16}(?:\.\d{0,2})?$
+        credit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,16}(?:\.\d{0,2})?$
+      required:
+      - account_code
+      - account_name
+      - credit
+      - debit
+    APPayment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        date:
+          type: string
+          format: date
+        amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+        posted_at:
+          type: string
+          format: date-time
+          nullable: true
+        reconciled:
+          type: boolean
+        reconciliation_ref:
+          type: string
+          maxLength: 64
+        reconciled_at:
+          type: string
+          format: date
+          nullable: true
+        payment_fx_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,6})?$
+          nullable: true
+        invoice:
+          type: integer
+        bank_account:
+          type: integer
+          nullable: true
+        gl_journal:
+          type: integer
+          nullable: true
+      required:
+      - amount
+      - date
+      - id
+      - invoice
+    APPaymentCurrencyInline:
+      type: object
+      properties:
+        code:
+          type: string
+      required:
+      - code
+    APPaymentJournalEntryInline:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date
+        currency:
+          $ref: '#/components/schemas/APPaymentCurrencyInline'
+        memo:
+          type: string
+          nullable: true
+        posted:
+          type: boolean
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/APPaymentJournalLineInline'
+      required:
+      - currency
+      - date
+      - id
+      - lines
+      - posted
+    APPaymentJournalLineInline:
+      type: object
+      properties:
+        account_code:
+          type: string
+        account_name:
+          type: string
+        debit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,16}(?:\.\d{0,2})?$
+        credit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,16}(?:\.\d{0,2})?$
+      required:
+      - account_code
+      - account_name
+      - credit
+      - debit
+    APPaymentResponse:
+      type: object
+      properties:
+        already_posted:
+          type: boolean
+        invoice_closed:
+          type: boolean
+        journal:
+          $ref: '#/components/schemas/APPaymentJournalEntryInline'
+      required:
+      - already_posted
+      - invoice_closed
+      - journal
+    APPostGLResponse:
+      type: object
+      properties:
+        already_posted:
+          type: boolean
+        journal:
+          $ref: '#/components/schemas/APJournalEntryInline'
+      required:
+      - already_posted
+      - journal
+    ARInvoice:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          type: integer
+        number:
+          type: string
+          maxLength: 32
+        date:
+          type: string
+          format: date
+        due_date:
+          type: string
+          format: date
+        currency:
+          type: integer
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          readOnly: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ARItem'
+        totals:
+          type: string
+          readOnly: true
+      required:
+      - currency
+      - customer
+      - date
+      - due_date
+      - id
+      - items
+      - number
+      - status
+      - totals
+    ARItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        description:
+          type: string
+          maxLength: 255
+        quantity:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        unit_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        tax_rate:
+          type: integer
+          nullable: true
+      required:
+      - description
+      - id
+      - quantity
+      - unit_price
+    ARPayment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        date:
+          type: string
+          format: date
+        amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+        posted_at:
+          type: string
+          format: date-time
+          nullable: true
+        reconciled:
+          type: boolean
+        reconciliation_ref:
+          type: string
+          maxLength: 64
+        reconciled_at:
+          type: string
+          format: date
+          nullable: true
+        payment_fx_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,6})?$
+          nullable: true
+        invoice:
+          type: integer
+        bank_account:
+          type: integer
+          nullable: true
+        gl_journal:
+          type: integer
+          nullable: true
+      required:
+      - amount
+      - date
+      - id
+      - invoice
+    Account:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        code:
+          type: string
+          maxLength: 32
+        name:
+          type: string
+          maxLength: 128
+        type:
+          $ref: '#/components/schemas/TypeEnum'
+      required:
+      - code
+      - id
+      - name
+      - type
+    BankAccount:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 128
+        account_code:
+          type: string
+          maxLength: 32
+        iban:
+          type: string
+          maxLength: 64
+        swift:
+          type: string
+          maxLength: 32
+        currency:
+          type: integer
+          nullable: true
+        active:
+          type: boolean
+      required:
+      - id
+      - name
+    CurrencyInline:
+      type: object
+      properties:
+        code:
+          type: string
+      required:
+      - code
+    JournalEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        date:
+          type: string
+          format: date
+        currency:
+          type: integer
+        memo:
+          type: string
+          maxLength: 255
+        posted:
+          type: boolean
+          readOnly: true
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/JournalLine'
+      required:
+      - currency
+      - date
+      - id
+      - lines
+      - posted
+    JournalEntryInline:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date
+        currency:
+          $ref: '#/components/schemas/CurrencyInline'
+        memo:
+          type: string
+          nullable: true
+        posted:
+          type: boolean
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/JournalLineInline'
+      required:
+      - currency
+      - date
+      - id
+      - lines
+      - posted
+    JournalLine:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        account:
+          type: integer
+        debit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+        credit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+      required:
+      - account
+      - id
+    JournalLineInline:
+      type: object
+      properties:
+        account_code:
+          type: string
+        account_name:
+          type: string
+        debit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,16}(?:\.\d{0,2})?$
+        credit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,16}(?:\.\d{0,2})?$
+      required:
+      - account_code
+      - account_name
+      - credit
+      - debit
+    PatchedAPInvoice:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        supplier:
+          type: integer
+        number:
+          type: string
+          maxLength: 32
+        date:
+          type: string
+          format: date
+        due_date:
+          type: string
+          format: date
+        currency:
+          type: integer
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          readOnly: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/APItem'
+        totals:
+          type: string
+          readOnly: true
+    PatchedAPPayment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        date:
+          type: string
+          format: date
+        amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+        posted_at:
+          type: string
+          format: date-time
+          nullable: true
+        reconciled:
+          type: boolean
+        reconciliation_ref:
+          type: string
+          maxLength: 64
+        reconciled_at:
+          type: string
+          format: date
+          nullable: true
+        payment_fx_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,6})?$
+          nullable: true
+        invoice:
+          type: integer
+        bank_account:
+          type: integer
+          nullable: true
+        gl_journal:
+          type: integer
+          nullable: true
+    PatchedARInvoice:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          type: integer
+        number:
+          type: string
+          maxLength: 32
+        date:
+          type: string
+          format: date
+        due_date:
+          type: string
+          format: date
+        currency:
+          type: integer
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          readOnly: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ARItem'
+        totals:
+          type: string
+          readOnly: true
+    PatchedARPayment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        date:
+          type: string
+          format: date
+        amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+        posted_at:
+          type: string
+          format: date-time
+          nullable: true
+        reconciled:
+          type: boolean
+        reconciliation_ref:
+          type: string
+          maxLength: 64
+        reconciled_at:
+          type: string
+          format: date
+          nullable: true
+        payment_fx_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,6})?$
+          nullable: true
+        invoice:
+          type: integer
+        bank_account:
+          type: integer
+          nullable: true
+        gl_journal:
+          type: integer
+          nullable: true
+    PatchedAccount:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        code:
+          type: string
+          maxLength: 32
+        name:
+          type: string
+          maxLength: 128
+        type:
+          $ref: '#/components/schemas/TypeEnum'
+    PatchedBankAccount:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 128
+        account_code:
+          type: string
+          maxLength: 32
+        iban:
+          type: string
+          maxLength: 64
+        swift:
+          type: string
+          maxLength: 32
+        currency:
+          type: integer
+          nullable: true
+        active:
+          type: boolean
+    PatchedJournalEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        date:
+          type: string
+          format: date
+        currency:
+          type: integer
+        memo:
+          type: string
+          maxLength: 255
+        posted:
+          type: boolean
+          readOnly: true
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/JournalLine'
+    PostGLResponse:
+      type: object
+      properties:
+        already_posted:
+          type: boolean
+        journal:
+          $ref: '#/components/schemas/JournalEntryInline'
+      required:
+      - already_posted
+      - journal
+    StatusEnum:
+      enum:
+      - DRAFT
+      - POSTED
+      - PAID
+      - CANCELLED
+      type: string
+      description: |-
+        * `DRAFT` - DRAFT
+        * `POSTED` - POSTED
+        * `PAID` - PAID
+        * `CANCELLED` - CANCELLED
+    TypeEnum:
+      enum:
+      - AS
+      - LI
+      - EQ
+      - IN
+      - EX
+      type: string
+      description: |-
+        * `AS` - Asset
+        * `LI` - Liability
+        * `EQ` - Equity
+        * `IN` - Income
+        * `EX` - Expense
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

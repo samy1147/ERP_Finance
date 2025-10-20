@@ -1,0 +1,245 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { arPaymentsAPI, customersAPI, arInvoicesAPI } from '../../../../services/api';
+import { ARInvoice, Customer } from '../../../../types';
+import toast from 'react-hot-toast';
+
+export default function NewARPaymentPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [customers, setCustomers] = useState<Customer[]>([]);
+  const [invoices, setInvoices] = useState<ARInvoice[]>([]);
+  const [loadingInvoices, setLoadingInvoices] = useState(false);
+  const [formData, setFormData] = useState({
+    customer: '',
+    payment_date: new Date().toISOString().split('T')[0],
+    amount: '',
+    currency: '1',
+    reference_number: '',
+    memo: '',
+    bank_account: '',
+    invoice: '',
+  });
+
+  useEffect(() => {
+    fetchCustomers();
+  }, []);
+
+  useEffect(() => {
+    if (formData.customer) {
+      fetchInvoicesForCustomer(parseInt(formData.customer));
+    } else {
+      setInvoices([]);
+      setFormData(prev => ({ ...prev, invoice: '' }));
+    }
+  }, [formData.customer]);
+
+  const fetchCustomers = async () => {
+    try {
+      const response = await customersAPI.list();
+      setCustomers(response.data);
+    } catch (error) {
+      console.error('Failed to load customers:', error);
+      toast.error('Failed to load customers');
+    }
+  };
+
+  const fetchInvoicesForCustomer = async (customerId: number) => {
+    setLoadingInvoices(true);
+    try {
+      const response = await arInvoicesAPI.list();
+      // Filter for posted invoices with balance > 0 for this customer
+      const customerInvoices = response.data.filter(
+        (inv) => 
+            inv.customer === customerId &&
+            inv.is_posted && 
+            !inv.is_cancelled &&
+            parseFloat(inv.balance || '0') > 0
+          );
+      setInvoices(customerInvoices);
+    } catch (error) {
+      console.error('Failed to load invoices:', error);
+      toast.error('Failed to load invoices');
+    } finally {
+      setLoadingInvoices(false);
+    }
+  };
+
+  const handleInvoiceSelect = (invoiceId: string) => {
+    const selectedInvoice = invoices.find(inv => inv.id === parseInt(invoiceId));
+    if (selectedInvoice) {
+      // Auto-fill amount with invoice balance (or empty string if balance is undefined)
+      setFormData(prev => ({
+        ...prev,
+        invoice: invoiceId,
+        amount: selectedInvoice.balance || '',
+      }));
+    } else {
+      setFormData(prev => ({ ...prev, invoice: invoiceId }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate that an invoice is selected
+    if (!formData.invoice) {
+      toast.error('Please select an invoice to apply the payment to');
+      return;
+    }
+    
+    setLoading(true);
+
+    try {
+      const paymentData = {
+        invoice: parseInt(formData.invoice),
+        date: formData.payment_date,  // Backend expects 'date', not 'payment_date'
+        amount: formData.amount,  // Keep as string for API
+        bank_account: formData.bank_account ? parseInt(formData.bank_account) : undefined,
+      };
+
+      await arPaymentsAPI.create(paymentData);
+      toast.success('Payment created successfully');
+      router.push('/ar/payments');
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.detail || error.response?.data?.error || 'Failed to create payment';
+      toast.error(errorMessage);
+      console.error('Payment creation error:', error.response?.data || error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="max-w-2xl mx-auto">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900">Receive Payment</h1>
+        <p className="mt-2 text-gray-600">Record a payment from a customer</p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="card space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Customer *
+            </label>
+            <select
+              required
+              className="input-field"
+              value={formData.customer}
+              onChange={(e) => setFormData({ ...formData, customer: e.target.value })}
+              aria-label="Customer"
+            >
+              <option value="">Select a customer...</option>
+              {customers.map((customer) => (
+                <option key={customer.id} value={customer.id}>
+                  {customer.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Payment Date *
+            </label>
+            <input
+              type="date"
+              required
+              className="input-field"
+              value={formData.payment_date}
+              onChange={(e) => setFormData({ ...formData, payment_date: e.target.value })}
+              aria-label="Payment date"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Amount *
+            </label>
+            <input
+              type="number"
+              step="0.01"
+              required
+              className="input-field"
+              value={formData.amount}
+              onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+              aria-label="Payment amount"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Reference Number
+            </label>
+            <input
+              type="text"
+              className="input-field"
+              value={formData.reference_number}
+              onChange={(e) => setFormData({ ...formData, reference_number: e.target.value })}
+              aria-label="Reference number"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Bank Account ID
+            </label>
+            <input
+              type="number"
+              className="input-field"
+              value={formData.bank_account}
+              onChange={(e) => setFormData({ ...formData, bank_account: e.target.value })}
+              aria-label="Bank account ID"
+            />
+          </div>
+          <div className="md:col-span-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Invoice *
+            </label>
+            <select
+              required
+              className="input-field"
+              value={formData.invoice}
+              onChange={(e) => handleInvoiceSelect(e.target.value)}
+              aria-label="Invoice"
+              disabled={!formData.customer || loadingInvoices}
+            >
+              <option value="">
+                {loadingInvoices 
+                  ? 'Loading invoices...' 
+                  : !formData.customer 
+                  ? 'Select customer first...' 
+                  : invoices.length === 0 
+                  ? 'No outstanding invoices' 
+                  : 'Select an invoice...'}
+              </option>
+              {invoices.map((invoice) => (
+                <option key={invoice.id} value={invoice.id}>
+                  {invoice.invoice_number} - {invoice.date} - Balance: {invoice.balance}
+                </option>
+              ))}
+            </select>
+            {formData.invoice && invoices.length > 0 && (
+              <p className="text-sm text-gray-500 mt-1">
+                Selected invoice balance will auto-fill the amount
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="flex justify-end gap-4 pt-4">
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="btn-secondary"
+            disabled={loading}
+          >
+            Cancel
+          </button>
+          <button type="submit" className="btn-primary" disabled={loading}>
+            {loading ? 'Creating...' : 'Create Payment'}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
