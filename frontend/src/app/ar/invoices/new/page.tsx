@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { arInvoicesAPI, customersAPI, currenciesAPI, taxRatesAPI, exchangeRatesAPI, fxConfigAPI } from '../../../../services/api';
-import { ARInvoiceItem, Customer, Currency, TaxRate } from '../../../../types';
+import { arInvoicesAPI, customersAPI, currenciesAPI, taxRatesAPI, exchangeRatesAPI, fxConfigAPI, accountsAPI } from '../../../../services/api';
+import { ARInvoiceItem, Customer, Currency, TaxRate, Account, GLDistributionLine } from '../../../../types';
 import { Plus, Trash2, RefreshCw } from 'lucide-react';
 import toast from 'react-hot-toast';
+import GLDistributionLines from '../../../../components/GLDistributionLines';
 
 export default function NewARInvoicePage() {
   const router = useRouter();
@@ -13,10 +14,12 @@ export default function NewARInvoicePage() {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [currencies, setCurrencies] = useState<Currency[]>([]);
   const [taxRates, setTaxRates] = useState<TaxRate[]>([]);
+  const [accounts, setAccounts] = useState<Account[]>([]);
   const [baseCurrency, setBaseCurrency] = useState<Currency | null>(null);
   const [exchangeRate, setExchangeRate] = useState<number | null>(null);
   const [exchangeRateLoading, setExchangeRateLoading] = useState(false);
   const [manualExchangeRate, setManualExchangeRate] = useState(false);
+  const [glLines, setGlLines] = useState<Partial<GLDistributionLine>[]>([]);
   const [formData, setFormData] = useState({
     customer: '',
     number: '',
@@ -34,6 +37,7 @@ export default function NewARInvoicePage() {
     fetchCurrencies();
     fetchTaxRates();
     fetchBaseCurrency();
+    fetchAccounts();
   }, []);
 
   useEffect(() => {
@@ -80,6 +84,16 @@ export default function NewARInvoicePage() {
     } catch (error) {
       console.error('❌ Failed to load tax rates:', error);
       toast.error('Failed to load tax rates. Please refresh the page.');
+    }
+  };
+
+  const fetchAccounts = async () => {
+    try {
+      const response = await accountsAPI.list();
+      setAccounts(response.data);
+    } catch (error) {
+      console.error('❌ Failed to load accounts:', error);
+      toast.error('Failed to load accounts');
     }
   };
 
@@ -238,6 +252,26 @@ export default function NewARInvoicePage() {
           tax_rate: item.tax_rate ? parseInt(item.tax_rate as any) : null
         })),
       };
+      
+      // Add GL distribution lines (REQUIRED)
+      if (!glLines || glLines.length === 0) {
+        toast.error('Please add at least one GL distribution line');
+        return;
+      }
+      
+      // Validate GL lines before submitting
+      const validGlLines = glLines.filter(line => line.account && line.amount);
+      if (validGlLines.length === 0) {
+        toast.error('Please add valid GL distribution lines with account and amount');
+        return;
+      }
+      
+      invoiceData.gl_lines = validGlLines.map(line => ({
+        account: line.account,
+        line_type: line.line_type,
+        amount: line.amount,
+        description: line.description || ''
+      }));
       
       // Add exchange rate fields if applicable
       if (exchangeRate) {
@@ -467,6 +501,15 @@ export default function NewARInvoicePage() {
             </div>
           </div>
         </div>
+
+        {/* GL Distribution Lines */}
+        <GLDistributionLines
+          lines={glLines}
+          accounts={accounts}
+          invoiceTotal={calculateTotal()}
+          currencySymbol={currencies.find(c => c.id === parseInt(formData.currency))?.symbol || ''}
+          onChange={setGlLines}
+        />
 
         {/* Invoice Items */}
         <div className="card">

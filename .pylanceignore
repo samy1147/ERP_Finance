@@ -1,0 +1,9 @@
+# Pylance ignore file
+# Exclude old archived and test files from type checking
+
+schema_generation_20251009/
+erp_docs_tests_20251009/
+QUICK_IMPLEMENTATION_PLAN.py
+test_procurement_module.py
+**/migrations/
+**/__pycache__/

@@ -5,7 +5,9 @@ from django.core.exceptions import ValidationError
 from django.db import connection, IntegrityError
 from django.db import transaction
 
-from finance.models import Invoice, InvoiceLine, InvoiceStatus, Account, TaxCode
+from finance.models import Invoice, InvoiceLine, InvoiceStatus, TaxCode
+from segment.models import XX_Segment
+from segment.utils import SegmentHelper
 from finance.services import post_invoice, reverse_posted_invoice
 
 def _get_any_customer_id():

@@ -52,6 +52,7 @@ class ARInvoice(models.Model):
         default="AE",
         help_text="Tax country for this invoice (defaults to customer country)"
     )
+    period = models.ForeignKey('periods.FiscalPeriod', on_delete=models.PROTECT, null=True, blank=True, related_name='ar_invoices', help_text="Fiscal period for this invoice")
     
     # Approval workflow
     APPROVAL_STATUSES = [
@@ -234,6 +235,15 @@ class ARItem(models.Model):
         return f"{self.invoice.number} - {self.description[:30]}"
 
 
+# REMOVED: InvoiceGLLine model - table dropped in migration 0013
+# Kept as stub to prevent import errors in serializers
+class InvoiceGLLine(models.Model):
+    """Deprecated - Table removed"""
+    class Meta:
+        managed = False  # Don't create/modify table
+        db_table = 'ar_invoiceglline'
+
+
 class ARPayment(models.Model):
     """AR Payment - can be allocated to multiple invoices"""
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT, null=True, blank=True, help_text="Customer making the payment")
@@ -244,6 +254,7 @@ class ARPayment(models.Model):
     memo = models.CharField(max_length=255, blank=True, help_text="Payment memo/notes")
     bank_account = models.ForeignKey("finance.BankAccount", null=True, blank=True, on_delete=models.SET_NULL,
                                      related_name="ar_payments")
+    period = models.ForeignKey('periods.FiscalPeriod', on_delete=models.PROTECT, null=True, blank=True, related_name='ar_payments', help_text="Fiscal period for this payment")
     posted_at = models.DateTimeField(null=True, blank=True)
     reconciled = models.BooleanField(default=False)
     reconciliation_ref = models.CharField(max_length=64, blank=True)

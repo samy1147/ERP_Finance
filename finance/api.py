@@ -15,10 +15,12 @@ import csv
 from django.db.models import Sum, F, Q
 from io import BytesIO
 from decimal import Decimal
-from .models import Invoice , Account, JournalEntry, JournalLine, BankAccount, InvoiceApproval
+from .models import Invoice, JournalEntry, JournalLine, BankAccount, InvoiceApproval
+from segment.models import XX_Segment
 from ar.models import ARInvoice, ARPayment
 from ap.models import APInvoice, APPayment
-from .serializers import (InvoiceSerializer,AccountSerializer,JournalLineSerializer, JournalLineDetailSerializer, JournalEntrySerializer,ARInvoiceSerializer, ARPaymentSerializer,APInvoiceSerializer, APPaymentSerializer,JournalEntryReadSerializer, BankAccountSerializer,SeedVATRequestSerializer, CorpTaxAccrualRequestSerializer)
+from .serializers import (InvoiceSerializer,JournalLineSerializer, JournalLineDetailSerializer, JournalEntrySerializer,ARInvoiceSerializer, ARPaymentSerializer,APInvoiceSerializer, APPaymentSerializer,JournalEntryReadSerializer, BankAccountSerializer,SeedVATRequestSerializer, CorpTaxAccrualRequestSerializer)
+from segment.serializers import AccountSerializer
 from .services import (
     reverse_posted_invoice,post_invoice,post_entry,
     gl_post_from_ar_balanced, gl_post_from_ap_balanced,
@@ -309,8 +311,9 @@ class CurrencyViewSet(viewsets.ModelViewSet):
     queryset = Currency.objects.all()
     filterset_fields = ["code", "is_base"]
 
-class AccountViewSet(viewsets.ModelViewSet):
-    serializer_class = AccountSerializer; queryset = Account.objects.all(); filterset_fields = ["type", "code", "name"]
+
+# AccountViewSet moved to segment/api.py
+
 
 class JournalEntryViewSet(viewsets.ModelViewSet):
     serializer_class = JournalEntrySerializer; queryset = JournalEntry.objects.all()
@@ -861,6 +864,87 @@ class APInvoiceViewSet(viewsets.ModelViewSet):
             "currency": invoice.currency.code,
             "approval_status": invoice.approval_status
         }, status=status.HTTP_201_CREATED)
+    
+    @action(detail=True, methods=['post'], url_path='three-way-match')
+    def three_way_match(self, request, pk=None):
+        """
+        Perform 3-way match on AP invoice linked to GRN.
+        Compares: PO → GRN → Invoice (quantities, prices, amounts)
+        """
+        invoice = self.get_object()
+        
+        # Check if invoice has GRN link
+        if not invoice.goods_receipt:
+            return Response(
+                {'error': '3-way match requires invoice to be linked to a GRN'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        if not invoice.po_header:
+            return Response(
+                {'error': '3-way match requires invoice to be linked to a PO'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Perform 3-way match
+        try:
+            from ap.services import perform_three_way_match
+            result = perform_three_way_match(invoice)
+            
+            return Response({
+                'message': 'Three-way match completed',
+                'invoice_id': invoice.id,
+                'invoice_number': invoice.number,
+                'match_status': result['status'],
+                'variances': result['variances'],
+                'total_variance_amount': str(result['total_variance_amount']),
+                'notes': result['notes'],
+                'performed_at': invoice.match_performed_at.isoformat() if invoice.match_performed_at else None
+            })
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            return Response(
+                {'error': f'Failed to perform 3-way match: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+    
+    @action(detail=False, methods=['get'], url_path='grns-needing-invoice')
+    def grns_needing_invoice(self, request):
+        """
+        Get list of GRNs (Goods Receipt Notes) that need AP invoicing.
+        Returns COMPLETED GRNs that don't have associated AP invoices yet.
+        """
+        from procurement.receiving.models import GoodsReceipt
+        from procurement.receiving.serializers import GoodsReceiptListSerializer
+        
+        # Get all COMPLETED GRNs
+        grns = GoodsReceipt.objects.filter(
+            status='COMPLETED'
+        ).exclude(
+            # Exclude GRNs that already have non-cancelled AP invoices
+            id__in=APInvoice.objects.filter(
+                goods_receipt__isnull=False,
+                is_cancelled=False
+            ).values_list('goods_receipt_id', flat=True).distinct()
+        ).select_related(
+            'supplier', 'po_header', 'warehouse'
+        ).order_by('-receipt_date')
+        
+        # Apply filters
+        supplier_id = request.query_params.get('supplier')
+        if supplier_id:
+            grns = grns.filter(supplier_id=supplier_id)
+        
+        po_number = request.query_params.get('po_number')
+        if po_number:
+            grns = grns.filter(po_header__po_number__icontains=po_number)
+        
+        serializer = GoodsReceiptListSerializer(grns, many=True)
+        return Response({
+            'count': grns.count(),
+            'results': serializer.data
+        })
 
 
 class ARPaymentViewSet(viewsets.ModelViewSet):

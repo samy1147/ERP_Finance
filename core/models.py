@@ -91,7 +91,7 @@ class FXGainLossAccount(models.Model):
     Configuration for FX gain/loss GL accounts.
     Defines which accounts to use for realized and unrealized FX gains and losses.
     """
-    account = models.OneToOneField('finance.Account', on_delete=models.PROTECT, related_name='fx_config')
+    account = models.OneToOneField('segment.XX_Segment', on_delete=models.PROTECT, related_name='fx_config')
     gain_loss_type = models.CharField(
         max_length=16,
         choices=[

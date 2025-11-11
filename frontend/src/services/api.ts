@@ -18,13 +18,50 @@ import {
   InvoiceApproval,
 } from '../types';
 
-// Accounts
+// Accounts (now using segment API)
 export const accountsAPI = {
-  list: () => api.get<Account[]>('/accounts/'),
-  get: (id: number) => api.get<Account>(`/accounts/${id}/`),
-  create: (data: Partial<Account>) => api.post<Account>('/accounts/', data),
-  update: (id: number, data: Partial<Account>) => api.patch<Account>(`/accounts/${id}/`, data),
-  delete: (id: number) => api.delete(`/accounts/${id}/`),
+  list: () => api.get<Account[]>('/segment/accounts/'),
+  get: (code: string) => api.get<Account>(`/segment/accounts/${code}/`),
+  create: (data: Partial<Account>) => api.post<Account>('/segment/accounts/', data),
+  update: (code: string, data: Partial<Account>) => api.patch<Account>(`/segment/accounts/${code}/`, data),
+  delete: (code: string) => api.delete(`/segment/accounts/${code}/`),
+  hierarchy: () => api.get<Account[]>('/segment/accounts/hierarchy/'),
+};
+
+// Segment Types
+export interface SegmentType {
+  segment_id: number;
+  segment_name: string;
+  segment_type: string;
+  description?: string;
+  is_required: boolean;
+  has_hierarchy: boolean;
+  is_active: boolean;
+  display_order: number;
+  code_length?: number;
+}
+
+export const segmentTypesAPI = {
+  list: () => api.get<SegmentType[]>('/segment/types/'),
+  get: (id: number) => api.get<SegmentType>(`/segment/types/${id}/`),
+};
+
+// Segments
+export interface Segment {
+  id: number;
+  segment_type: number;
+  code: string;
+  alias: string;
+  node_type: 'parent' | 'child';
+  parent_code?: string;
+  level: number;
+  is_active: boolean;
+}
+
+export const segmentsAPI = {
+  list: (params?: { segment_type?: number; node_type?: string; is_active?: boolean }) => 
+    api.get<Segment[]>('/segment/values/', { params }),
+  get: (id: number) => api.get<Segment>(`/segment/values/${id}/`),
 };
 
 // Journal Entries
@@ -108,6 +145,7 @@ export const apInvoicesAPI = {
   reverse: (id: number) => api.post(`/ap/invoices/${id}/reverse/`),
   submitForApproval: (id: number, data: { submitted_by: string }) => 
     api.post(`/ap/invoices/${id}/submit-for-approval/`, data),
+  threeWayMatch: (id: number) => api.post(`/ap/invoices/${id}/three-way-match/`),
 };
 
 // AP Payments
@@ -138,13 +176,26 @@ export const customersAPI = {
   delete: (id: number) => api.delete(`/customers/${id}/`),
 };
 
-// Suppliers
+// Suppliers - Updated to use correct endpoint
 export const suppliersAPI = {
-  list: () => api.get<Supplier[]>('/suppliers/'),
-  get: (id: number) => api.get<Supplier>(`/suppliers/${id}/`),
-  create: (data: Partial<Supplier>) => api.post<Supplier>('/suppliers/', data),
-  update: (id: number, data: Partial<Supplier>) => api.patch<Supplier>(`/suppliers/${id}/`, data),
-  delete: (id: number) => api.delete(`/suppliers/${id}/`),
+  list: () => api.get<Supplier[]>('/ap/vendors/'),
+  get: (id: number) => api.get<Supplier>(`/ap/vendors/${id}/`),
+  create: (data: Partial<Supplier>) => api.post<Supplier>('/ap/vendors/', data),
+  update: (id: number, data: Partial<Supplier>) => api.patch<Supplier>(`/ap/vendors/${id}/`, data),
+  delete: (id: number) => api.delete(`/ap/vendors/${id}/`),
+  
+  // Vendor-specific custom actions
+  markPreferred: (id: number) => api.post(`/ap/vendors/${id}/mark_preferred/`, {}),
+  removePreferred: (id: number) => api.post(`/ap/vendors/${id}/remove_preferred/`, {}),
+  putOnHold: (id: number, data: { reason: string }) => api.post(`/ap/vendors/${id}/put_on_hold/`, data),
+  removeHold: (id: number) => api.post(`/ap/vendors/${id}/remove_hold/`, {}),
+  blacklist: (id: number, data: { reason: string }) => api.post(`/ap/vendors/${id}/blacklist/`, data),
+  removeBlacklist: (id: number) => api.post(`/ap/vendors/${id}/remove_blacklist/`, {}),
+  updatePerformance: (id: number, data: { 
+    performance_score?: number;
+    quality_score?: number;
+    delivery_score?: number;
+  }) => api.post(`/ap/vendors/${id}/update_performance/`, data),
 };
 
 // Currencies
@@ -245,4 +296,92 @@ export const invoiceApprovalsAPI = {
 export const outstandingInvoicesAPI = {
   getByCustomer: (customerId: number) => api.get(`/outstanding-invoices/?customer=${customerId}`),
   getBySupplier: (supplierId: number) => api.get(`/outstanding-invoices/?supplier=${supplierId}`),
+};
+
+// Attachments API
+export const attachmentsAPI = {
+  // List attachments with optional filters
+  list: (params?: { po_header?: number; pr_header?: number; temp_session?: string }) => 
+    api.get('/procurement/attachments/', { params }),
+  
+  // Get single attachment
+  get: (id: number) => 
+    api.get(`/procurement/attachments/${id}/`),
+  
+  // Upload file for PO
+  uploadPO: (poId: number, file: File, documentType: string, description: string) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('po_header', poId.toString());
+    formData.append('document_type', documentType);
+    formData.append('description', description);
+    formData.append('is_temporary', 'false');
+    
+    return api.post('/procurement/attachments/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+  
+  // Upload file for PR
+  uploadPR: (prId: number, file: File, documentType: string, description: string) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('pr_header', prId.toString());
+    formData.append('document_type', documentType);
+    formData.append('description', description);
+    formData.append('is_temporary', 'false');
+    
+    return api.post('/procurement/attachments/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+  
+  // Upload temporary file (before document creation)
+  uploadTemp: (tempSession: string, file: File, documentType: string, description: string) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('temp_session', tempSession);
+    formData.append('document_type', documentType);
+    formData.append('description', description);
+    formData.append('is_temporary', 'true');
+    
+    return api.post('/procurement/attachments/upload-temp/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+  
+  // Link temporary attachments to PO
+  linkToPO: (tempSession: string, poId: number) => {
+    return api.post('/procurement/attachments/link-to-po/', {
+      temp_session: tempSession,
+      po_header: poId,
+    });
+  },
+  
+  // Link temporary attachments to PR
+  linkToPR: (tempSession: string, prId: number) => {
+    return api.post('/procurement/attachments/link-to-pr/', {
+      temp_session: tempSession,
+      pr_header: prId,
+    });
+  },
+  
+  // Delete attachment
+  delete: (id: number) => 
+    api.delete(`/procurement/attachments/${id}/`),
+  
+  // Download attachment (returns the file URL)
+  getDownloadUrl: (fileUrl: string) => {
+    // If it's a relative URL, prepend the API base URL
+    if (fileUrl.startsWith('/media/')) {
+      return `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8007'}${fileUrl}`;
+    }
+    return fileUrl;
+  },
 };

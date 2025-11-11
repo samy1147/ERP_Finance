@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import sqlite_fix
+# import sqlite_fix  # Commented out - pysqlite3 not installed
 import os, sys
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "erp.settings")

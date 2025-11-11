@@ -383,6 +383,68 @@ export default function ViewARInvoicePage() {
           </div>
         </div>
       )}
+
+      {/* GL Distribution */}
+      {invoice.gl_lines && invoice.gl_lines.length > 0 && (
+        <div className="card mt-6">
+          <h2 className="text-xl font-semibold mb-4">GL Distribution</h2>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Account</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                  <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                  <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {invoice.gl_lines.map((line: any, index: number) => (
+                  <tr key={index}>
+                    <td className="px-4 py-3 text-sm text-gray-900">
+                      <div className="font-medium">{line.account_code || 'N/A'}</div>
+                      <div className="text-xs text-gray-500">{line.account_name || ''}</div>
+                    </td>
+                    <td className="px-4 py-3 text-sm text-gray-900">{line.description || '-'}</td>
+                    <td className="px-4 py-3 text-center">
+                      <span className={`px-2 py-1 text-xs font-semibold rounded ${
+                        line.line_type === 'DEBIT' 
+                          ? 'bg-blue-100 text-blue-800' 
+                          : 'bg-green-100 text-green-800'
+                      }`}>
+                        {line.line_type}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-sm font-medium text-gray-900 text-right">
+                      {invoice.currency_details?.code} {parseFloat(line.amount).toFixed(2)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot className="bg-gray-50">
+                <tr>
+                  <td colSpan={3} className="px-4 py-3 text-sm font-semibold text-gray-700 text-right">
+                    Total Debits / Credits:
+                  </td>
+                  <td className="px-4 py-3 text-sm font-bold text-gray-900 text-right">
+                    {invoice.currency_details?.code} {
+                      invoice.gl_lines
+                        .filter((l: any) => l.line_type === 'DEBIT')
+                        .reduce((sum: number, l: any) => sum + parseFloat(l.amount), 0)
+                        .toFixed(2)
+                    } / {invoice.currency_details?.code} {
+                      invoice.gl_lines
+                        .filter((l: any) => l.line_type === 'CREDIT')
+                        .reduce((sum: number, l: any) => sum + parseFloat(l.amount), 0)
+                        .toFixed(2)
+                    }
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

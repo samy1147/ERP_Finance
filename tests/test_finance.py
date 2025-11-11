@@ -1,7 +1,9 @@
 import datetime as dt
 import pytest
 from core.models import Currency, TaxRate
-from finance.models import Account, JournalEntry, JournalLine
+from finance.models import JournalEntry, JournalLine
+from segment.models import XX_Segment
+from segment.utils import SegmentHelper
 from ar.models import Customer, ARInvoice, ARItem, ARPayment
 from finance.services import post_entry, ar_totals
 

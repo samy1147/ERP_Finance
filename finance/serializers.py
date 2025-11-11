@@ -1,9 +1,10 @@
 
 from decimal import Decimal
 from rest_framework import serializers
-from .models import Invoice, InvoiceLine, InvoiceStatus, Account, JournalEntry, JournalLine, BankAccount
-from ar.models import ARInvoice, ARItem, ARPayment, ARPaymentAllocation
-from ap.models import APInvoice, APItem, APPayment, APPaymentAllocation
+from .models import Invoice, InvoiceLine, InvoiceStatus, JournalEntry, JournalLine, JournalLineSegment, BankAccount
+from segment.models import XX_Segment, XX_SegmentType
+from ar.models import ARInvoice, ARItem, ARPayment, ARPaymentAllocation, InvoiceGLLine
+from ap.models import APInvoice, APItem, APPayment, APPaymentAllocation, APInvoiceGLLine
 from core.models import Currency, TaxRate
 from .services import validate_ready_to_post, ar_totals, ap_totals
 from django.core.exceptions import ValidationError as DjangoValidationError
@@ -14,20 +15,117 @@ class CurrencySerializer(serializers.ModelSerializer):
         fields = ["id", "code", "name", "symbol", "is_base"]
         read_only_fields = ["id"]
 
-class AccountSerializer(serializers.ModelSerializer):
-    class Meta: model = Account; fields = ["id", "code", "name", "type"]
+
+class JournalLineSegmentSerializer(serializers.ModelSerializer):
+    """Serializer for dynamic segment assignments on journal lines"""
+    segment_type_name = serializers.CharField(source='segment_type.segment_name', read_only=True)
+    segment_code = serializers.CharField(source='segment.code', read_only=True)
+    segment_alias = serializers.CharField(source='segment.alias', read_only=True)
+    
+    class Meta:
+        model = JournalLineSegment
+        fields = ["id", "segment_type", "segment_type_name", "segment", "segment_code", "segment_alias"]
+        read_only_fields = ["id", "segment_type_name", "segment_code", "segment_alias"]
+    
+    def validate_segment(self, value):
+        """Validate that only child segments are selected"""
+        if value and value.node_type != 'child':
+            raise serializers.ValidationError(
+                f"Only child segments can be assigned. "
+                f"Segment '{value.code}' is a '{value.node_type}' type. "
+                f"Please select a child segment."
+            )
+        return value
+    
+    def validate(self, data):
+        """Validate that segment belongs to the specified segment_type"""
+        segment = data.get('segment')
+        segment_type = data.get('segment_type')
+        
+        if segment and segment_type:
+            if segment.segment_type_id != segment_type.segment_id:
+                raise serializers.ValidationError({
+                    'segment': f"Segment '{segment.code}' does not belong to segment type '{segment_type.segment_name}'"
+                })
+        
+        return data
+
 
 class JournalLineSerializer(serializers.ModelSerializer):
-    class Meta: model = JournalLine; fields = ["id", "account", "debit", "credit"]
-
-class JournalLineDetailSerializer(serializers.ModelSerializer):
-    """Detailed serializer for journal lines with nested entry and account info"""
-    entry = serializers.SerializerMethodField()
-    account = serializers.SerializerMethodField()
+    segments = JournalLineSegmentSerializer(many=True, required=False)
     
     class Meta:
         model = JournalLine
-        fields = ["id", "debit", "credit", "entry", "account"]
+        fields = ["id", "account", "debit", "credit", "segments"]
+    
+    def validate(self, data):
+        """Validate that all required segment types have a segment assigned"""
+        segments_data = data.get('segments', [])
+        
+        # Get all required segment types
+        required_segment_types = XX_SegmentType.objects.filter(is_required=True, is_active=True)
+        
+        # Check that we have a segment for each required type
+        provided_types = {seg['segment_type'].segment_id for seg in segments_data if 'segment_type' in seg}
+        required_types = {st.segment_id for st in required_segment_types}
+        
+        missing_types = required_types - provided_types
+        if missing_types:
+            missing_names = [
+                st.segment_name for st in required_segment_types 
+                if st.segment_id in missing_types
+            ]
+            raise serializers.ValidationError({
+                'segments': f"Missing required segment types: {', '.join(missing_names)}. "
+                           f"You must provide one child segment from each required segment type."
+            })
+        
+        return data
+    
+    def create(self, validated_data):
+        segments_data = validated_data.pop('segments', [])
+        journal_line = JournalLine.objects.create(**validated_data)
+        
+        # Create segment assignments
+        for segment_data in segments_data:
+            JournalLineSegment.objects.create(
+                journal_line=journal_line,
+                **segment_data
+            )
+        
+        return journal_line
+    
+    def update(self, instance, validated_data):
+        segments_data = validated_data.pop('segments', None)
+        
+        # Update journal line fields
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        
+        # Update segments if provided
+        if segments_data is not None:
+            # Delete existing segments
+            instance.segments.all().delete()
+            
+            # Create new segments
+            for segment_data in segments_data:
+                JournalLineSegment.objects.create(
+                    journal_line=instance,
+                    **segment_data
+                )
+        
+        return instance
+
+class JournalLineDetailSerializer(serializers.ModelSerializer):
+    """Detailed serializer for journal lines with nested entry, account info, and segments"""
+    entry = serializers.SerializerMethodField()
+    account = serializers.SerializerMethodField()
+    segments = JournalLineSegmentSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = JournalLine
+        fields = ["id", "debit", "credit", "entry", "account", "segments"]
     
     def get_entry(self, obj):
         return {
@@ -42,16 +140,45 @@ class JournalLineDetailSerializer(serializers.ModelSerializer):
         return {
             "id": obj.account.id,
             "code": obj.account.code,
-            "name": obj.account.name,
-            "type": obj.account.type,
+            "name": obj.account.alias,  # XX_Segment uses 'alias' not 'name'
+            "type": obj.account.segment_type.segment_type if obj.account.segment_type else "account",
         }
 
 class JournalEntrySerializer(serializers.ModelSerializer):
     lines = JournalLineSerializer(many=True)
-    class Meta: model = JournalEntry; fields = ["id", "date", "currency", "memo", "posted", "lines"]; read_only_fields = ["posted"]
+    
+    class Meta: 
+        model = JournalEntry
+        fields = ["id", "date", "currency", "memo", "posted", "lines"]
+        read_only_fields = ["posted"]
+    
+    def validate_lines(self, lines_data):
+        """Validate that debits equal credits"""
+        total_debit = sum(Decimal(line.get('debit', 0)) for line in lines_data)
+        total_credit = sum(Decimal(line.get('credit', 0)) for line in lines_data)
+        
+        if total_debit != total_credit:
+            raise serializers.ValidationError(
+                f"Total debits ({total_debit}) must equal total credits ({total_credit})"
+            )
+        
+        return lines_data
+    
     def create(self, validated_data):
-        lines_data = validated_data.pop("lines"); entry = JournalEntry.objects.create(**validated_data)
-        for ld in lines_data: JournalLine.objects.create(entry=entry, **ld)
+        lines_data = validated_data.pop("lines")
+        entry = JournalEntry.objects.create(**validated_data)
+        
+        for line_data in lines_data:
+            segments_data = line_data.pop('segments', [])
+            journal_line = JournalLine.objects.create(entry=entry, **line_data)
+            
+            # Create segment assignments
+            for segment_data in segments_data:
+                JournalLineSegment.objects.create(
+                    journal_line=journal_line,
+                    **segment_data
+                )
+        
         return entry
 
 class ARItemSerializer(serializers.ModelSerializer):
@@ -65,8 +192,19 @@ class ARItemSerializer(serializers.ModelSerializer):
         model = ARItem
         fields = ["id","description","quantity","unit_price","tax_rate"]
 
+class InvoiceGLLineSerializer(serializers.Serializer):
+    """Serializer for AR Invoice GL Distribution Lines - DEPRECATED"""
+    id = serializers.IntegerField(required=False)
+    account = serializers.IntegerField(required=False)
+    account_code = serializers.CharField(required=False, allow_blank=True)
+    account_name = serializers.CharField(required=False, allow_blank=True)
+    line_type = serializers.CharField(required=False, allow_blank=True)
+    amount = serializers.DecimalField(max_digits=15, decimal_places=2, required=False)
+    description = serializers.CharField(required=False, allow_blank=True)
+
 class ARInvoiceSerializer(serializers.ModelSerializer):
     items = ARItemSerializer(many=True)
+    gl_lines = InvoiceGLLineSerializer(many=True, required=False)
     totals = serializers.SerializerMethodField()
     invoice_number = serializers.CharField(source='number', required=False)
     subtotal = serializers.SerializerMethodField()
@@ -79,7 +217,7 @@ class ARInvoiceSerializer(serializers.ModelSerializer):
     
     class Meta: 
         model = ARInvoice
-        fields = ["id","customer","customer_name","number","invoice_number","date","due_date","currency","currency_code","country","exchange_rate","base_currency_total","is_posted","payment_status","approval_status","is_cancelled","posted_at","paid_at","cancelled_at","items","totals","subtotal","tax_amount","total","paid_amount","balance"]
+        fields = ["id","customer","customer_name","number","invoice_number","date","due_date","currency","currency_code","country","exchange_rate","base_currency_total","is_posted","payment_status","approval_status","is_cancelled","posted_at","paid_at","cancelled_at","items","gl_lines","totals","subtotal","tax_amount","total","paid_amount","balance"]
         read_only_fields = ["is_posted","payment_status","approval_status","is_cancelled","posted_at","paid_at","cancelled_at","exchange_rate","base_currency_total","totals","subtotal","tax_amount","total","paid_amount","balance","customer_name","currency_code"]
     
     def validate(self, attrs):
@@ -124,8 +262,14 @@ class ARInvoiceSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         items_data = validated_data.pop("items", [])
-        print(f"DEBUG: Creating AR Invoice with {len(items_data)} items")
+        gl_lines_data = validated_data.pop("gl_lines", [])
+        print(f"DEBUG: Creating AR Invoice with {len(items_data)} items and {len(gl_lines_data)} GL lines")
         print(f"DEBUG: Items data: {items_data}")
+        print(f"DEBUG: GL lines data: {gl_lines_data}")
+        
+        # Validate GL lines are provided
+        if not gl_lines_data or len(gl_lines_data) == 0:
+            raise serializers.ValidationError("GL distribution lines are required. Please add at least one GL line.")
         
         inv = ARInvoice.objects.create(**validated_data)
         print(f"DEBUG: Created invoice #{inv.id}: {inv.number}")
@@ -172,6 +316,33 @@ class ARInvoiceSerializer(serializers.ModelSerializer):
         # Calculate and save totals to database
         inv.calculate_and_save_totals()
         print(f"DEBUG: Saved totals - Subtotal: {inv.subtotal}, Tax: {inv.tax_amount}, Total: {inv.total}")
+        
+        # Create GL distribution lines (REQUIRED)
+        from decimal import Decimal
+        total_debits = Decimal('0.00')
+        total_credits = Decimal('0.00')
+        
+        for gl_line_data in gl_lines_data:
+            gl_line = InvoiceGLLine.objects.create(invoice=inv, **gl_line_data)
+            if gl_line.line_type == 'DEBIT':
+                total_debits += gl_line.amount
+            else:
+                total_credits += gl_line.amount
+        
+        # Validate that debits = credits = invoice total
+        invoice_total = inv.total or Decimal('0.00')
+        if total_debits != total_credits:
+            inv.delete()
+            raise serializers.ValidationError(
+                f"GL lines validation failed: Total debits ({total_debits}) must equal total credits ({total_credits})"
+            )
+        if total_debits != invoice_total:
+            inv.delete()
+            raise serializers.ValidationError(
+                f"GL lines validation failed: Total debits/credits ({total_debits}) must equal invoice total ({invoice_total})"
+            )
+        
+        print(f"DEBUG: Created {len(gl_lines_data)} GL lines. Debits={total_debits}, Credits={total_credits}, Invoice Total={invoice_total}")
         
         return inv
     
@@ -320,8 +491,19 @@ class APItemSerializer(serializers.ModelSerializer):
         model = APItem
         fields = ["id","description","quantity","unit_price","tax_rate"]
 
+class APInvoiceGLLineSerializer(serializers.Serializer):
+    """Serializer for AP Invoice GL Distribution Lines (deprecated model)"""
+    id = serializers.IntegerField(required=False)
+    account = serializers.IntegerField(required=False)
+    account_code = serializers.CharField(required=False, allow_blank=True)
+    account_name = serializers.CharField(required=False, allow_blank=True)
+    line_type = serializers.CharField(required=False, allow_blank=True)
+    amount = serializers.DecimalField(max_digits=15, decimal_places=2, required=False)
+    description = serializers.CharField(required=False, allow_blank=True)
+
 class APInvoiceSerializer(serializers.ModelSerializer):
     items = APItemSerializer(many=True)
+    gl_lines = APInvoiceGLLineSerializer(many=True, required=False)
     totals = serializers.SerializerMethodField()
     invoice_number = serializers.CharField(source='number', required=False)
     subtotal = serializers.SerializerMethodField()
@@ -332,10 +514,19 @@ class APInvoiceSerializer(serializers.ModelSerializer):
     supplier_name = serializers.CharField(source='supplier.name', read_only=True)
     currency_code = serializers.CharField(source='currency.code', read_only=True)
     
+    # GRN and PO display fields
+    grn_number = serializers.CharField(source='goods_receipt.grn_number', read_only=True, allow_null=True)
+    po_number = serializers.CharField(source='po_header.po_number', read_only=True, allow_null=True)
+    
+    # Include the IDs explicitly for frontend checking
+    goods_receipt_id = serializers.IntegerField(source='goods_receipt.id', read_only=True, allow_null=True)
+    po_header_id = serializers.IntegerField(source='po_header.id', read_only=True, allow_null=True)
+    
     class Meta: 
         model = APInvoice
-        fields = ["id","supplier","supplier_name","number","invoice_number","date","due_date","currency","currency_code","country","exchange_rate","base_currency_total","is_posted","payment_status","approval_status","is_cancelled","posted_at","paid_at","cancelled_at","items","totals","subtotal","tax_amount","total","paid_amount","balance"]
-        read_only_fields = ["is_posted","payment_status","approval_status","is_cancelled","posted_at","paid_at","cancelled_at","exchange_rate","base_currency_total","totals","subtotal","tax_amount","total","paid_amount","balance","supplier_name","currency_code"]
+        fields = ["id","supplier","supplier_name","number","invoice_number","date","due_date","currency","currency_code","country","exchange_rate","base_currency_total","po_header","po_number","po_header_id","goods_receipt","grn_number","goods_receipt_id","three_way_match_status","match_variance_amount","match_variance_notes","match_performed_at","is_posted","payment_status","approval_status","is_cancelled","posted_at","paid_at","cancelled_at","items","gl_lines","totals","subtotal","tax_amount","total","paid_amount","balance"]
+        read_only_fields = ["is_posted","payment_status","is_cancelled","posted_at","paid_at","cancelled_at","exchange_rate","base_currency_total","three_way_match_status","match_variance_amount","match_variance_notes","match_performed_at","totals","subtotal","tax_amount","total","paid_amount","balance","supplier_name","currency_code","grn_number","po_number","goods_receipt_id","po_header_id"]
+
     
     def validate(self, attrs):
         print(f"DEBUG validate(): Received attrs keys: {attrs.keys()}")
@@ -379,8 +570,11 @@ class APInvoiceSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         items_data = validated_data.pop("items", [])
+        gl_lines_data = validated_data.pop("gl_lines", [])  # Accept but don't use (deprecated)
         print(f"DEBUG: Creating AP Invoice with {len(items_data)} items")
         print(f"DEBUG: Items data: {items_data}")
+        if gl_lines_data:
+            print(f"DEBUG: GL lines data (deprecated): {len(gl_lines_data)} lines")
         
         inv = APInvoice.objects.create(**validated_data)
         print(f"DEBUG: Created invoice #{inv.id}: {inv.number}")
@@ -427,6 +621,20 @@ class APInvoiceSerializer(serializers.ModelSerializer):
         # Calculate and save totals to database
         inv.calculate_and_save_totals()
         print(f"DEBUG: Saved totals - Subtotal: {inv.subtotal}, Tax: {inv.tax_amount}, Total: {inv.total}")
+        
+        # Note: GL distribution lines are deprecated and no longer created
+        # The GL lines are now handled when the invoice is posted to GL
+        if gl_lines_data:
+            print(f"DEBUG: Received {len(gl_lines_data)} GL lines (deprecated - not creating)")
+        
+        print(f"DEBUG: Invoice creation complete. Invoice #{inv.id}: {inv.number}")
+        
+        # Note: 3-way match is now triggered manually via the API endpoint
+        # POST /api/ap/invoices/{id}/three-way-match/
+        # The old automatic matching has been disabled
+        if inv.po_header_id and inv.goods_receipt_id:
+            print(f"DEBUG: Invoice linked to PO: {inv.po_header_id}, GR: {inv.goods_receipt_id}")
+            print(f"DEBUG: User can run 3-way match via API endpoint")
         
         return inv
     

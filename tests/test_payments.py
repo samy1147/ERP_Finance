@@ -6,7 +6,9 @@ from django.utils import timezone
 def test_ar_payments_partial_and_close_with_fx(base_data):
     from ar.models import Customer, ARInvoice, ARItem, ARPayment
     from core.models import TaxRate
-    from finance.models import BankAccount, JournalEntry, Account, JournalLine
+    from finance.models import BankAccount, JournalEntry, JournalLine
+    from segment.models import XX_Segment
+from segment.utils import SegmentHelper
     from finance.services import gl_post_from_ar_balanced, post_ar_payment, reverse_journal, ar_totals, q2
 
     cust = Customer.objects.create(code="C003", name="Gamma Inc", currency=base_data["currency"])

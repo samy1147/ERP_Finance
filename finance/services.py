@@ -3,7 +3,9 @@ from decimal import Decimal, ROUND_HALF_UP
 from django.db import transaction
 from django.conf import settings
 from django.db.models import Sum, F, Q
-from .models import Invoice, InvoiceLine, InvoiceStatus , Account, JournalEntry, JournalLine, BankAccount,CorporateTaxRule,CorporateTaxFiling
+from .models import Invoice, InvoiceLine, InvoiceStatus, JournalEntry, JournalLine, BankAccount,CorporateTaxRule,CorporateTaxFiling
+from segment.models import XX_Segment
+from segment.utils import SegmentHelper
 from ar.models import ARInvoice, ARPayment
 from ap.models import APInvoice, APPayment
 from django.utils import timezone
@@ -12,6 +14,11 @@ from datetime import datetime, date
 from decimal import Decimal
 from core.models import TaxRate
 from django.core.exceptions import ValidationError
+
+# Helper function to get account segments by code
+def get_account_by_code(code: str) -> XX_Segment:
+    """Get account segment by code"""
+    return SegmentHelper.get_account_by_code(code)
 
 
 def build_trial_balance(date_from=None, date_to=None):
@@ -142,14 +149,14 @@ def build_ap_aging(as_of=None, b1=30, b2=30, b3=30):
     return {"as_of": as_of.isoformat(), "buckets": buckets, "invoices": rows, "summary": summary}
 
 
-def _bank_account_to_gl_account(payment_bank: BankAccount | None) -> Account:
+def _bank_account_to_gl_account(payment_bank: BankAccount | None) -> XX_Segment:
     """
     If BankAccount has a mapped GL code, use it, else fall back to FINANCE_ACCOUNTS['BANK'].
     """
     code = (payment_bank.account_code or ACCOUNT_CODES["BANK"]) if payment_bank else ACCOUNT_CODES["BANK"]
     try:
-        return Account.objects.get(code=code)
-    except Account.DoesNotExist:
+        return get_account_by_code(code)
+    except XX_Segment.DoesNotExist:
         raise ValueError(f"Bank GL account '{code}' not found. Seed an Account with code={code} "
                          f"or set bank_account.account_code accordingly.")
 
@@ -279,15 +286,15 @@ def _create_journal_entry(**kwargs):
     return JournalEntry.objects.create(**payload)
 
 
-def _acct(key: str) -> Account:
+def _acct(key: str) -> XX_Segment:
     """Get account by key, with helpful error message if not found"""
     code = ACCOUNT_CODES.get(key)
     if not code:
         raise ValueError(f"Account key '{key}' not configured in FINANCE_ACCOUNTS")
     
     try:
-        return Account.objects.get(code=code)
-    except Account.DoesNotExist:
+        return get_account_by_code(code)
+    except XX_Segment.DoesNotExist:
         raise ValueError(
             f"Account '{code}' (for {key}) does not exist in Chart of Accounts. "
             f"Please create this account before posting invoices."
@@ -373,12 +380,21 @@ def gl_post_from_ar_balanced(invoice: ARInvoice):
         memo=memo,
     )
     
-    # Create journal lines in base currency
-    JournalLine.objects.create(entry=je, account=_acct("AR"), debit=total_base)
-    if subtotal_base:
-        JournalLine.objects.create(entry=je, account=_acct("REV"), credit=subtotal_base)
-    if tax_base:
-        JournalLine.objects.create(entry=je, account=_acct("VAT_OUT"), credit=tax_base)
+    # Check if invoice has custom GL distribution lines
+    has_gl_lines = hasattr(inv, 'gl_lines') and inv.gl_lines.exists()
+    
+    if not has_gl_lines:
+        raise ValueError(f"Cannot post invoice {inv.number}: GL distribution lines are required")
+    
+    # Use GL distribution lines
+    for gl_line in inv.gl_lines.all():
+        # Convert to base currency if needed
+        line_amount = convert_amount(gl_line.amount, inv.currency, base_currency, inv.date) if needs_conversion else gl_line.amount
+        
+        if gl_line.line_type == 'DEBIT':
+            JournalLine.objects.create(entry=je, account=gl_line.account, debit=line_amount)
+        else:
+            JournalLine.objects.create(entry=je, account=gl_line.account, credit=line_amount)
 
     post_entry(je)
 
@@ -476,12 +492,21 @@ def gl_post_from_ap_balanced(invoice: APInvoice):
         memo=memo,
     )
     
-    # Create journal lines in base currency
-    if subtotal_base:
-        JournalLine.objects.create(entry=je, account=_acct("EXP"), debit=subtotal_base)
-    if tax_base:
-        JournalLine.objects.create(entry=je, account=_acct("VAT_IN"), debit=tax_base)
-    JournalLine.objects.create(entry=je, account=_acct("AP"), credit=total_base)
+    # Check if invoice has custom GL distribution lines
+    has_gl_lines = hasattr(inv, 'gl_lines') and inv.gl_lines.exists()
+    
+    if not has_gl_lines:
+        raise ValueError(f"Cannot post invoice {inv.number}: GL distribution lines are required")
+    
+    # Use GL distribution lines
+    for gl_line in inv.gl_lines.all():
+        # Convert to base currency if needed
+        line_amount = convert_amount(gl_line.amount, inv.currency, base_currency, inv.date) if needs_conversion else gl_line.amount
+        
+        if gl_line.line_type == 'DEBIT':
+            JournalLine.objects.create(entry=je, account=gl_line.account, debit=line_amount)
+        else:
+            JournalLine.objects.create(entry=je, account=gl_line.account, credit=line_amount)
 
     post_entry(je)
 
@@ -506,20 +531,20 @@ def post_ar_payment(payment):
     """
     from finance.fx_services import get_base_currency, convert_amount
     
-    ar_account = Account.objects.get(code=ACCOUNT_CODES['AR'])
+    ar_account = get_account_by_code(ACCOUNT_CODES['AR'])
     
     # Get bank account from payment.bank_account
     if payment.bank_account and payment.bank_account.account_code:
-        bank_account = Account.objects.get(code=payment.bank_account.account_code)
+        bank_account = get_account_by_code(payment.bank_account.account_code)
     else:
-        bank_account = Account.objects.get(code=ACCOUNT_CODES['BANK'])
+        bank_account = get_account_by_code(ACCOUNT_CODES['BANK'])
     
     # FX accounts for gain/loss
     try:
-        fx_gain_account = Account.objects.get(code=ACCOUNT_CODES.get('FX_GAIN', '9999'))
-        fx_loss_account = Account.objects.get(code=ACCOUNT_CODES.get('FX_LOSS', '9998'))
+        fx_gain_account = get_account_by_code(ACCOUNT_CODES.get('FX_GAIN', '9999'))
+        fx_loss_account = get_account_by_code(ACCOUNT_CODES.get('FX_LOSS', '9998'))
         fx_accounts_available = True
-    except Account.DoesNotExist:
+    except XX_Segment.DoesNotExist:
         fx_accounts_available = False
         print("Warning: FX Gain/Loss accounts not configured")
     
@@ -723,20 +748,20 @@ def post_ap_payment(payment: APPayment):
     """
     from finance.fx_services import get_base_currency, convert_amount
     
-    ap_account = Account.objects.get(code=ACCOUNT_CODES['AP'])
+    ap_account = get_account_by_code(ACCOUNT_CODES['AP'])
     
     # Get bank account from payment.bank_account
     if payment.bank_account and payment.bank_account.account_code:
-        bank_account = Account.objects.get(code=payment.bank_account.account_code)
+        bank_account = get_account_by_code(payment.bank_account.account_code)
     else:
-        bank_account = Account.objects.get(code=ACCOUNT_CODES['BANK'])
+        bank_account = get_account_by_code(ACCOUNT_CODES['BANK'])
     
     # FX accounts for gain/loss
     try:
-        fx_gain_account = Account.objects.get(code=ACCOUNT_CODES.get('FX_GAIN', '9999'))
-        fx_loss_account = Account.objects.get(code=ACCOUNT_CODES.get('FX_LOSS', '9998'))
+        fx_gain_account = get_account_by_code(ACCOUNT_CODES.get('FX_GAIN', '9999'))
+        fx_loss_account = get_account_by_code(ACCOUNT_CODES.get('FX_LOSS', '9998'))
         fx_accounts_available = True
-    except Account.DoesNotExist:
+    except XX_Segment.DoesNotExist:
         fx_accounts_available = False
         print("Warning: FX Gain/Loss accounts not configured")
     
@@ -953,11 +978,11 @@ def reverse_journal(entry: JournalEntry) -> JournalEntry:
     return reversed_entry
 
 
-def _acct_code_or_raise(key: str) -> Account:
+def _acct_code_or_raise(key: str) -> XX_Segment:
     code = ACCOUNT_CODES[key]
     try:
-        return Account.objects.get(code=code)
-    except Account.DoesNotExist:
+        return get_account_by_code(code)
+    except XX_Segment.DoesNotExist:
         raise ValueError(f"Account {key} with code '{code}' not found. Seed it or override FINANCE_ACCOUNTS.")
 
 # ---- VAT preset seeding ----

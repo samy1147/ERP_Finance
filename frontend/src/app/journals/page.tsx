@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { journalEntriesAPI, accountsAPI } from '../../services/api';
 import { JournalEntry, Account } from '../../types';
-import { BookOpen, FileText, CheckCircle, XCircle, Eye } from 'lucide-react';
+import { BookOpen, FileText, CheckCircle, XCircle, Eye, Plus } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { format } from 'date-fns';
 
@@ -126,6 +126,13 @@ export default function JournalEntriesPage() {
           <p className="mt-2 text-gray-600">View all general ledger entries</p>
         </div>
         <div className="flex gap-2">
+          <Link
+            href="/journals/create"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-medium flex items-center gap-2"
+          >
+            <Plus className="w-4 h-4" />
+            Create Journal Entry
+          </Link>
           <button
             onClick={() => handleExport('csv')}
             className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm font-medium"

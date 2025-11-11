@@ -11,7 +11,9 @@ from typing import Optional, Tuple
 from django.core.exceptions import ValidationError
 
 from core.models import Currency, ExchangeRate, FXGainLossAccount
-from .models import JournalEntry, JournalLine, Account
+from .models import JournalEntry, JournalLine
+from segment.models import XX_Segment
+from segment.utils import SegmentHelper
 
 
 def get_base_currency() -> Currency:
@@ -173,7 +175,7 @@ def calculate_fx_gain_loss(
         return (Decimal('0.00'), "REALIZED_GAIN")  # No gain/loss
 
 
-def get_fx_account(gain_loss_type: str) -> Account:
+def get_fx_account(gain_loss_type: str) -> XX_Segment:
     """
     Get the GL account configured for a specific FX gain/loss type.
     
@@ -204,7 +206,7 @@ def post_fx_gain_loss(
     journal_entry: JournalEntry,
     gain_loss_amount: Decimal,
     gain_loss_type: str,
-    contra_account: Account,
+    contra_account: XX_Segment,
     memo: str = ""
 ) -> None:
     """
@@ -323,7 +325,7 @@ def revalue_open_balances(
     # 4. Post the difference as unrealized gain/loss
     
     # Placeholder implementation
-    account = Account.objects.get(code=account_code)
+    account = SegmentHelper.get_account_by_code(account_code)
     je = JournalEntry.objects.create(
         date=as_of_date,
         currency=revaluation_currency,

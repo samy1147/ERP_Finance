@@ -1,11 +1,20 @@
-// Account Types
+// Account Types (now using segment structure)
 export interface Account {
   id: number;
   code: string;
   name: string;
-  type: 'AS' | 'LI' | 'EQ' | 'IN' | 'EX';
-  parent?: number;
+  alias?: string;
+  type: string; // segment type (e.g., 'account')
+  parent_code?: string | null;
   is_active: boolean;
+  level: number; // 0 = root, 1 = first level child, etc.
+  hierarchy_level?: number;
+  full_path?: string;
+  envelope_amount?: string | null;
+  segment_type?: number;
+  children?: Account[];
+  created_at?: string;
+  updated_at?: string;
 }
 
 // Currency
@@ -27,6 +36,15 @@ export interface JournalEntry {
   lines: JournalLine[];
 }
 
+export interface JournalLineSegment {
+  id?: number;
+  segment_type: number;
+  segment_type_name?: string;
+  segment: number;
+  segment_code?: string;
+  segment_alias?: string;
+}
+
 export interface JournalLine {
   id?: number;
   account: number;
@@ -34,6 +52,17 @@ export interface JournalLine {
   account_name?: string;
   debit: string;
   credit: string;
+  segments?: JournalLineSegment[];
+}
+
+// GL Distribution Line
+export interface GLDistributionLine {
+  id?: number;
+  account: number;
+  line_type: 'DEBIT' | 'CREDIT';
+  amount: string;
+  description?: string;
+  segments?: JournalLineSegment[];
 }
 
 // Customer (AR)
@@ -79,6 +108,7 @@ export interface ARInvoice {
   currency_details?: { id: number; code: string; name: string; symbol: string };
   base_currency_total?: string;
   exchange_rate?: string;
+  gl_lines?: GLDistributionLine[];
 }
 
 export interface ARInvoiceItem {
@@ -174,6 +204,7 @@ export interface APInvoice {
   currency_details?: { id: number; code: string; name: string; symbol: string };
   base_currency_total?: string;
   exchange_rate?: string;
+  gl_lines?: GLDistributionLine[];
 }
 
 export interface APInvoiceItem {
@@ -338,3 +369,30 @@ export interface InvoiceApproval {
   created_at?: string;
   updated_at?: string;
 }
+
+// Attachment Types
+export interface Attachment {
+  id: number;
+  po_header?: number;
+  pr_header?: number;
+  file: string;
+  file_url: string;
+  document_type: 'PO' | 'PR' | 'QUOTE' | 'CONTRACT' | 'SPEC' | 'OTHER';
+  description: string;
+  file_size: number;
+  file_size_display: string;
+  file_extension: string;
+  original_filename: string;
+  uploaded_by: number;
+  uploaded_by_name: string;
+  uploaded_at: string;
+}
+
+export interface AttachmentUpload {
+  file: File;
+  document_type: 'PO' | 'PR' | 'QUOTE' | 'CONTRACT' | 'SPEC' | 'OTHER';
+  description: string;
+}
+
+// Export all procurement types
+export * from './procurement';

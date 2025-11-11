@@ -1,0 +1,171 @@
+"""
+Serializers for Purchase Orders.
+"""
+
+from rest_framework import serializers
+from .models import POHeader, POLine
+from core.models import Currency
+from procurement.catalog.models import UnitOfMeasure
+from django.contrib.auth.models import User
+
+
+class POLineSerializer(serializers.ModelSerializer):
+    """Serializer for PO Line."""
+    
+    unit_of_measure_details = serializers.SerializerMethodField()
+    catalog_item_details = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = POLine
+        fields = '__all__'
+        read_only_fields = [
+            'line_total', 'base_currency_unit_price', 'base_currency_line_total',
+            'item_type',  # Auto-set based on catalog_item
+            'created_at', 'updated_at'
+        ]
+    
+    def get_unit_of_measure_details(self, obj):
+        if obj.unit_of_measure:
+            return {
+                'id': obj.unit_of_measure.id,
+                'code': obj.unit_of_measure.code,
+                'name': obj.unit_of_measure.name
+            }
+        return None
+    
+    def get_catalog_item_details(self, obj):
+        if obj.catalog_item:
+            return {
+                'id': obj.catalog_item.id,
+                'item_code': obj.catalog_item.item_code,
+                'description': obj.catalog_item.description
+            }
+        return None
+
+
+class POHeaderListSerializer(serializers.ModelSerializer):
+    """Serializer for PO list view."""
+    
+    currency_code = serializers.CharField(source='currency.code', read_only=True)
+    currency_symbol = serializers.CharField(source='currency.symbol', read_only=True)
+    created_by_name = serializers.CharField(source='created_by.username', read_only=True)
+    line_count = serializers.SerializerMethodField()
+    source_pr_numbers = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = POHeader
+        fields = [
+            'id', 'po_number', 'po_date', 'po_type', 'status', 'delivery_status', 'vendor_name', 'vendor_email',
+            'title', 'currency', 'currency_code', 'currency_symbol', 
+            'total_amount', 'exchange_rate', 'base_currency_total',
+            'delivery_date', 'created_by', 'created_by_name', 'created_at', 
+            'line_count', 'source_pr_numbers'
+        ]
+    
+    def get_line_count(self, obj):
+        return obj.lines.count()
+    
+    def get_source_pr_numbers(self, obj):
+        """Get PR numbers from source_pr_headers ManyToMany field."""
+        return [pr.pr_number for pr in obj.source_pr_headers.all()]
+
+
+class POHeaderDetailSerializer(serializers.ModelSerializer):
+    """Serializer for PO detail view."""
+    
+    lines = POLineSerializer(many=True, read_only=True)
+    
+    currency_details = serializers.SerializerMethodField()
+    currency_code = serializers.CharField(source='currency.code', read_only=True)
+    currency_symbol = serializers.CharField(source='currency.symbol', read_only=True)
+    pr_header_details = serializers.SerializerMethodField()
+    
+    created_by_details = serializers.SerializerMethodField()
+    submitted_by_details = serializers.SerializerMethodField()
+    approved_by_details = serializers.SerializerMethodField()
+    confirmed_by_details = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = POHeader
+        fields = '__all__'
+        read_only_fields = [
+            'po_number', 'subtotal', 'total_amount',
+            'base_currency_subtotal', 'base_currency_total',
+            'created_at', 'updated_at', 'submitted_at', 'approved_at',
+            'confirmed_at', 'cancelled_at'
+        ]
+    
+    def get_currency_details(self, obj):
+        if obj.currency:
+            return {
+                'id': obj.currency.id,
+                'code': obj.currency.code,
+                'name': obj.currency.name,
+                'symbol': obj.currency.symbol
+            }
+        return None
+    
+    def get_pr_header_details(self, obj):
+        """Get PR header details from source_pr_headers ManyToMany field."""
+        source_prs = obj.source_pr_headers.all()
+        if source_prs.exists():
+            return [{
+                'id': pr.id,
+                'pr_number': pr.pr_number,
+                'title': pr.title
+            } for pr in source_prs]
+        return []
+    
+    def _get_user_details(self, user):
+        if user:
+            return {
+                'id': user.id,
+                'username': user.username,
+                'email': user.email,
+                'first_name': user.first_name,
+                'last_name': user.last_name
+            }
+        return None
+    
+    def get_created_by_details(self, obj):
+        return self._get_user_details(obj.created_by)
+    
+    def get_submitted_by_details(self, obj):
+        return self._get_user_details(obj.submitted_by)
+    
+    def get_approved_by_details(self, obj):
+        return self._get_user_details(obj.approved_by)
+    
+    def get_confirmed_by_details(self, obj):
+        return self._get_user_details(obj.confirmed_by)
+
+
+class POCreateSerializer(serializers.Serializer):
+    """Serializer for creating PO from PR."""
+    
+    pr_header_id = serializers.IntegerField(required=True)
+    vendor_id = serializers.IntegerField(required=False, allow_null=True)
+    delivery_date = serializers.DateField(required=False, allow_null=True)
+    payment_terms = serializers.ChoiceField(choices=POHeader.PAYMENT_TERMS_CHOICES, default='NET_30')
+    special_instructions = serializers.CharField(required=False, allow_blank=True)
+
+
+class POSubmitSerializer(serializers.Serializer):
+    """Serializer for submitting PO for approval."""
+    pass
+
+
+class POApproveSerializer(serializers.Serializer):
+    """Serializer for approving PO."""
+    comments = serializers.CharField(required=False, allow_blank=True)
+
+
+class POConfirmSerializer(serializers.Serializer):
+    """Serializer for confirming and sending PO to vendor."""
+    send_email = serializers.BooleanField(default=True)
+    email_message = serializers.CharField(required=False, allow_blank=True)
+
+
+class POCancelSerializer(serializers.Serializer):
+    """Serializer for cancelling PO."""
+    reason = serializers.CharField(required=True)

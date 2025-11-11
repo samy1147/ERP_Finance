@@ -2,10 +2,22 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { apInvoicesAPI, suppliersAPI, currenciesAPI, taxRatesAPI, exchangeRatesAPI, fxConfigAPI } from '../../../../services/api';
-import { APInvoiceItem, Supplier, Currency, TaxRate } from '../../../../types';
-import { Plus, Trash2, RefreshCw } from 'lucide-react';
+import { apInvoicesAPI, suppliersAPI, currenciesAPI, taxRatesAPI, exchangeRatesAPI, fxConfigAPI, accountsAPI } from '../../../../services/api';
+import { APInvoiceItem, Supplier, Currency, TaxRate, Account, GLDistributionLine } from '../../../../types';
+import { Plus, Trash2, RefreshCw, Package } from 'lucide-react';
 import toast from 'react-hot-toast';
+import GLDistributionLines from '../../../../components/GLDistributionLines';
+
+interface GRNForSelection {
+  id: number;
+  grn_number: string;
+  po_number: string;
+  vendor_name: string;
+  receipt_date: string;
+  status: string;
+  supplier: number;
+  po_header: number;
+}
 
 export default function NewAPInvoicePage() {
   const router = useRouter();
@@ -13,10 +25,16 @@ export default function NewAPInvoicePage() {
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [currencies, setCurrencies] = useState<Currency[]>([]);
   const [taxRates, setTaxRates] = useState<TaxRate[]>([]);
+  const [accounts, setAccounts] = useState<Account[]>([]);
   const [baseCurrency, setBaseCurrency] = useState<Currency | null>(null);
   const [exchangeRate, setExchangeRate] = useState<number | null>(null);
   const [exchangeRateLoading, setExchangeRateLoading] = useState(false);
   const [manualExchangeRate, setManualExchangeRate] = useState(false);
+  const [glLines, setGlLines] = useState<Partial<GLDistributionLine>[]>([]);
+  const [grns, setGRNs] = useState<GRNForSelection[]>([]);
+  const [selectedGRN, setSelectedGRN] = useState<number | null>(null);
+  const [grnLines, setGRNLines] = useState<any[]>([]);
+  
   const [formData, setFormData] = useState({
     supplier: '',
     number: '',
@@ -24,6 +42,8 @@ export default function NewAPInvoicePage() {
     due_date: new Date().toISOString().split('T')[0],
     currency: '1',
     country: 'AE',
+    po_header: '',
+    goods_receipt: '',
   });
   const [items, setItems] = useState<Partial<APInvoiceItem>[]>([
     { description: '', quantity: '1', unit_price: '0', tax_rate: undefined },
@@ -34,6 +54,8 @@ export default function NewAPInvoicePage() {
     fetchCurrencies();
     fetchTaxRates();
     fetchBaseCurrency();
+    fetchAccounts();
+    fetchGRNsNeedingInvoice();
   }, []);
 
   useEffect(() => {
@@ -79,6 +101,175 @@ export default function NewAPInvoicePage() {
     } catch (error) {
       console.error('❌ Failed to load tax rates:', error);
       toast.error('Failed to load tax rates. Please refresh the page.');
+    }
+  };
+
+  const fetchAccounts = async () => {
+    try {
+      const response = await accountsAPI.list();
+      setAccounts(response.data);
+    } catch (error) {
+      console.error('❌ Failed to load accounts:', error);
+      toast.error('Failed to load accounts');
+    }
+  };
+
+  const fetchGRNsNeedingInvoice = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8007/api/ap/invoices/grns-needing-invoice/');
+      const data = await response.json();
+      const receipts = Array.isArray(data.results) ? data.results : (Array.isArray(data) ? data : []);
+      setGRNs(receipts);
+      console.log(`Found ${receipts.length} GRNs needing invoices`);
+    } catch (error) {
+      console.error('Failed to load GRNs needing invoice', error);
+      toast.error('Failed to load goods receipts');
+    }
+  };
+
+  const handleGRNSelect = async (grnId: number) => {
+    if (!grnId) {
+      setSelectedGRN(null);
+      setGRNLines([]);
+      setFormData(prev => ({ ...prev, goods_receipt: '', po_header: '', supplier: '' }));
+      setItems([{ description: '', quantity: '1', unit_price: '0', tax_rate: undefined }]);
+      setGlLines([]);
+      return;
+    }
+    
+    setSelectedGRN(grnId);
+    try {
+      // Fetch GRN details
+      const grnResponse = await fetch(`http://127.0.0.1:8007/api/procurement/receiving/receipts/${grnId}/`);
+      const grnData = await grnResponse.json();
+      
+      console.log('GRN Data loaded:', grnData);
+      
+      if (!grnData.lines || grnData.lines.length === 0) {
+        toast.error('This GRN has no line items');
+        return;
+      }
+      
+      setGRNLines(grnData.lines);
+      
+      // Auto-populate supplier
+      if (grnData.supplier) {
+        await handleSupplierChange(grnData.supplier.toString());
+      }
+      
+      // Auto-populate form data
+      setFormData(prev => ({
+        ...prev,
+        supplier: grnData.supplier?.toString() || prev.supplier,
+        goods_receipt: grnId.toString(),
+        po_header: grnData.po_header?.toString() || '',
+      }));
+      
+      // Fetch PO details to get unit prices if GRN doesn't have them
+      let poData = null;
+      if (grnData.po_header) {
+        try {
+          const poResponse = await fetch(`http://127.0.0.1:8007/api/procurement/purchase-orders/${grnData.po_header}/`);
+          poData = await poResponse.json();
+          console.log('PO Data loaded for prices:', poData);
+        } catch (error) {
+          console.error('Error loading PO data:', error);
+        }
+      }
+      
+      // Auto-populate invoice items from GRN lines with prices
+      // Priority: GRN unit_price -> PO unit_price -> 0
+      const invoiceItems = grnData.lines.map((grnLine: any) => {
+        let unitPrice = '0';
+        
+        console.log(`Processing GRN line:`, {
+          description: grnLine.item_description,
+          grn_unit_price: grnLine.unit_price,
+          po_line_reference: grnLine.po_line_reference,
+          po_line_ref_type: typeof grnLine.po_line_reference
+        });
+        
+        // Priority 1: Get price from GRN if available
+        if (grnLine.unit_price && parseFloat(grnLine.unit_price) > 0) {
+          unitPrice = grnLine.unit_price.toString();
+          console.log(`✅ Using GRN price for ${grnLine.item_description}: ${unitPrice}`);
+        } 
+        // Priority 2: Fallback to PO price if GRN doesn't have it
+        else if (poData?.lines && grnLine.po_line_reference) {
+          console.log(`Looking for PO line ${grnLine.po_line_reference} in`, poData.lines.map((l: any) => l.id));
+          
+          // Convert both to numbers for comparison
+          const poLineRef = parseInt(grnLine.po_line_reference);
+          const poLine = poData.lines.find((pl: any) => parseInt(pl.id) === poLineRef);
+          
+          console.log(`Found PO line:`, poLine);
+          
+          if (poLine?.unit_price) {
+            unitPrice = poLine.unit_price.toString();
+            console.log(`✅ Using PO price for ${grnLine.item_description}: ${unitPrice}`);
+          } else {
+            console.log(`❌ No price found in PO line`);
+          }
+        } else {
+          console.log(`❌ No PO data or po_line_reference`);
+        }
+        
+        return {
+          description: grnLine.item_description || 'Item from GRN',
+          quantity: grnLine.received_quantity?.toString() || '1',
+          unit_price: unitPrice,
+          tax_rate: undefined,
+        };
+      });
+      
+      console.log('Final invoice items:', invoiceItems);
+      
+      setItems(invoiceItems);
+      
+      // Auto-populate GL lines based on GRN type and items
+      // Calculate total amount from items
+      const totalAmount = invoiceItems.reduce((sum: number, item: any) => {
+        const qty = parseFloat(item.quantity || '0');
+        const price = parseFloat(item.unit_price || '0');
+        return sum + (qty * price);
+      }, 0);
+      
+      // Create GL distribution based on GRN type
+      const glDistribution: Partial<GLDistributionLine>[] = [];
+      
+      if (grnData.grn_type === 'CATEGORIZED_GOODS') {
+        // Inventory posting: DR Inventory (only catalog items go to inventory)
+        glDistribution.push({
+          account: accounts.find(a => a.code === '1500')?.id || undefined, // Inventory account
+          line_type: 'DEBIT',
+          amount: totalAmount.toFixed(2),
+          description: `Inventory from GRN ${grnData.grn_number}`
+        });
+      } else if (grnData.grn_type === 'UNCATEGORIZED_GOODS' || grnData.grn_type === 'SERVICES') {
+        // Expense posting: DR Expense (uncategorized goods and services go to expenses)
+        glDistribution.push({
+          account: accounts.find(a => a.code === '5000')?.id || undefined, // Expense account
+          line_type: 'DEBIT',
+          amount: totalAmount.toFixed(2),
+          description: `Expense from GRN ${grnData.grn_number}`
+        });
+      }
+      
+      // CR GRN Clearing account (this will be reversed when invoice is posted)
+      glDistribution.push({
+        account: accounts.find(a => a.code === '2300')?.id || undefined, // GRN Clearing account
+        line_type: 'CREDIT',
+        amount: totalAmount.toFixed(2),
+        description: `Clear GRN ${grnData.grn_number}`
+      });
+      
+      setGlLines(glDistribution);
+      
+      toast.success(`Loaded supplier, ${invoiceItems.length} items, and GL distribution from GRN ${grnData.grn_number}`);
+      
+    } catch (error) {
+      console.error('Error loading GRN:', error);
+      toast.error('Failed to load GRN details');
     }
   };
 
@@ -230,6 +421,9 @@ export default function NewAPInvoicePage() {
         due_date: formData.due_date,
         currency: parseInt(formData.currency),
         country: formData.country,
+        // Link to GRN and PO for 3-way match
+        goods_receipt: selectedGRN || null,
+        po_header: formData.po_header ? parseInt(formData.po_header) : null,
         items: validItems.map(item => ({
           description: item.description,
           quantity: item.quantity,
@@ -237,6 +431,26 @@ export default function NewAPInvoicePage() {
           tax_rate: item.tax_rate ? parseInt(item.tax_rate as any) : null
         })) as any,
       };
+
+      // Add GL distribution lines (REQUIRED)
+      if (!glLines || glLines.length === 0) {
+        toast.error('Please add at least one GL distribution line');
+        return;
+      }
+      
+      // Validate GL lines before submitting
+      const validGlLines = glLines.filter(line => line.account && line.amount);
+      if (validGlLines.length === 0) {
+        toast.error('Please add valid GL distribution lines with account and amount');
+        return;
+      }
+      
+      invoiceData.gl_lines = validGlLines.map(line => ({
+        account: line.account,
+        line_type: line.line_type,
+        amount: line.amount,
+        description: line.description || ''
+      }));
 
       // Add exchange rate and base currency total if applicable
       if (exchangeRate) {
@@ -313,6 +527,51 @@ export default function NewAPInvoicePage() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
+        {/* GRN Selection Section */}
+        <div className="card bg-blue-50 border-blue-200">
+          <h2 className="text-xl font-semibold mb-4 flex items-center">
+            <Package className="h-5 w-5 mr-2 text-blue-600" />
+            Link to Goods Receipt (Optional)
+          </h2>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Select Goods Receipt Needing Invoice
+            </label>
+            <select
+              value={selectedGRN || ''}
+              onChange={(e) => handleGRNSelect(Number(e.target.value))}
+              className="input-field"
+            >
+              <option value="">-- Manual Entry (No GRN Link) --</option>
+              {grns.length === 0 && (
+                <option value="" disabled>No receipts needing invoices found</option>
+              )}
+              {grns.map(grn => (
+                <option key={grn.id} value={grn.id}>
+                  {grn.grn_number} - {grn.vendor_name} - PO: {grn.po_number} - {grn.receipt_date}
+                </option>
+              ))}
+            </select>
+            {grns.length > 0 ? (
+              <p className="text-sm text-green-600 mt-2 flex items-center">
+                <Package className="h-4 w-4 mr-1" />
+                Found {grns.length} receipt{grns.length !== 1 ? 's' : ''} needing invoice{grns.length !== 1 ? 's' : ''}. Select one to auto-populate invoice details.
+              </p>
+            ) : (
+              <p className="text-sm text-gray-500 mt-2">
+                ℹ️ No goods receipts need invoicing. All completed receipts already have invoices, or you can create a manual invoice without a GRN link.
+              </p>
+            )}
+            {selectedGRN && (
+              <div className="mt-3 p-3 bg-blue-100 border border-blue-300 rounded-lg">
+                <p className="text-sm text-blue-800 font-medium">
+                  ✓ Invoice will be linked to selected GRN for tracking and 3-way matching
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+        
         <div className="card">
           <h2 className="text-xl font-semibold mb-4">Invoice Details</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -465,6 +724,15 @@ export default function NewAPInvoicePage() {
             </div>
           </div>
         </div>
+
+        {/* GL Distribution Lines (REQUIRED) */}
+        <GLDistributionLines
+          lines={glLines}
+          accounts={accounts}
+          invoiceTotal={calculateTotal()}
+          currencySymbol={currencies.find(c => c.id === parseInt(formData.currency))?.symbol || ''}
+          onChange={setGlLines}
+        />
 
         <div className="card">
           <div className="flex justify-between items-center mb-4">

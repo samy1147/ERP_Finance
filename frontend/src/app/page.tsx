@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { BarChart3, FileText, DollarSign, BookOpen, List, Globe, Receipt, TrendingUp, Building2, CheckCircle } from 'lucide-react';
+import { BarChart3, FileText, DollarSign, BookOpen, List, Globe, Receipt, TrendingUp, Building2, CheckCircle, ShoppingCart, CreditCard, FileSignature, LayoutDashboard, ClipboardList, Package, Boxes, MapPin, Calculator } from 'lucide-react';
 
 export default function HomePage() {
   return (
@@ -14,9 +14,9 @@ export default function HomePage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {/* Accounts Card */}
+        {/* Setup Card */}
         <Link
-          href="/accounts"
+          href="/setup"
           className="card hover:shadow-lg transition-shadow cursor-pointer"
         >
           <div className="flex items-center">
@@ -24,8 +24,8 @@ export default function HomePage() {
               <BookOpen className="h-8 w-8 text-primary-600" />
             </div>
             <div className="ml-4">
-              <h3 className="text-lg font-medium text-gray-900">Accounts</h3>
-              <p className="text-sm text-gray-600">Chart of Accounts</p>
+              <h3 className="text-lg font-medium text-gray-900">Setup</h3>
+              <p className="text-sm text-gray-600">Segments & Types</p>
             </div>
           </div>
         </Link>
@@ -243,9 +243,135 @@ export default function HomePage() {
         </Link>
       </div>
 
+      {/* Asset Management Section */}
+      <div className="mt-12">
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 flex items-center">
+            <Boxes className="h-7 w-7 text-emerald-600 mr-2" />
+            Asset Management
+          </h2>
+          <p className="mt-2 text-gray-600">
+            Track and manage fixed assets, depreciation, and asset lifecycle
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Asset Register */}
+          <Link
+            href="/fixed-assets"
+            className="card hover:shadow-lg transition-shadow cursor-pointer bg-gradient-to-br from-emerald-50 to-teal-50"
+          >
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <Boxes className="h-8 w-8 text-emerald-600" />
+              </div>
+              <div className="ml-4">
+                <h3 className="text-lg font-medium text-gray-900">Asset Register</h3>
+                <p className="text-sm text-gray-600">All Assets</p>
+              </div>
+            </div>
+          </Link>
+
+          {/* Asset Categories */}
+          <Link
+            href="/fixed-assets/categories"
+            className="card hover:shadow-lg transition-shadow cursor-pointer"
+          >
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <List className="h-8 w-8 text-teal-600" />
+              </div>
+              <div className="ml-4">
+                <h3 className="text-lg font-medium text-gray-900">Asset Categories</h3>
+                <p className="text-sm text-gray-600">Categories & Setup</p>
+              </div>
+            </div>
+          </Link>
+
+          {/* Asset Locations */}
+          <Link
+            href="/fixed-assets/locations"
+            className="card hover:shadow-lg transition-shadow cursor-pointer"
+          >
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <MapPin className="h-8 w-8 text-cyan-600" />
+              </div>
+              <div className="ml-4">
+                <h3 className="text-lg font-medium text-gray-900">Asset Locations</h3>
+                <p className="text-sm text-gray-600">Locations & Custodians</p>
+              </div>
+            </div>
+          </Link>
+
+          {/* Depreciation */}
+          <Link
+            href="/fixed-assets/depreciation"
+            className="card hover:shadow-lg transition-shadow cursor-pointer"
+          >
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <Calculator className="h-8 w-8 text-orange-600" />
+              </div>
+              <div className="ml-4">
+                <h3 className="text-lg font-medium text-gray-900">Depreciation</h3>
+                <p className="text-sm text-gray-600">Calculate & Post</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+
+      {/* Procurement Section */}
+      <div className="mt-12">
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 flex items-center">
+            <ShoppingCart className="h-7 w-7 text-blue-600 mr-2" />
+            Procurement Management
+          </h2>
+          <p className="mt-2 text-gray-600">
+            Access procurement dashboard and all procurement operations
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2">
+          {/* Procurement Dashboard */}
+          <Link
+            href="/procurement/dashboard"
+            className="card hover:shadow-lg transition-shadow cursor-pointer bg-gradient-to-br from-blue-50 to-indigo-50"
+          >
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <LayoutDashboard className="h-8 w-8 text-blue-600" />
+              </div>
+              <div className="ml-4">
+                <h3 className="text-lg font-medium text-gray-900">Procurement Dashboard</h3>
+                <p className="text-sm text-gray-600">Analytics & Insights</p>
+              </div>
+            </div>
+          </Link>
+
+          {/* Procurement Module */}
+          <Link
+            href="/procurement"
+            className="card hover:shadow-lg transition-shadow cursor-pointer bg-gradient-to-br from-indigo-50 to-purple-50"
+          >
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <ShoppingCart className="h-8 w-8 text-indigo-600" />
+              </div>
+              <div className="ml-4">
+                <h3 className="text-lg font-medium text-gray-900">Procurement</h3>
+                <p className="text-sm text-gray-600">PRs, POs, Bills & Payments</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+
       <div className="mt-8 card">
         <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <Link href="/ar/invoices/new" className="btn-primary text-center">
             Create AR Invoice
           </Link>
@@ -257,6 +383,18 @@ export default function HomePage() {
           </Link>
           <Link href="/ap/payments/new" className="btn-primary text-center">
             Make Payment
+          </Link>
+          <Link href="/procurement/vendor-bills" className="btn-primary text-center bg-green-600 hover:bg-green-700">
+            Create Vendor Bill
+          </Link>
+          <Link href="/procurement/payment-requests" className="btn-primary text-center bg-purple-600 hover:bg-purple-700">
+            New Payment Request
+          </Link>
+          <Link href="/fixed-assets/categories/new" className="btn-primary text-center bg-emerald-600 hover:bg-emerald-700">
+            New Asset Category
+          </Link>
+          <Link href="/fixed-assets" className="btn-primary text-center bg-teal-600 hover:bg-teal-700">
+            Register New Asset
           </Link>
         </div>
       </div>

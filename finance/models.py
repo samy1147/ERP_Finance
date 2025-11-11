@@ -16,34 +16,60 @@ class BankAccount(models.Model):
     def __str__(self):
         return self.name
 
-class Account(models.Model):
-    ASSET, LIABILITY, EQUITY, INCOME, EXPENSE = "AS", "LI", "EQ", "IN", "EX"
-    TYPES = [(ASSET,"Asset"),(LIABILITY,"Liability"),(EQUITY,"Equity"),(INCOME,"Income"),(EXPENSE,"Expense")]
-    code = models.CharField(max_length=32, unique=True)
-    name = models.CharField(max_length=128)
-    type = models.CharField(max_length=2, choices=TYPES)
-    parent = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL)
-    is_active = models.BooleanField(default=True, help_text="Is this account active?")
-    history = HistoricalRecords()
-    
-    class Meta:
-        ordering = ['code']
-
-    def __str__(self):
-        return f"{self.code} - {self.name}"
 
 class JournalEntry(models.Model):
     date = models.DateField()
     currency = models.ForeignKey(Currency, on_delete=models.PROTECT)
     memo = models.CharField(max_length=255, blank=True)
     posted = models.BooleanField(default=False)
+    period = models.ForeignKey('periods.FiscalPeriod', on_delete=models.PROTECT, null=True, blank=True, related_name='journal_entries', help_text="Fiscal period for this journal entry")
     history = HistoricalRecords()
 
 class JournalLine(models.Model):
     entry = models.ForeignKey(JournalEntry, related_name="lines", on_delete=models.CASCADE)
-    account = models.ForeignKey(Account, on_delete=models.PROTECT)
+    account = models.ForeignKey('segment.XX_Segment', on_delete=models.PROTECT)
     debit = models.DecimalField(max_digits=14, decimal_places=2, default=0)
     credit = models.DecimalField(max_digits=14, decimal_places=2, default=0)
+
+
+class JournalLineSegment(models.Model):
+    """
+    Stores segment assignments for journal lines.
+    Each journal line must have one segment from each required segment type.
+    Only child segments are allowed (node_type='child').
+    """
+    journal_line = models.ForeignKey(JournalLine, related_name="segments", on_delete=models.CASCADE)
+    segment_type = models.ForeignKey('segment.XX_SegmentType', on_delete=models.PROTECT)
+    segment = models.ForeignKey('segment.XX_Segment', on_delete=models.PROTECT)
+    
+    class Meta:
+        db_table = "JOURNAL_LINE_SEGMENT"
+        unique_together = ("journal_line", "segment_type")
+        indexes = [
+            models.Index(fields=["journal_line", "segment_type"]),
+            models.Index(fields=["segment"]),
+        ]
+    
+    def clean(self):
+        """Validate that only child segments are assigned"""
+        if self.segment and self.segment.node_type != 'child':
+            raise ValidationError(
+                f"Only child segments can be assigned to journal lines. "
+                f"Segment '{self.segment.code}' is a '{self.segment.node_type}' type."
+            )
+        
+        # Validate that segment belongs to the correct segment_type
+        if self.segment and self.segment.segment_type_id != self.segment_type_id:
+            raise ValidationError(
+                f"Segment '{self.segment.code}' does not belong to segment type '{self.segment_type.segment_name}'"
+            )
+    
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return f"JL#{self.journal_line_id} - {self.segment_type.segment_name}: {self.segment.code}"
 
 
 
@@ -175,7 +201,7 @@ class TaxCode(models.Model):
 class InvoiceLine(models.Model):
     invoice = models.ForeignKey(Invoice, related_name="lines", on_delete=models.CASCADE)
     description = models.CharField(max_length=255, blank=True)
-    account = models.ForeignKey(Account, null=True, blank=True, on_delete=models.PROTECT)
+    account = models.ForeignKey('segment.XX_Segment', null=True, blank=True, on_delete=models.PROTECT)
     tax_code = models.ForeignKey(TaxCode, null=True, blank=True, on_delete=models.PROTECT)
 
     quantity = models.DecimalField(max_digits=18, decimal_places=4, default=1)

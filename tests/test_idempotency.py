@@ -6,7 +6,9 @@ from django.utils import timezone
 def test_ar_invoice_post_gl_idempotent(base_data):
     from ar.models import Customer, ARInvoice, ARItem
     from core.models import TaxRate
-    from finance.models import Account, JournalEntry, JournalLine
+    from finance.models import JournalEntry, JournalLine
+    from segment.models import XX_Segment
+from segment.utils import SegmentHelper
     from finance.services import gl_post_from_ar_balanced, ar_totals
 
     # Customer & invoice

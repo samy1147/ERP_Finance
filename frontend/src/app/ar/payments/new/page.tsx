@@ -2,9 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { arPaymentsAPI, customersAPI, outstandingInvoicesAPI, currenciesAPI, bankAccountsAPI, exchangeRatesAPI } from '../../../../services/api';
-import { Customer, Currency, BankAccount, ExchangeRate } from '../../../../types';
+import { arPaymentsAPI, customersAPI, outstandingInvoicesAPI, currenciesAPI, bankAccountsAPI, exchangeRatesAPI, segmentsAPI } from '../../../../services/api';
+import { Customer, Currency, BankAccount, ExchangeRate, Account, GLDistributionLine } from '../../../../types';
 import toast from 'react-hot-toast';
+import GLDistributionLines from '../../../../components/GLDistributionLines';
 
 interface InvoiceAllocation {
   invoice: number;
@@ -26,6 +27,8 @@ export default function NewARPaymentPage() {
   const [invoices, setInvoices] = useState<InvoiceAllocation[]>([]);
   const [loadingInvoices, setLoadingInvoices] = useState(false);
   const [exchangeRates, setExchangeRates] = useState<ExchangeRate[]>([]);
+  const [glLines, setGlLines] = useState<Partial<GLDistributionLine>[]>([]);
+  const [accounts, setAccounts] = useState<Account[]>([]);
   
   const [formData, setFormData] = useState({
     customer: '',
@@ -41,6 +44,7 @@ export default function NewARPaymentPage() {
     fetchCustomers();
     fetchCurrencies();
     fetchBankAccounts();
+    fetchAccounts();
   }, []);
 
   useEffect(() => {
@@ -82,6 +86,26 @@ export default function NewARPaymentPage() {
       setBankAccounts(response.data);
     } catch (error) {
       console.error('Failed to load bank accounts:', error);
+    }
+  };
+
+  const fetchAccounts = async () => {
+    try {
+      const response = await segmentsAPI.list();
+      // Map segments to Account format expected by GLDistributionLines
+      const mappedAccounts: Account[] = response.data.map((seg: any) => ({
+        id: seg.id,
+        code: seg.code || '',
+        name: seg.alias || seg.name || seg.code || '',
+        alias: seg.alias,
+        type: seg.segment_type?.segment_type || 'account',
+        is_active: true,
+        level: 0,
+        segment_type: seg.segment_type?.id,
+      }));
+      setAccounts(mappedAccounts);
+    } catch (error) {
+      console.error('Failed to load accounts:', error);
     }
   };
 
@@ -290,6 +314,20 @@ export default function NewARPaymentPage() {
     setLoading(true);
 
     try {
+      // Convert GL distribution lines to backend format
+      const convertedGlLines = glLines.map(line => ({
+        account: line.account || 0,
+        line_type: line.line_type || 'DEBIT',
+        amount: line.amount || '0',
+        description: line.description || '',
+        segments: line.segments?.reduce((acc: any, seg) => {
+          if (seg.segment_type && seg.segment) {
+            acc[seg.segment_type.toString()] = seg.segment;
+          }
+          return acc;
+        }, {}) || {},
+      }));
+
       const paymentData = {
         customer: parseInt(formData.customer),
         date: formData.date,
@@ -302,6 +340,7 @@ export default function NewARPaymentPage() {
           invoice: inv.invoice,
           amount: inv.amount,
         })),
+        gl_lines: convertedGlLines.length > 0 ? convertedGlLines : undefined,
       };
 
       await arPaymentsAPI.create(paymentData);
@@ -714,6 +753,20 @@ export default function NewARPaymentPage() {
                 </table>
               </div>
             )}
+          </div>
+
+          {/* GL Distribution Card */}
+          <div className="bg-white shadow-md rounded-lg p-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-6">
+              GL Distribution (Optional)
+            </h2>
+            <GLDistributionLines
+              lines={glLines}
+              onChange={setGlLines}
+              accounts={accounts}
+              invoiceTotal={parseFloat(formData.total_amount || '0')}
+              currencySymbol={currencies.find(c => c.id === parseInt(formData.currency))?.symbol || '$'}
+            />
           </div>
 
           {/* Action Buttons */}

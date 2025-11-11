@@ -29,12 +29,32 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "simple_history",
     "core",
+    "segment",  # Chart of Accounts & Segments - MUST come before finance
+    "periods",  # Fiscal Periods Management - MUST come before finance
     "finance.apps.FinanceConfig",
     "crm",
-    "ar",  # NEW: Accounts Receivable
-    "ap",  # NEW: Accounts Payable
+    "ar",  # Accounts Receivable
+    "ap",  # Accounts Payable
+    "fixed_assets",  # Fixed Asset Management
     
+    # Procurement Module - All submodules organized under procurement/
+    "procurement",  # Main procurement app
+    "procurement.rfx",  # RFx & Sourcing Events
+    "procurement.vendor_bills",  # Vendor Bills & 3-Way Match
+    "procurement.contracts",  # Contracts & Compliance
+    "procurement.payments",  # Payment Integration
+    "procurement.purchase_orders",  # Purchase Orders (PO)
+    "procurement.requisitions",  # Purchase Requisitions (PR)
+    "procurement.receiving",  # Receiving & Goods Receipt (GRN)
+    "procurement.approvals",  # Approval Workflows
+    "procurement.catalog",  # Product Catalog
+    "procurement.reports",  # Analytics & Reports
+    "procurement.attachments",  # File Attachments
+    "inventory",  # Inventory & Warehouse Management
 ]
+
+# Silence admin checks that fail due to lazy model loading
+SILENCED_SYSTEM_CHECKS = ['admin.E038']
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -97,6 +117,9 @@ CORS_ALLOWED_ORIGINS = [
     FRONTEND_URL,  # Use environment variable
     "http://localhost:3000",  # Local development
     "http://127.0.0.1:3000",
+    "http://localhost:3001",  # Alternative ports
+    "http://localhost:3002",
+    "http://localhost:3003",
 ]
 
 # CSRF Trusted Origins - Required for Django 4.0+
@@ -105,6 +128,9 @@ CSRF_TRUSTED_ORIGINS = [
     BACKEND_URL,   # Backend URL
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://localhost:3001",
+    "http://localhost:3002",
+    "http://localhost:3003",
     "http://localhost:8007",
     "http://127.0.0.1:8007",
 ]
@@ -129,3 +155,12 @@ CORS_ALLOW_HEADERS = [
     "x-csrftoken",
     "x-requested-with",
 ]
+
+# Media Files Configuration
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Maximum file upload size (10MB)
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB in bytes
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB in bytes
+

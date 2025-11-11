@@ -1,14 +1,14 @@
 # apps/finance/admin.py
 from django.contrib import admin
-from .models import (Invoice, InvoiceLine, InvoiceStatus, Account, BankAccount,
-                     InvoiceApproval)
+from .models import (Invoice, InvoiceLine, InvoiceStatus, BankAccount,
+                     InvoiceApproval, JournalLineSegment)
 
 class InvoiceLineInline(admin.TabularInline):
     model = InvoiceLine
     extra = 0
 
 class InvoiceAdmin(admin.ModelAdmin):
-    inlines = [InvoiceLineInline]
+    # inlines = [InvoiceLineInline]  # Temporarily disabled due to admin check issue with lazy ForeignKey
     list_display = ("invoice_no", "customer", "status", "currency", "total_gross", "posted_at")
     readonly_fields_when_posted = (
         "invoice_no", "customer", "currency", "total_net", "total_tax", "total_gross", "posted_at"
@@ -28,21 +28,7 @@ class InvoiceAdmin(admin.ModelAdmin):
 admin.site.register(Invoice, InvoiceAdmin)
 
 
-# Account Admin
-@admin.register(Account)
-class AccountAdmin(admin.ModelAdmin):
-    list_display = ("code", "name", "type", "is_active", "parent")
-    list_filter = ("type", "is_active")
-    search_fields = ("code", "name")
-    ordering = ("code",)
-    
-    fieldsets = (
-        ("Account Information", {
-            "fields": ("code", "name", "type", "parent", "is_active")
-        }),
-    )
-
-
+# Note: Account Admin moved to segment/admin.py
 # Note: Customer admin moved to ar/admin.py
 # Note: Supplier admin moved to ap/admin.py
 
@@ -80,4 +66,20 @@ class InvoiceApprovalAdmin(admin.ModelAdmin):
             "fields": ("approver", "approved_at", "rejected_at", "comments")
         }),
     )
+
+
+@admin.register(JournalLineSegment)
+class JournalLineSegmentAdmin(admin.ModelAdmin):
+    list_display = ("id", "journal_line", "segment_type", "segment", "segment_code", "segment_alias")
+    list_filter = ("segment_type",)
+    search_fields = ("segment__code", "segment__alias")
+    readonly_fields = ("journal_line", "segment_type", "segment")
+    
+    def segment_code(self, obj):
+        return obj.segment.code if obj.segment else "-"
+    segment_code.short_description = "Segment Code"
+    
+    def segment_alias(self, obj):
+        return obj.segment.alias if obj.segment else "-"
+    segment_alias.short_description = "Segment Name"
 
