@@ -30,9 +30,9 @@
 							"raw": "{\n  \"country\": \"SA\",\n  \"overwrite\": false\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/api/tax/seed-vat-presets/",
+							"raw": "{{base_url}}/api/tax/seed-presets/",
 							"host": ["{{base_url}}"],
-							"path": ["api", "tax", "seed-vat-presets", ""]
+							"path": ["api", "tax", "seed-presets", ""]
 						},
 						"description": "Populate VAT rate presets for a country. Supports: SA (Saudi Arabia, 15%), AE (UAE, 5%), GB (UK, 20%), US (varies by state)"
 					},
@@ -44,9 +44,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/api/tax/list-tax-rates/",
+							"raw": "{{base_url}}/api/tax/rates/?country=SA",
 							"host": ["{{base_url}}"],
-							"path": ["api", "tax", "list-tax-rates", ""],
+							"path": ["api", "tax", "rates", ""],
 							"query": [
 								{
 									"key": "country",
@@ -80,11 +80,11 @@
 							"raw": "{\n  \"country\": \"SA\",\n  \"date_from\": \"2024-01-01\",\n  \"date_to\": \"2024-12-31\",\n  \"org_id\": \"ORG-001\",\n  \"override\": false\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/api/tax/corporate-tax-accrual/",
+							"raw": "{{base_url}}/api/tax/corporate-accrual/",
 							"host": ["{{base_url}}"],
-							"path": ["api", "tax", "corporate-tax-accrual", ""]
+							"path": ["api", "tax", "corporate-accrual", ""]
 						},
-						"description": "Create corporate tax accrual journal entry for a period. Calculates tax based on profit and country rate."
+						"description": "Create corporate tax accrual journal entry for a period. Calculates tax based on profit and country rate. Prerequisites: Chart of accounts with INCOME/EXPENSE accounts and journal entries must exist."
 					},
 					"response": []
 				}
@@ -94,21 +94,21 @@
 			"name": "Corporate Tax Filing",
 			"item": [
 				{
-					"name": "List Corporate Tax Filings",
+					"name": "Get Corporate Tax Filing Details",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/api/tax/corporate-tax-file/",
+							"raw": "{{base_url}}/api/tax/corporate-filing/1/",
 							"host": ["{{base_url}}"],
-							"path": ["api", "tax", "corporate-tax-file", ""]
+							"path": ["api", "tax", "corporate-filing", "1", ""]
 						},
-						"description": "List all corporate tax filings"
+						"description": "Get detailed information for a specific tax filing. Replace '1' with the actual filing_id from the accrual response."
 					},
 					"response": []
 				},
 				{
-					"name": "Create Corporate Tax Filing",
+					"name": "File Corporate Tax",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -119,35 +119,70 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"country\": \"SA\",\n  \"filing_period_start\": \"2024-01-01\",\n  \"filing_period_end\": \"2024-12-31\",\n  \"tax_year\": 2024,\n  \"taxable_income\": 1000000.00,\n  \"tax_rate\": 20.00,\n  \"tax_amount\": 200000.00,\n  \"filing_date\": \"2025-03-31\",\n  \"due_date\": \"2025-04-30\",\n  \"status\": \"draft\",\n  \"notes\": \"Annual corporate tax filing for 2024\"\n}"
+							"raw": ""
 						},
 						"url": {
-							"raw": "{{base_url}}/api/tax/corporate-tax-file/",
+							"raw": "{{base_url}}/api/tax/corporate-file/1/",
 							"host": ["{{base_url}}"],
-							"path": ["api", "tax", "corporate-tax-file", ""]
+							"path": ["api", "tax", "corporate-file", "1", ""]
 						},
-						"description": "Create a new corporate tax filing record"
+						"description": "Mark a corporate tax filing as FILED (locked). Replace '1' with the actual filing_id. The filing must be in ACCRUED status."
 					},
 					"response": []
 				},
 				{
-					"name": "Get Corporate Tax Filing Details",
+					"name": "Check Filing Status",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/api/tax/corporate-tax-filing-detail/?filing_id=123",
+							"raw": "{{base_url}}/api/tax/corporate-file/1/",
 							"host": ["{{base_url}}"],
-							"path": ["api", "tax", "corporate-tax-filing-detail", ""],
+							"path": ["api", "tax", "corporate-file", "1", ""]
+						},
+						"description": "Check the current status of a filing and whether it can be filed. Replace '1' with the actual filing_id."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tax Breakdown Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tax/corporate-breakdown/?country=SA&date_from=2024-01-01&date_to=2024-12-31&format=json",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tax", "corporate-breakdown", ""],
 							"query": [
 								{
-									"key": "filing_id",
-									"value": "123",
-									"description": "Required - Corporate tax filing ID"
+									"key": "country",
+									"value": "SA",
+									"description": "Country code"
+								},
+								{
+									"key": "date_from",
+									"value": "2024-01-01",
+									"description": "Start date"
+								},
+								{
+									"key": "date_to",
+									"value": "2024-12-31",
+									"description": "End date"
+								},
+								{
+									"key": "format",
+									"value": "json",
+									"description": "Response format: json or csv"
+								},
+								{
+									"key": "org_id",
+									"value": "",
+									"description": "Optional - Organization ID",
+									"disabled": true
 								}
 							]
 						},
-						"description": "Get detailed information for a specific tax filing"
+						"description": "Get detailed breakdown of income and expenses for tax calculation. Supports JSON and CSV export."
 					},
 					"response": []
 				}
@@ -157,16 +192,16 @@
 			"name": "Corporate Tax Reversal",
 			"item": [
 				{
-					"name": "Get Reversible Tax Entries",
+					"name": "Check if Filing Can Be Reversed",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/api/tax/corporate-tax-reverse/",
+							"raw": "{{base_url}}/api/tax/corporate-reverse/1/",
 							"host": ["{{base_url}}"],
-							"path": ["api", "tax", "corporate-tax-reverse", ""]
+							"path": ["api", "tax", "corporate-reverse", "1", ""]
 						},
-						"description": "List all corporate tax entries that can be reversed"
+						"description": "Check if a corporate tax filing can be reversed. Replace '1' with the actual filing_id. Returns current status and whether reversal is possible."
 					},
 					"response": []
 				},
@@ -182,14 +217,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"journal_entry_id\": 456,\n  \"reversal_date\": \"2025-01-15\",\n  \"reason\": \"Correction of tax calculation error\"\n}"
+							"raw": ""
 						},
 						"url": {
-							"raw": "{{base_url}}/api/tax/corporate-tax-reverse/",
+							"raw": "{{base_url}}/api/tax/corporate-reverse/1/",
 							"host": ["{{base_url}}"],
-							"path": ["api", "tax", "corporate-tax-reverse", ""]
+							"path": ["api", "tax", "corporate-reverse", "1", ""]
 						},
-						"description": "Reverse a corporate tax accrual journal entry"
+						"description": "Reverse a corporate tax accrual journal entry. Replace '1' with the actual filing_id. Creates a reversal journal entry and updates filing status to REVERSED."
 					},
 					"response": []
 				}
