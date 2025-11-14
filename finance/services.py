@@ -14,6 +14,9 @@ from datetime import datetime, date
 from decimal import Decimal
 from core.models import TaxRate
 from django.core.exceptions import ValidationError
+import logging
+
+logger = logging.getLogger(__name__)
 
 # Helper function to get account segments by code
 def get_account_by_code(code: str) -> XX_Segment:
@@ -303,12 +306,18 @@ def _acct(key: str) -> XX_Segment:
 @transaction.atomic
 def gl_post_from_ar_balanced(invoice: ARInvoice):
     """
+    Post AR invoice to GL with dynamic segment distributions.
+    Auto-generates distributions if not provided.
     Idempotent: if invoice already posted, return existing JE.
-    Else create a balanced JE, attach to invoice, mark posted.
     Automatically converts to base currency if invoice is in foreign currency.
     Returns: (journal_entry, created: bool)
     """
     from finance.fx_services import get_base_currency, get_exchange_rate, convert_amount
+    from finance.distribution_services import (
+        auto_generate_ar_invoice_distributions,
+        create_journal_entry_from_distributions,
+        validate_distributions_balance
+    )
     
     # lock invoice row to avoid race
     inv = ARInvoice.objects.select_for_update().get(pk=invoice.pk)
@@ -372,31 +381,31 @@ def gl_post_from_ar_balanced(invoice: ARInvoice):
         inv.base_currency_total = total_base
         memo = f"AR Post {inv.number}"
 
-    # Create journal entry in BASE CURRENCY
-    je = _create_journal_entry(
-        organization=getattr(inv, "organization", None),
+    # Get or auto-generate distributions
+    logger.info(f"Generating GL distributions for AR Invoice {inv.number}")
+    distributions = auto_generate_ar_invoice_distributions(inv)
+    
+    # Convert distribution amounts to base currency if needed
+    if needs_conversion:
+        for dist in distributions:
+            original_amount = Decimal(str(dist['amount']))
+            dist['amount'] = str(convert_amount(original_amount, inv.currency, base_currency, inv.date))
+    
+    # Validate distributions balance
+    validate_distributions_balance(distributions)
+    
+    # Create journal entry with distributions
+    je = create_journal_entry_from_distributions(
+        distributions=distributions,
         date=inv.date,
-        currency=base_currency,  # Always post in base currency
-        memo=memo,
+        description=memo,
+        currency=base_currency,
+        period=getattr(inv, 'period', None)
     )
     
-    # Check if invoice has custom GL distribution lines
-    has_gl_lines = hasattr(inv, 'gl_lines') and inv.gl_lines.exists()
-    
-    if not has_gl_lines:
-        raise ValueError(f"Cannot post invoice {inv.number}: GL distribution lines are required")
-    
-    # Use GL distribution lines
-    for gl_line in inv.gl_lines.all():
-        # Convert to base currency if needed
-        line_amount = convert_amount(gl_line.amount, inv.currency, base_currency, inv.date) if needs_conversion else gl_line.amount
-        
-        if gl_line.line_type == 'DEBIT':
-            JournalLine.objects.create(entry=je, account=gl_line.account, debit=line_amount)
-        else:
-            JournalLine.objects.create(entry=je, account=gl_line.account, credit=line_amount)
-
-    post_entry(je)
+    # Mark as posted
+    je.posted = True
+    je.save()
 
     # mark invoice posted
     inv.gl_journal = je
@@ -410,18 +419,26 @@ def gl_post_from_ar_balanced(invoice: ARInvoice):
         inv.save(update_fields=["gl_journal", "posted_at", "status", "exchange_rate", "base_currency_total", "subtotal", "tax_amount", "total"])
     inv.posted_at = timezone.now()
 
+    logger.info(f"Successfully posted AR Invoice {inv.number} to GL (JE #{je.id})")
     return je, True
 
 
 @transaction.atomic
 def gl_post_from_ap_balanced(invoice: APInvoice):
     """
+    Post AP invoice to GL with dynamic segment distributions.
+    Auto-generates distributions if not provided.
     Idempotent: if invoice already posted, return existing JE.
     Else create a balanced JE, attach to invoice, mark posted.
     Automatically converts to base currency if invoice is in foreign currency.
     Returns: (journal_entry, created: bool)
     """
     from finance.fx_services import get_base_currency, get_exchange_rate, convert_amount
+    from finance.distribution_services import (
+        auto_generate_ap_invoice_distributions,
+        create_journal_entry_from_distributions,
+        validate_distributions_balance
+    )
     
     inv = APInvoice.objects.select_for_update().get(pk=invoice.pk)
 
@@ -484,31 +501,31 @@ def gl_post_from_ap_balanced(invoice: APInvoice):
         inv.base_currency_total = total_base
         memo = f"AP Post {inv.number}"
 
-    # Create journal entry in BASE CURRENCY
-    je = _create_journal_entry(
-        organization=getattr(inv, "organization", None),
+    # Get or auto-generate distributions
+    logger.info(f"Generating GL distributions for AP Invoice {inv.number}")
+    distributions = auto_generate_ap_invoice_distributions(inv)
+    
+    # Convert distribution amounts to base currency if needed
+    if needs_conversion:
+        for dist in distributions:
+            original_amount = Decimal(str(dist['amount']))
+            dist['amount'] = str(convert_amount(original_amount, inv.currency, base_currency, inv.date))
+    
+    # Validate distributions balance
+    validate_distributions_balance(distributions)
+    
+    # Create journal entry with distributions
+    je = create_journal_entry_from_distributions(
+        distributions=distributions,
         date=inv.date,
-        currency=base_currency,  # Always post in base currency
-        memo=memo,
+        description=memo,
+        currency=base_currency,
+        period=getattr(inv, 'period', None)
     )
     
-    # Check if invoice has custom GL distribution lines
-    has_gl_lines = hasattr(inv, 'gl_lines') and inv.gl_lines.exists()
-    
-    if not has_gl_lines:
-        raise ValueError(f"Cannot post invoice {inv.number}: GL distribution lines are required")
-    
-    # Use GL distribution lines
-    for gl_line in inv.gl_lines.all():
-        # Convert to base currency if needed
-        line_amount = convert_amount(gl_line.amount, inv.currency, base_currency, inv.date) if needs_conversion else gl_line.amount
-        
-        if gl_line.line_type == 'DEBIT':
-            JournalLine.objects.create(entry=je, account=gl_line.account, debit=line_amount)
-        else:
-            JournalLine.objects.create(entry=je, account=gl_line.account, credit=line_amount)
-
-    post_entry(je)
+    # Mark as posted
+    je.posted = True
+    je.save()
 
     inv.gl_journal = je
     inv.posted_at = timezone.now()
@@ -521,6 +538,7 @@ def gl_post_from_ap_balanced(invoice: APInvoice):
         inv.status = getattr(inv, "POSTED", getattr(inv, "status", "POSTED"))
         inv.save(update_fields=["gl_journal", "posted_at", "status", "exchange_rate", "base_currency_total", "subtotal", "tax_amount", "total"])
 
+    logger.info(f"Successfully posted AP Invoice {inv.number} to GL (JE #{je.id})")
     return je, True
 # NEW: safe creator that strips unknown kwargs (like 'organization')
 @transaction.atomic

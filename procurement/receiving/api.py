@@ -46,12 +46,12 @@ class GoodsReceiptViewSet(viewsets.ModelViewSet):
         return GoodsReceiptDetailSerializer
     
     def perform_create(self, serializer):
-        # Set received_by to current user (or default user ID 2)
+        # Set received_by to current user (or default user)
         user = self.request.user if self.request.user.is_authenticated else None
         if not user or user.is_anonymous:
             from django.contrib.auth import get_user_model
             User = get_user_model()
-            user = User.objects.get(id=2)  # Default user
+            user = User.objects.first()  # Default user
         
         serializer.save(received_by=user)
     
@@ -112,6 +112,101 @@ class GoodsReceiptViewSet(viewsets.ModelViewSet):
             return Response(
                 {"error": str(e)},
                 status=status.HTTP_400_BAD_REQUEST
+            )
+    
+    @action(detail=False, methods=['post'])
+    def validate_against_po(self, request):
+        """
+        Validate GRN lines against PO before creation.
+        
+        Request body:
+        {
+            "po_id": 1,
+            "lines": [
+                {
+                    "po_line_id": 1,
+                    "received_quantity": 100,
+                    "unit_price": 10.50
+                },
+                ...
+            ]
+        }
+        
+        Returns validation results with errors and warnings.
+        """
+        from procurement.purchase_orders.models import POHeader
+        from .validation import GRNValidationService
+        
+        po_id = request.data.get('po_id')
+        lines = request.data.get('lines', [])
+        
+        if not po_id:
+            return Response(
+                {"error": "po_id is required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        if not lines:
+            return Response(
+                {"error": "lines are required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            po_header = POHeader.objects.get(id=po_id)
+            validation_result = GRNValidationService.validate_grn_against_po(
+                po_header, lines
+            )
+            
+            return Response(validation_result)
+        
+        except POHeader.DoesNotExist:
+            return Response(
+                {"error": "Purchase Order not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+    
+    @action(detail=False, methods=['get'])
+    def po_receiving_status(self, request):
+        """
+        Get detailed receiving status for a PO.
+        
+        Query params:
+        - po_id: Purchase Order ID
+        
+        Returns line-by-line receiving status.
+        """
+        from procurement.purchase_orders.models import POHeader
+        from .validation import GRNValidationService
+        
+        po_id = request.query_params.get('po_id')
+        
+        if not po_id:
+            return Response(
+                {"error": "po_id is required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            po_header = POHeader.objects.get(id=po_id)
+            status_result = GRNValidationService.get_po_receiving_status(po_header)
+            
+            return Response(status_result)
+        
+        except POHeader.DoesNotExist:
+            return Response(
+                {"error": "Purchase Order not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
     
     @action(detail=True, methods=['post'])

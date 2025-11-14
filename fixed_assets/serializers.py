@@ -24,7 +24,7 @@ class AssetCategorySerializer(serializers.ModelSerializer):
             'asset_account', 'asset_account_code',
             'is_active', 'created_at', 'updated_at', 'created_by', 'created_by_name'
         ]
-        read_only_fields = ['created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at']
 
 
 class AssetLocationSerializer(serializers.ModelSerializer):
@@ -45,7 +45,7 @@ class AssetLocationSerializer(serializers.ModelSerializer):
             'is_active', 'asset_count',
             'created_at', 'updated_at'
         ]
-        read_only_fields = ['created_at', 'updated_at', 'asset_count']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'asset_count']
     
     def get_asset_count(self, obj):
         return obj.assets.filter(status='ACTIVE').count()
@@ -94,7 +94,7 @@ class AssetSerializer(serializers.ModelSerializer):
             'notes', 'created_at', 'updated_at', 'created_by', 'created_by_name',
             'depreciable_amount', 'depreciation_rate'
         ]
-        read_only_fields = [
+        read_only_fields = ['id', 
             'total_depreciation', 'net_book_value', 'last_depreciation_date',
             'capitalization_journal', 'disposal_journal',
             'created_at', 'updated_at', 'depreciable_amount', 'depreciation_rate'
@@ -154,7 +154,7 @@ class AssetTransferSerializer(serializers.ModelSerializer):
             'is_completed', 'completed_at',
             'created_at', 'updated_at'
         ]
-        read_only_fields = ['created_at', 'updated_at', 'approved_at', 'completed_at']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'approved_at', 'completed_at']
     
     def validate(self, data):
         # Ensure from and to locations are different
@@ -187,7 +187,7 @@ class DepreciationScheduleSerializer(serializers.ModelSerializer):
             'is_posted', 'posted_at', 'journal_entry',
             'notes', 'created_at', 'updated_at', 'created_by', 'created_by_name'
         ]
-        read_only_fields = ['created_at', 'updated_at', 'posted_at', 'journal_entry']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'posted_at', 'journal_entry']
 
 
 class AssetMaintenanceSerializer(serializers.ModelSerializer):
@@ -208,7 +208,7 @@ class AssetMaintenanceSerializer(serializers.ModelSerializer):
             'performed_by', 'performed_by_name',
             'notes', 'created_at', 'updated_at'
         ]
-        read_only_fields = ['created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at']
 
 
 class AssetDocumentSerializer(serializers.ModelSerializer):
@@ -226,7 +226,7 @@ class AssetDocumentSerializer(serializers.ModelSerializer):
             'uploaded_by', 'uploaded_by_name',
             'created_at', 'updated_at'
         ]
-        read_only_fields = ['created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at']
 
 
 class AssetListSerializer(serializers.ModelSerializer):
@@ -259,7 +259,7 @@ class AssetConfigurationSerializer(serializers.ModelSerializer):
             'require_capitalization_approval', 'require_disposal_approval',
             'updated_at', 'updated_by', 'updated_by_name'
         ]
-        read_only_fields = ['updated_at']
+        read_only_fields = ['id', 'updated_at']
 
 
 class AssetRetirementSerializer(serializers.ModelSerializer):
@@ -283,7 +283,7 @@ class AssetRetirementSerializer(serializers.ModelSerializer):
             'is_posted', 'journal_entry', 'posted_at',
             'created_at', 'updated_at', 'created_by', 'created_by_name'
         ]
-        read_only_fields = ['created_at', 'updated_at', 'gain_loss', 'is_posted', 'posted_at']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'gain_loss', 'is_posted', 'posted_at']
 
 
 class AssetAdjustmentSerializer(serializers.ModelSerializer):
@@ -311,7 +311,7 @@ class AssetAdjustmentSerializer(serializers.ModelSerializer):
             'is_posted', 'journal_entry', 'posted_at',
             'created_at', 'updated_at', 'created_by', 'created_by_name'
         ]
-        read_only_fields = ['created_at', 'updated_at', 'cost_difference', 'is_posted', 'posted_at']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'cost_difference', 'is_posted', 'posted_at']
 
 
 class AssetApprovalSerializer(serializers.ModelSerializer):
@@ -332,4 +332,4 @@ class AssetApprovalSerializer(serializers.ModelSerializer):
             'reviewed_by', 'reviewed_by_name', 'reviewed_at', 'review_notes',
             'created_at', 'updated_at'
         ]
-        read_only_fields = ['created_at', 'updated_at', 'requested_at']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'requested_at']

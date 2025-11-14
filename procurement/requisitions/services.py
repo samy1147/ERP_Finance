@@ -229,7 +229,8 @@ class PRToPOConversionService:
         from django.db.models import Q
         
         queryset = PRLine.objects.select_related(
-            'pr_header', 'catalog_item', 'unit_of_measure'
+            'pr_header', 'pr_header__requestor', 'pr_header__cost_center',
+            'catalog_item', 'unit_of_measure'
         ).filter(
             pr_header__status='APPROVED',
             conversion_status__in=['NOT_CONVERTED', 'PARTIALLY_CONVERTED']
@@ -351,9 +352,13 @@ class PRLineSelectionHelper:
         
         result = []
         for pr_line in pr_lines:
-            # Get requester name
-            requester = pr_line.pr_header.requestor
-            requester_name = f"{requester.first_name} {requester.last_name}".strip() or requester.username
+            # Get requester name (with error handling for missing users)
+            try:
+                requester = pr_line.pr_header.requestor
+                requester_name = f"{requester.first_name} {requester.last_name}".strip() or requester.username
+            except Exception:
+                # If requestor doesn't exist, use a default
+                requester_name = "Unknown User"
             
             # Get cost center
             cost_center = (

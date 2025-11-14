@@ -52,8 +52,8 @@ class POHeaderViewSet(viewsets.ModelViewSet):
         return POHeaderDetailSerializer
     
     def perform_create(self, serializer):
-        # Use authenticated user or default to admin (dev mode)
-        user = self.request.user if self.request.user.is_authenticated else User.objects.get(id=2)
+        # Use authenticated user or default to first user (dev mode)
+        user = self.request.user if self.request.user.is_authenticated else User.objects.first()
         serializer.save(created_by=user)
     
     def perform_update(self, serializer):
@@ -62,7 +62,7 @@ class POHeaderViewSet(viewsets.ModelViewSet):
         reset to SUBMITTED to require re-approval.
         """
         po = self.get_object()
-        user = self.request.user if self.request.user.is_authenticated else User.objects.get(id=2)
+        user = self.request.user if self.request.user.is_authenticated else User.objects.first()
         
         # Track if PO was approved before update
         was_approved = po.status == 'APPROVED'
@@ -170,7 +170,7 @@ class POHeaderViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         
         # Get user - use default in dev mode
-        user = request.user if request.user.is_authenticated else User.objects.get(id=2)
+        user = request.user if request.user.is_authenticated else User.objects.first()
         
         try:
             po.submit(user)
@@ -193,7 +193,7 @@ class POHeaderViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         
         # Get user - use default in dev mode
-        user = request.user if request.user.is_authenticated else User.objects.get(id=2)
+        user = request.user if request.user.is_authenticated else User.objects.first()
         
         try:
             po.approve(user)
@@ -216,7 +216,7 @@ class POHeaderViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         
         # Get user - use default in dev mode
-        user = request.user if request.user.is_authenticated else User.objects.get(id=2)
+        user = request.user if request.user.is_authenticated else User.objects.first()
         
         try:
             po.confirm_and_send(user)
@@ -241,7 +241,7 @@ class POHeaderViewSet(viewsets.ModelViewSet):
         reason = serializer.validated_data['reason']
         
         # Get user - use default in dev mode
-        user = request.user if request.user.is_authenticated else User.objects.get(id=2)
+        user = request.user if request.user.is_authenticated else User.objects.first()
         
         try:
             po.cancel(user, reason)
@@ -266,7 +266,7 @@ class POHeaderViewSet(viewsets.ModelViewSet):
         reason = request.data.get('reason', '')
         
         # Get user - use default in dev mode
-        user = request.user if request.user.is_authenticated else User.objects.get(id=2)
+        user = request.user if request.user.is_authenticated else User.objects.first()
         
         try:
             po.cancel_delivery(user, reason)
@@ -291,7 +291,7 @@ class POHeaderViewSet(viewsets.ModelViewSet):
         po = self.get_object()
         
         # Get user - use default in dev mode
-        user = request.user if request.user.is_authenticated else User.objects.get(id=2)
+        user = request.user if request.user.is_authenticated else User.objects.first()
         
         if po.reset_approval(user):
             message = 'PO approval reset to SUBMITTED. It will need to be approved again.' if po.status == 'SUBMITTED' else 'PO status updated.'

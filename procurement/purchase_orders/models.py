@@ -395,7 +395,7 @@ class POHeader(models.Model):
         if self.status == 'SUBMITTED':
             # Get approver from workflow
             from django.contrib.auth.models import User
-            approver = User.objects.get(id=2)  # Default to admin in dev
+            approver = User.objects.first()  # Default to first user in dev
             self.approve(approver)
     
     def get_receiving_status(self):

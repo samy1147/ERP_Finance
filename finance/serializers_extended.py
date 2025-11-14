@@ -7,6 +7,7 @@ from ar.models import ARPayment, ARPaymentAllocation, ARInvoice, Customer
 from ap.models import APPayment, APPaymentAllocation, APInvoice, Supplier
 from finance.models import InvoiceApproval, JournalLine, JournalLineSegment, JournalEntry
 from core.models import Currency
+from segment.models import XX_Segment, XX_SegmentType
 
 
 # ============================================================================
@@ -52,6 +53,78 @@ class JournalLineDisplaySerializer(serializers.ModelSerializer):
 
 
 # ============================================================================
+# PAYMENT DISTRIBUTION SERIALIZERS (Dynamic Segments)
+# ============================================================================
+
+class PaymentDistributionSegmentSerializer(serializers.Serializer):
+    """Nested serializer for segments within a payment distribution line"""
+    segment_type = serializers.IntegerField()
+    segment_type_name = serializers.CharField(read_only=True)
+    segment = serializers.IntegerField()
+    segment_code = serializers.CharField(read_only=True)
+    segment_name = serializers.CharField(read_only=True)
+    
+    def validate(self, data):
+        """Validate segment exists and is a child type"""
+        segment_type_id = data.get('segment_type')
+        segment_id = data.get('segment')
+        
+        # Validate segment exists and is child type
+        try:
+            segment = XX_Segment.objects.get(pk=segment_id)
+            if segment.node_type != 'child':  # Fixed: lowercase 'child'
+                raise serializers.ValidationError(
+                    f"Segment {segment.code} must be a child type (detail level)"
+                )
+            
+            # Validate segment belongs to the specified segment type
+            if segment.segment_type_id != segment_type_id:
+                raise serializers.ValidationError(
+                    f"Segment {segment.code} does not belong to segment type {segment_type_id}"
+                )
+        except XX_Segment.DoesNotExist:
+            raise serializers.ValidationError(f"Segment {segment_id} does not exist")
+        
+        return data
+
+
+class PaymentDistributionSerializer(serializers.Serializer):
+    """Serializer for payment distribution lines with dynamic multi-segment support"""
+    id = serializers.IntegerField(read_only=True)
+    amount = serializers.DecimalField(max_digits=15, decimal_places=2)
+    description = serializers.CharField(required=False, allow_blank=True)
+    line_type = serializers.ChoiceField(choices=['DEBIT', 'CREDIT'])
+    segments = PaymentDistributionSegmentSerializer(many=True)
+    
+    def validate_amount(self, value):
+        """Ensure amount is positive"""
+        if value <= 0:
+            raise serializers.ValidationError("Amount must be greater than zero")
+        return value
+    
+    def validate_segments(self, segments):
+        """Validate that at least one segment is provided"""
+        if not segments or len(segments) == 0:
+            raise serializers.ValidationError("At least one segment must be provided")
+        
+        # Validate each segment belongs to its segment type
+        for seg in segments:
+            segment_type_id = seg.get('segment_type')
+            segment_id = seg.get('segment')
+            
+            try:
+                segment = XX_Segment.objects.get(pk=segment_id)
+                if segment.segment_type_id != segment_type_id:
+                    raise serializers.ValidationError(
+                        f"Segment {segment.code} does not belong to segment type {segment_type_id}"
+                    )
+            except XX_Segment.DoesNotExist:
+                raise serializers.ValidationError(f"Segment {segment_id} does not exist")
+        
+        return segments
+
+
+# ============================================================================
 # AR PAYMENT ALLOCATION SERIALIZERS
 # ============================================================================
 
@@ -80,9 +153,10 @@ class ARPaymentAllocationSerializer(serializers.ModelSerializer):
 
 
 class ARPaymentSerializer(serializers.ModelSerializer):
-    """Serializer for AR payments with allocations and GL lines"""
+    """Serializer for AR payments with allocations and dynamic segment distributions"""
     allocations = ARPaymentAllocationSerializer(many=True, required=False)
-    gl_lines = serializers.ListField(child=serializers.DictField(), required=False, write_only=True)
+    distributions = PaymentDistributionSerializer(many=True, required=False)  # NEW: Dynamic segments
+    gl_lines = serializers.ListField(child=serializers.DictField(), required=False, write_only=True)  # OLD: Deprecated
     gl_lines_display = serializers.SerializerMethodField(read_only=True)
     customer_name = serializers.SerializerMethodField()
     currency_code = serializers.SerializerMethodField()
@@ -95,7 +169,8 @@ class ARPaymentSerializer(serializers.ModelSerializer):
                  'total_amount', 'currency', 'currency_code', 'memo', 
                  'bank_account', 'posted_at', 'reconciled', 'reconciliation_ref',
                  'reconciled_at', 'gl_journal', 'payment_fx_rate',
-                 'allocations', 'allocated_amount', 'unallocated_amount', 'gl_lines', 'gl_lines_display']
+                 'allocations', 'allocated_amount', 'unallocated_amount', 
+                 'distributions', 'gl_lines', 'gl_lines_display']  # Added distributions
         read_only_fields = ['posted_at', 'reconciled_at', 'gl_journal', 
                            'allocated_amount', 'unallocated_amount', 'gl_lines_display']
     
@@ -108,21 +183,52 @@ class ARPaymentSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         allocations_data = validated_data.pop('allocations', [])
-        gl_lines_data = validated_data.pop('gl_lines', [])
+        distributions_data = validated_data.pop('distributions', [])  # NEW format
+        gl_lines_data = validated_data.pop('gl_lines', [])  # OLD format (deprecated)
+        
         payment = ARPayment.objects.create(**validated_data)
         
         # Create allocations
         for allocation_data in allocations_data:
             ARPaymentAllocation.objects.create(payment=payment, **allocation_data)
         
-        # Create GL lines if provided
-        if gl_lines_data and payment.gl_journal:
-            self._create_gl_lines(payment.gl_journal, gl_lines_data)
+        # Create GL distributions if provided (prefer new format)
+        if distributions_data and payment.gl_journal:
+            self._create_distributions(payment.gl_journal, distributions_data)
+        elif gl_lines_data and payment.gl_journal:
+            # Fallback to old format for backward compatibility
+            print(f"WARNING: Using deprecated gl_lines format. Please migrate to distributions.")
+            self._create_gl_lines_old(payment.gl_journal, gl_lines_data)
         
         return payment
     
+    def _create_distributions(self, journal_entry, distributions_data):
+        """Create journal lines with dynamic segments from NEW distribution format"""
+        for dist_data in distributions_data:
+            amount = Decimal(str(dist_data['amount']))
+            line_type = dist_data.get('line_type', '').upper()
+            
+            debit = amount if line_type == 'DEBIT' else Decimal('0')
+            credit = amount if line_type == 'CREDIT' else Decimal('0')
+            
+            # Create journal line
+            journal_line = JournalLine.objects.create(
+                journal_entry=journal_entry,
+                debit=debit,
+                credit=credit,
+                description=dist_data.get('description', '')
+            )
+            
+            # Create segments from array format
+            for segment_data in dist_data.get('segments', []):
+                JournalLineSegment.objects.create(
+                    journal_line=journal_line,
+                    segment_type_id=segment_data['segment_type'],
+                    segment_id=segment_data['segment']
+                )
+    
     def _create_gl_lines(self, journal_entry, gl_lines_data):
-        """Create journal lines with segments from GL distribution"""
+        """DEPRECATED: Create journal lines with segments from OLD dictionary format"""
         for line_data in gl_lines_data:
             # Convert DEBIT/CREDIT to debit/credit amounts
             amount = Decimal(str(line_data.get('amount', 0)))
@@ -151,7 +257,8 @@ class ARPaymentSerializer(serializers.ModelSerializer):
     
     def update(self, instance, validated_data):
         allocations_data = validated_data.pop('allocations', None)
-        gl_lines_data = validated_data.pop('gl_lines', None)
+        distributions_data = validated_data.pop('distributions', None)  # NEW format
+        gl_lines_data = validated_data.pop('gl_lines', None)  # OLD format
         
         # Update payment fields
         for attr, value in validated_data.items():
@@ -166,11 +273,14 @@ class ARPaymentSerializer(serializers.ModelSerializer):
             for allocation_data in allocations_data:
                 ARPaymentAllocation.objects.create(payment=instance, **allocation_data)
         
-        # Update GL lines if provided
-        if gl_lines_data is not None and instance.gl_journal:
+        # Update GL distributions if provided (prefer new format)
+        if distributions_data is not None and instance.gl_journal:
+            instance.gl_journal.lines.all().delete()
+            self._create_distributions(instance.gl_journal, distributions_data)
+        elif gl_lines_data is not None and instance.gl_journal:
             # Clear existing journal lines
             instance.gl_journal.lines.all().delete()
-            # Create new GL lines
+            # Create new GL lines using old format
             self._create_gl_lines(instance.gl_journal, gl_lines_data)
         
         return instance
@@ -206,8 +316,27 @@ class ARPaymentSerializer(serializers.ModelSerializer):
                     f"Total allocated amount ({total_allocated}) exceeds payment amount ({data['total_amount']})"
                 )
         
-        # Validate GL lines balance if provided
-        if 'gl_lines' in data:
+        # Validate distributions balance if provided (NEW format - preferred)
+        if 'distributions' in data:
+            total_debit = Decimal('0')
+            total_credit = Decimal('0')
+            
+            for dist in data['distributions']:
+                amount = Decimal(str(dist['amount']))
+                line_type = dist.get('line_type', '').upper()
+                
+                if line_type == 'DEBIT':
+                    total_debit += amount
+                elif line_type == 'CREDIT':
+                    total_credit += amount
+            
+            if total_debit != total_credit:
+                raise serializers.ValidationError(
+                    f"Distributions must balance: Debits ({total_debit}) ≠ Credits ({total_credit})"
+                )
+        
+        # Validate GL lines balance if provided (OLD format - deprecated)
+        elif 'gl_lines' in data:
             total_debit = Decimal('0')
             total_credit = Decimal('0')
             
@@ -234,7 +363,7 @@ class ARPaymentSerializer(serializers.ModelSerializer):
 
 class APPaymentAllocationSerializer(serializers.ModelSerializer):
     """Serializer for AP payment allocations"""
-    invoice_number = serializers.CharField(source='invoice.number', read_only=True)
+    invoice_number = serializers.SerializerMethodField()
     invoice_total = serializers.SerializerMethodField()
     invoice_outstanding = serializers.SerializerMethodField()
     
@@ -244,11 +373,33 @@ class APPaymentAllocationSerializer(serializers.ModelSerializer):
                  'invoice_outstanding', 'amount', 'memo', 'created_at']
         read_only_fields = ['created_at']
     
+    def get_invoice_number(self, obj):
+        """Get invoice number, safely handling None"""
+        # Check the FK _id field directly to avoid triggering RelatedObjectDoesNotExist
+        if obj.invoice_id is None:
+            return None
+        try:
+            return obj.invoice.number
+        except APInvoice.DoesNotExist:
+            return None
+    
     def get_invoice_total(self, obj):
-        return float(obj.invoice.calculate_total())
+        """Get invoice total, safely handling None"""
+        if obj.invoice_id is None:
+            return 0.0
+        try:
+            return float(obj.invoice.calculate_total())
+        except APInvoice.DoesNotExist:
+            return 0.0
     
     def get_invoice_outstanding(self, obj):
-        return float(obj.invoice.outstanding_amount())
+        """Get invoice outstanding amount, safely handling None"""
+        if obj.invoice_id is None:
+            return 0.0
+        try:
+            return float(obj.invoice.outstanding_amount())
+        except APInvoice.DoesNotExist:
+            return 0.0
     
     def validate_amount(self, value):
         if value <= 0:
@@ -257,9 +408,10 @@ class APPaymentAllocationSerializer(serializers.ModelSerializer):
 
 
 class APPaymentSerializer(serializers.ModelSerializer):
-    """Serializer for AP payments with allocations and GL lines"""
+    """Serializer for AP payments with allocations and dynamic segment distributions"""
     allocations = APPaymentAllocationSerializer(many=True, required=False)
-    gl_lines = serializers.ListField(child=serializers.DictField(), required=False, write_only=True)
+    distributions = PaymentDistributionSerializer(many=True, required=False)  # NEW: Dynamic segments
+    gl_lines = serializers.ListField(child=serializers.DictField(), required=False, write_only=True)  # OLD: Deprecated
     gl_lines_display = serializers.SerializerMethodField(read_only=True)
     supplier_name = serializers.SerializerMethodField()
     currency_code = serializers.SerializerMethodField()
@@ -272,7 +424,8 @@ class APPaymentSerializer(serializers.ModelSerializer):
                  'total_amount', 'currency', 'currency_code', 'memo', 
                  'bank_account', 'posted_at', 'reconciled', 'reconciliation_ref',
                  'reconciled_at', 'gl_journal', 'payment_fx_rate',
-                 'allocations', 'allocated_amount', 'unallocated_amount', 'gl_lines', 'gl_lines_display']
+                 'allocations', 'allocated_amount', 'unallocated_amount', 
+                 'distributions', 'gl_lines', 'gl_lines_display']  # Added distributions
         read_only_fields = ['posted_at', 'reconciled_at', 'gl_journal', 
                            'allocated_amount', 'unallocated_amount', 'gl_lines_display']
     
@@ -285,21 +438,52 @@ class APPaymentSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         allocations_data = validated_data.pop('allocations', [])
-        gl_lines_data = validated_data.pop('gl_lines', [])
+        distributions_data = validated_data.pop('distributions', [])  # NEW format
+        gl_lines_data = validated_data.pop('gl_lines', [])  # OLD format (deprecated)
+        
         payment = APPayment.objects.create(**validated_data)
         
         # Create allocations
         for allocation_data in allocations_data:
             APPaymentAllocation.objects.create(payment=payment, **allocation_data)
         
-        # Create GL lines if provided
-        if gl_lines_data and payment.gl_journal:
-            self._create_gl_lines(payment.gl_journal, gl_lines_data)
+        # Create GL distributions if provided (prefer new format)
+        if distributions_data and payment.gl_journal:
+            self._create_distributions(payment.gl_journal, distributions_data)
+        elif gl_lines_data and payment.gl_journal:
+            # Fallback to old format for backward compatibility
+            print(f"WARNING: Using deprecated gl_lines format. Please migrate to distributions.")
+            self._create_gl_lines_old(payment.gl_journal, gl_lines_data)
         
         return payment
     
-    def _create_gl_lines(self, journal_entry, gl_lines_data):
-        """Create journal lines with segments from GL distribution"""
+    def _create_distributions(self, journal_entry, distributions_data):
+        """Create journal lines with dynamic segments from NEW distribution format"""
+        for dist_data in distributions_data:
+            amount = Decimal(str(dist_data['amount']))
+            line_type = dist_data.get('line_type', '').upper()
+            
+            debit = amount if line_type == 'DEBIT' else Decimal('0')
+            credit = amount if line_type == 'CREDIT' else Decimal('0')
+            
+            # Create journal line
+            journal_line = JournalLine.objects.create(
+                journal_entry=journal_entry,
+                debit=debit,
+                credit=credit,
+                description=dist_data.get('description', '')
+            )
+            
+            # Create segments from array format
+            for segment_data in dist_data.get('segments', []):
+                JournalLineSegment.objects.create(
+                    journal_line=journal_line,
+                    segment_type_id=segment_data['segment_type'],
+                    segment_id=segment_data['segment']
+                )
+    
+    def _create_gl_lines_old(self, journal_entry, gl_lines_data):
+        """DEPRECATED: Create journal lines with segments from OLD dictionary format"""
         for line_data in gl_lines_data:
             # Convert DEBIT/CREDIT to debit/credit amounts
             amount = Decimal(str(line_data.get('amount', 0)))
@@ -328,7 +512,8 @@ class APPaymentSerializer(serializers.ModelSerializer):
     
     def update(self, instance, validated_data):
         allocations_data = validated_data.pop('allocations', None)
-        gl_lines_data = validated_data.pop('gl_lines', None)
+        distributions_data = validated_data.pop('distributions', None)  # NEW format
+        gl_lines_data = validated_data.pop('gl_lines', None)  # OLD format
         
         # Update payment fields
         for attr, value in validated_data.items():
@@ -343,12 +528,15 @@ class APPaymentSerializer(serializers.ModelSerializer):
             for allocation_data in allocations_data:
                 APPaymentAllocation.objects.create(payment=instance, **allocation_data)
         
-        # Update GL lines if provided
-        if gl_lines_data is not None and instance.gl_journal:
+        # Update GL distributions if provided (prefer new format)
+        if distributions_data is not None and instance.gl_journal:
+            instance.gl_journal.lines.all().delete()
+            self._create_distributions(instance.gl_journal, distributions_data)
+        elif gl_lines_data is not None and instance.gl_journal:
             # Clear existing journal lines
             instance.gl_journal.lines.all().delete()
-            # Create new GL lines
-            self._create_gl_lines(instance.gl_journal, gl_lines_data)
+            # Create new GL lines using old format
+            self._create_gl_lines_old(instance.gl_journal, gl_lines_data)
         
         return instance
     
@@ -383,8 +571,27 @@ class APPaymentSerializer(serializers.ModelSerializer):
                     f"Total allocated amount ({total_allocated}) exceeds payment amount ({data['total_amount']})"
                 )
         
-        # Validate GL lines balance if provided
-        if 'gl_lines' in data:
+        # Validate distributions balance if provided (NEW format - preferred)
+        if 'distributions' in data:
+            total_debit = Decimal('0')
+            total_credit = Decimal('0')
+            
+            for dist in data['distributions']:
+                amount = Decimal(str(dist['amount']))
+                line_type = dist.get('line_type', '').upper()
+                
+                if line_type == 'DEBIT':
+                    total_debit += amount
+                elif line_type == 'CREDIT':
+                    total_credit += amount
+            
+            if total_debit != total_credit:
+                raise serializers.ValidationError(
+                    f"Distributions must balance: Debits ({total_debit}) ≠ Credits ({total_credit})"
+                )
+        
+        # Validate GL lines balance if provided (OLD format - deprecated)
+        elif 'gl_lines' in data:
             total_debit = Decimal('0')
             total_credit = Decimal('0')
             

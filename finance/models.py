@@ -264,3 +264,93 @@ class InvoiceApproval(models.Model):
     def __str__(self):
         return f"{self.invoice_type} Invoice #{self.invoice_id} - {self.status}"
 
+
+class SegmentAssignmentRule(models.Model):
+    """
+    Rules for auto-assigning segments to GL distributions.
+    Used when posting invoices/payments to automatically determine segment assignments.
+    """
+    
+    # Rule identification
+    name = models.CharField(max_length=255, help_text="Rule name/description")
+    priority = models.IntegerField(default=100, help_text="Lower number = higher priority")
+    is_active = models.BooleanField(default=True)
+    
+    # Conditions (all are optional - most specific rule wins)
+    customer = models.ForeignKey('ar.Customer', on_delete=models.CASCADE, null=True, blank=True,
+                                 help_text="Apply to specific customer")
+    supplier = models.ForeignKey('ap.Supplier', on_delete=models.CASCADE, null=True, blank=True,
+                                help_text="Apply to specific supplier")
+    
+    # Account segment that triggers this rule
+    account_segment = models.ForeignKey('segment.XX_Segment', on_delete=models.PROTECT,
+                                       related_name='assignment_rules_for_account',
+                                       help_text="When this account is used, apply these segment assignments")
+    
+    # Segment assignments (required segments)
+    department_segment = models.ForeignKey('segment.XX_Segment', on_delete=models.PROTECT,
+                                          related_name='assignment_rules_dept',
+                                          null=True, blank=True,
+                                          help_text="Department to assign")
+    
+    cost_center_segment = models.ForeignKey('segment.XX_Segment', on_delete=models.PROTECT,
+                                           related_name='assignment_rules_cc',
+                                           null=True, blank=True,
+                                           help_text="Cost center to assign")
+    
+    project_segment = models.ForeignKey('segment.XX_Segment', on_delete=models.PROTECT,
+                                       related_name='assignment_rules_proj',
+                                       null=True, blank=True,
+                                       help_text="Project to assign")
+    
+    product_segment = models.ForeignKey('segment.XX_Segment', on_delete=models.PROTECT,
+                                       related_name='assignment_rules_prod',
+                                       null=True, blank=True,
+                                       help_text="Product to assign")
+    
+    # Metadata
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    notes = models.TextField(blank=True)
+    
+    class Meta:
+        db_table = 'finance_segment_assignment_rule'
+        ordering = ['priority', '-created_at']
+        indexes = [
+            models.Index(fields=['is_active', 'priority']),
+            models.Index(fields=['customer', 'account_segment']),
+            models.Index(fields=['supplier', 'account_segment']),
+        ]
+    
+    def __str__(self):
+        entity = f"Customer {self.customer.name}" if self.customer else \
+                 f"Supplier {self.supplier.name}" if self.supplier else "Default"
+        return f"{self.name} ({entity} → {self.account_segment.code})"
+    
+    def get_segment_assignments(self):
+        """Return dict of segment type ID to segment ID for this rule"""
+        assignments = {}
+        
+        # Account is always included
+        account_type_id = self.account_segment.segment_type_id
+        assignments[account_type_id] = self.account_segment.id
+        
+        # Add other segments if specified
+        if self.department_segment:
+            dept_type_id = self.department_segment.segment_type_id
+            assignments[dept_type_id] = self.department_segment.id
+        
+        if self.cost_center_segment:
+            cc_type_id = self.cost_center_segment.segment_type_id
+            assignments[cc_type_id] = self.cost_center_segment.id
+        
+        if self.project_segment:
+            proj_type_id = self.project_segment.segment_type_id
+            assignments[proj_type_id] = self.project_segment.id
+        
+        if self.product_segment:
+            prod_type_id = self.product_segment.segment_type_id
+            assignments[prod_type_id] = self.product_segment.id
+        
+        return assignments
+

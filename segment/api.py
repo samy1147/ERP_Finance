@@ -39,6 +39,14 @@ class SegmentTypeViewSet(viewsets.ModelViewSet):
         serializer = SegmentSerializer(segments, many=True)
         return Response(serializer.data)
     
+    @action(detail=False, methods=['get'])
+    def names(self, request):
+        """
+        Returns a list of segment type names only.
+        """
+        names = self.get_queryset().values_list('segment_name', flat=True)
+        return Response(list(names))
+
     @action(detail=True, methods=["post"])
     def deactivate(self, request, pk=None):
         """

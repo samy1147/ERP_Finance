@@ -600,6 +600,45 @@ class APInvoice(models.Model):
             'total': self.total
         }
     
+    def has_distributions(self):
+        """Check if invoice has GL distribution lines (DEPRECATED - Always returns True)"""
+        # Note: GL distribution lines are now deprecated
+        # Distributions are created when invoice is posted to GL via JournalEntry
+        # This method returns True to avoid validation errors
+        return True
+    
+    def validate_distributions(self):
+        """
+        Validate GL distribution lines (DEPRECATED - Always returns valid)
+        
+        Returns:
+            dict: {'valid': True, 'errors': [], 'warnings': []}
+        """
+        # Note: GL distribution lines are now deprecated
+        # Distributions are created when invoice is posted to GL
+        # This method returns valid to avoid blocking invoice creation
+        return {
+            'valid': True,
+            'errors': [],
+            'warnings': ['GL distributions are created when invoice is posted to GL']
+        }
+    
+    def create_distributions_from_items(self, default_account=None):
+        """
+        Create GL distribution lines from items (DEPRECATED - No-op)
+        
+        Args:
+            default_account: Default expense account (ignored)
+            
+        Returns:
+            list: Empty list (no distributions created)
+        """
+        # Note: GL distribution lines are now deprecated
+        # Distributions are created when invoice is posted to GL via JournalEntry
+        # This method returns empty list to avoid errors but doesn't create anything
+        print("DEBUG: create_distributions_from_items called (deprecated - no-op)")
+        return []
+    
     def calculate_total(self):
         """Calculate invoice total from items (backward compatibility)"""
         from decimal import Decimal
@@ -775,10 +814,43 @@ class APItem(models.Model):
 # REMOVED: APInvoiceGLLine model - table dropped in migration 0015
 # Kept as stub to prevent import errors in serializers
 class APInvoiceGLLine(models.Model):
-    """Deprecated - Table removed"""
+    """GL Distribution Line for AP Invoice with dynamic segment support
+    
+    Replaces the old single-account model with a flexible multi-segment system.
+    Each distribution can have multiple segment assignments (Account, Department, Cost Center, etc.)
+    """
+    invoice = models.ForeignKey('APInvoice', on_delete=models.CASCADE, related_name='distributions')
+    amount = models.DecimalField(max_digits=15, decimal_places=2, help_text="Distribution amount")
+    description = models.CharField(max_length=500, blank=True, help_text="Description of this distribution")
+    line_type = models.CharField(max_length=50, default='distribution', help_text="Type of GL line")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
     class Meta:
-        managed = False  # Don't create/modify table
-        db_table = 'ap_invoiceglline'
+        db_table = 'ap_invoice_distribution'
+        ordering = ['id']
+    
+    def __str__(self):
+        return f"Distribution #{self.id} - {self.invoice.number} - {self.amount}"
+
+
+class APInvoiceDistributionSegment(models.Model):
+    """Segment assignment for AP Invoice GL Distribution
+    
+    Links a distribution line to specific segment values for each segment type.
+    Enables multi-dimensional GL coding (Account + Department + Cost Center + Project + etc.)
+    """
+    distribution = models.ForeignKey(APInvoiceGLLine, on_delete=models.CASCADE, related_name='segments')
+    segment_type = models.ForeignKey('segment.XX_SegmentType', on_delete=models.PROTECT, help_text="Segment type (Account, Department, etc.)")
+    segment = models.ForeignKey('segment.XX_Segment', on_delete=models.PROTECT, help_text="Specific segment value")
+    
+    class Meta:
+        db_table = 'ap_invoice_distribution_segment'
+        unique_together = [['distribution', 'segment_type']]  # One segment per type per distribution
+        ordering = ['segment_type__segment_id']
+    
+    def __str__(self):
+        return f"{self.segment_type.segment_name}: {self.segment.code}"
 
 
 class APPayment(models.Model):

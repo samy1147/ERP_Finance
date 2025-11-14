@@ -124,7 +124,7 @@ class ApprovalStepInstanceViewSet(viewsets.ReadOnlyModelViewSet):
         
         # For development: use admin user if not authenticated
         from django.contrib.auth.models import User
-        user = request.user if request.user.is_authenticated else User.objects.get(id=2)
+        user = request.user if request.user.is_authenticated else User.objects.first()
         
         try:
             step_instance.approve(user, comments)
@@ -150,7 +150,7 @@ class ApprovalStepInstanceViewSet(viewsets.ReadOnlyModelViewSet):
         
         # For development: use admin user if not authenticated
         from django.contrib.auth.models import User
-        user = request.user if request.user.is_authenticated else User.objects.get(id=2)
+        user = request.user if request.user.is_authenticated else User.objects.first()
         
         try:
             step_instance.reject(user, reason)

@@ -18,7 +18,7 @@ class VendorContactSerializer(serializers.ModelSerializer):
             'receives_invoices', 'receives_payments', 'receives_orders', 'notes',
             'created_at', 'updated_at'
         ]
-        read_only_fields = ['created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at']
 
 
 class VendorDocumentSerializer(serializers.ModelSerializer):
@@ -36,7 +36,7 @@ class VendorDocumentSerializer(serializers.ModelSerializer):
             'is_submitted', 'is_expired', 'days_until_expiry', 'notes',
             'created_at', 'updated_at', 'uploaded_by'
         ]
-        read_only_fields = ['created_at', 'updated_at', 'is_expired', 'days_until_expiry']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'is_expired', 'days_until_expiry']
 
 
 class VendorPerformanceRecordSerializer(serializers.ModelSerializer):
@@ -56,7 +56,7 @@ class VendorPerformanceRecordSerializer(serializers.ModelSerializer):
             'risk_level', 'risk_level_display', 'risk_notes', 'notes',
             'created_at', 'updated_at', 'created_by'
         ]
-        read_only_fields = [
+        read_only_fields = ['id', 
             'created_at', 'updated_at', 'defect_rate', 'invoice_accuracy_rate',
             'delivery_score', 'quality_score', 'price_score', 'overall_score'
         ]
@@ -72,7 +72,7 @@ class VendorOnboardingChecklistSerializer(serializers.ModelSerializer):
             'completed_date', 'completed_by', 'is_required', 'priority',
             'related_document', 'notes', 'created_at', 'updated_at'
         ]
-        read_only_fields = ['created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at']
 
 
 class SupplierListSerializer(serializers.ModelSerializer):
@@ -161,7 +161,7 @@ class SupplierDetailSerializer(serializers.ModelSerializer):
             # Statistics
             'total_invoices', 'total_paid', 'outstanding_balance'
         ]
-        read_only_fields = [
+        read_only_fields = ['id', 
             'created_at', 'updated_at', 'performance_score', 'quality_score',
             'delivery_score', 'price_score', 'can_transact'
         ]

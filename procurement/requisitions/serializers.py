@@ -11,6 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'first_name', 'last_name']
+        read_only_fields = ['id']
 
 
 class CostCenterSerializer(serializers.ModelSerializer):
@@ -26,7 +27,7 @@ class CostCenterSerializer(serializers.ModelSerializer):
             'annual_budget', 'committed', 'available',
             'created_at', 'updated_at'
         ]
-        read_only_fields = ['committed', 'available']
+        read_only_fields = ['id', 'committed', 'available']
     
     def get_committed(self, obj):
         return float(obj.get_total_committed())
@@ -49,7 +50,7 @@ class ProjectSerializer(serializers.ModelSerializer):
             'committed', 'available',
             'created_at', 'updated_at'
         ]
-        read_only_fields = ['committed', 'available']
+        read_only_fields = ['id', 'committed', 'available']
     
     def get_committed(self, obj):
         return float(obj.get_total_committed())
@@ -84,7 +85,7 @@ class PRLineSerializer(serializers.ModelSerializer):
             'source_pos',
             'created_at', 'updated_at'
         ]
-        read_only_fields = [
+        read_only_fields = ['id', 
             'line_number', 'tax_amount', 'line_total',
             'line_total_with_tax', 'suggested_catalog_items',
             'item_type',  # Auto-set based on catalog_item
@@ -217,7 +218,7 @@ class PRHeaderDetailSerializer(serializers.ModelSerializer):
             'created_at', 'created_by', 'created_by_details',
             'updated_at'
         ]
-        read_only_fields = [
+        read_only_fields = ['id', 
             'pr_number', 'subtotal', 'tax_amount', 'total_amount',
             'budget_check_passed', 'budget_check_message', 'budget_checked_at',
             'catalog_suggestions_generated',
@@ -231,6 +232,11 @@ class PRHeaderDetailSerializer(serializers.ModelSerializer):
 
 class PRHeaderCreateUpdateSerializer(serializers.ModelSerializer):
     lines = PRLineSerializer(many=True, required=False)
+    requestor = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(),
+        required=False,
+        allow_null=True
+    )
     
     class Meta:
         model = PRHeader
@@ -244,6 +250,20 @@ class PRHeaderCreateUpdateSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         lines_data = validated_data.pop('lines', [])
+        
+        # Auto-assign requestor if not provided
+        if 'requestor' not in validated_data or validated_data.get('requestor') is None:
+            # Try to use the request user from context
+            request = self.context.get('request')
+            if request and hasattr(request, 'user') and request.user.is_authenticated:
+                validated_data['requestor'] = request.user
+            else:
+                # Fall back to first user (for development/testing)
+                validated_data['requestor'] = User.objects.first()
+                if not validated_data['requestor']:
+                    raise serializers.ValidationError({
+                        'requestor': 'No users found in database. Please create a user first.'
+                    })
         
         pr_header = PRHeader.objects.create(**validated_data)
         

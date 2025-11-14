@@ -13,6 +13,7 @@ class WarehouseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Warehouse
         fields = '__all__'
+        read_only_fields = ['id']
 
 
 class GRNLineSerializer(serializers.ModelSerializer):
@@ -82,7 +83,7 @@ class GoodsReceiptDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = GoodsReceipt
         fields = '__all__'
-        read_only_fields = ['grn_number']
+        read_only_fields = ['id', 'grn_number']
         extra_kwargs = {
             'supplier': {'required': False, 'allow_null': True},
             'received_by': {'required': False, 'allow_null': True},
@@ -146,6 +147,64 @@ class GoodsReceiptDetailSerializer(serializers.ModelSerializer):
                 print(f"    {key}: {value} (type: {type(value).__name__})")
         print("="*70 + "\n")
         
+        # === VALIDATION: Validate against PO if provided ===
+        po_header = validated_data.get('po_header')
+        if po_header and lines_data:
+            from .validation import GRNValidationService
+            
+            # Prepare lines for validation
+            validation_lines = []
+            for line in lines_data:
+                # Get po_line reference - try both field names
+                po_line_ref = line.get('po_line_reference') or line.get('po_line')
+                
+                # Get received quantity - try both field names
+                recv_qty = line.get('received_quantity') or line.get('quantity_received', 0)
+                
+                # Get unit price with default
+                unit_price_val = line.get('unit_price', 0)
+                
+                print(f">>> Validation prep - Line {len(validation_lines) + 1}:")
+                print(f"    po_line_ref: {po_line_ref} (type: {type(po_line_ref).__name__})")
+                print(f"    recv_qty: {recv_qty} (type: {type(recv_qty).__name__})")
+                print(f"    unit_price: {unit_price_val} (type: {type(unit_price_val).__name__})")
+                
+                validation_lines.append({
+                    'po_line_id': po_line_ref,
+                    'received_quantity': recv_qty,
+                    'unit_price': unit_price_val,
+                    'line_number': line.get('line_number', len(validation_lines) + 1)
+                })
+            
+            print(f">>> About to validate {len(validation_lines)} lines against PO {po_header.po_number}")
+            
+            try:
+                validation_result = GRNValidationService.validate_grn_against_po(
+                    po_header, validation_lines
+                )
+                
+                print(f">>> Validation result: is_valid={validation_result['is_valid']}")
+                
+                if not validation_result['is_valid']:
+                    from rest_framework.exceptions import ValidationError
+                    print(f">>> Validation FAILED. Errors: {validation_result['errors']}")
+                    raise ValidationError({
+                        'validation_errors': validation_result['errors'],
+                        'warnings': validation_result['warnings'],
+                        'line_validations': validation_result['line_validations']
+                    })
+                
+                # Log warnings even if valid
+                if validation_result['warnings']:
+                    print(">>> VALIDATION WARNINGS:")
+                    for warning in validation_result['warnings']:
+                        print(f"    - {warning}")
+            except Exception as e:
+                print(f">>> EXCEPTION during validation: {e}")
+                import traceback
+                traceback.print_exc()
+                raise
+        
         # Set received_by if not provided
         if not validated_data.get('received_by'):
             request = self.context.get('request')
@@ -155,7 +214,7 @@ class GoodsReceiptDetailSerializer(serializers.ModelSerializer):
                 # Use default user
                 from django.contrib.auth import get_user_model
                 User = get_user_model()
-                validated_data['received_by'] = User.objects.get(id=2)
+                validated_data['received_by'] = User.objects.first()
         
         # If po_header is provided, auto-fill supplier, po_reference, and grn_type
         if 'po_header' in validated_data and validated_data['po_header']:
@@ -278,6 +337,12 @@ class GoodsReceiptDetailSerializer(serializers.ModelSerializer):
             notes_field = line_data.pop('notes', None)
             po_line_ref = line_data.pop('po_line', None)
             
+            # Handle lot_number - ensure it's not None
+            if 'lot_number' in line_data and line_data['lot_number'] is None:
+                line_data['lot_number'] = ''  # Default to empty string instead of None
+            elif 'lot_number' not in line_data:
+                line_data['lot_number'] = ''  # Ensure field exists
+            
             # Remove fields that don't exist in model
             line_data.pop('storage_location', None)
             
@@ -335,9 +400,19 @@ class GoodsReceiptDetailSerializer(serializers.ModelSerializer):
             if not line_data.get('item_description'):
                 line_data['item_description'] = 'Received item'
             
+            # Set condition if not provided
+            if 'condition' not in line_data or not line_data.get('condition'):
+                line_data['condition'] = 'GOOD'  # Default condition
+            
+            # Set receipt_status if not provided
+            if 'receipt_status' not in line_data or not line_data.get('receipt_status'):
+                line_data['receipt_status'] = 'PENDING'  # Default status
+            
             # Set remarks from notes
             if notes_field:
                 line_data['remarks'] = notes_field
+            elif 'remarks' not in line_data:
+                line_data['remarks'] = ''
             
             # Set storage_location from location if provided (but field doesn't exist, so skip)
             # line_data['storage_location'] = location if location else None
@@ -394,7 +469,7 @@ class QualityInspectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = QualityInspection
         fields = '__all__'
-        read_only_fields = ['inspection_number']
+        read_only_fields = ['id', 'inspection_number']
 
 
 class NonConformanceSerializer(serializers.ModelSerializer):
@@ -403,12 +478,14 @@ class NonConformanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = NonConformance
         fields = '__all__'
+        read_only_fields = ['id']
 
 
 class RTVLineSerializer(serializers.ModelSerializer):
     class Meta:
         model = RTVLine
         fields = '__all__'
+        read_only_fields = ['id']
 
 
 class ReturnToVendorSerializer(serializers.ModelSerializer):
@@ -418,4 +495,4 @@ class ReturnToVendorSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReturnToVendor
         fields = '__all__'
-        read_only_fields = ['rtv_number']
+        read_only_fields = ['id', 'rtv_number']

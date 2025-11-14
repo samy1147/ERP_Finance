@@ -1,0 +1,591 @@
+{
+	"info": {
+		"name": "ERP Finance - Fiscal Periods Management",
+		"description": "Fiscal years, periods, and period status management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Fiscal Years",
+			"item": [
+				{
+					"name": "List Fiscal Years",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/periods/fiscal-years/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "fiscal-years", ""],
+							"query": [
+								{
+									"key": "year",
+									"value": "2024",
+									"description": "Filter by year number",
+									"disabled": true
+								},
+								{
+									"key": "is_closed",
+									"value": "false",
+									"description": "Filter by closed status",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get all fiscal years"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Fiscal Year by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/periods/fiscal-years/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "fiscal-years", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Fiscal Year",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"year\": 2024,\n  \"start_date\": \"2024-01-01\",\n  \"end_date\": \"2024-12-31\",\n  \"description\": \"Fiscal Year 2024\",\n  \"is_closed\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/periods/fiscal-years/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "fiscal-years", ""]
+						},
+						"description": "Create a new fiscal year"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Fiscal Year",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"year\": 2024,\n  \"start_date\": \"2024-01-01\",\n  \"end_date\": \"2024-12-31\",\n  \"description\": \"Fiscal Year 2024 - Updated\",\n  \"is_closed\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/periods/fiscal-years/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "fiscal-years", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Fiscal Year",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/periods/fiscal-years/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "fiscal-years", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Delete fiscal year (only if no periods exist)"
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Fiscal Periods (Monthly)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"frequency\": \"MONTHLY\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/periods/fiscal-years/:id/generate_periods/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "fiscal-years", ":id", "generate_periods", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Auto-generate periods for the fiscal year. Frequency options: MONTHLY, QUARTERLY, YEARLY"
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Fiscal Periods (Quarterly)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"frequency\": \"QUARTERLY\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/periods/fiscal-years/:id/generate_periods/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "fiscal-years", ":id", "generate_periods", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Generate quarterly periods (Q1, Q2, Q3, Q4)"
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Fiscal Periods (Yearly)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"frequency\": \"YEARLY\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/periods/fiscal-years/:id/generate_periods/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "fiscal-years", ":id", "generate_periods", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Generate a single yearly period"
+					},
+					"response": []
+				},
+				{
+					"name": "Close Fiscal Year",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/periods/fiscal-years/:id/close_year/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "fiscal-years", ":id", "close_year", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Close the fiscal year (prevents new transactions)"
+					},
+					"response": []
+				},
+				{
+					"name": "Open Fiscal Year",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/periods/fiscal-years/:id/open_year/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "fiscal-years", ":id", "open_year", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Reopen a closed fiscal year"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Fiscal Periods",
+			"item": [
+				{
+					"name": "List Fiscal Periods",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/periods/fiscal-periods/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "fiscal-periods", ""],
+							"query": [
+								{
+									"key": "fiscal_year",
+									"value": "1",
+									"description": "Filter by fiscal year ID",
+									"disabled": true
+								},
+								{
+									"key": "period_number",
+									"value": "1",
+									"description": "Filter by period number",
+									"disabled": true
+								},
+								{
+									"key": "is_closed",
+									"value": "false",
+									"description": "Filter by closed status",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get all fiscal periods"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Fiscal Period by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/periods/fiscal-periods/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "fiscal-periods", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Fiscal Period",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"fiscal_year\": 1,\n  \"period_number\": 1,\n  \"start_date\": \"2024-01-01\",\n  \"end_date\": \"2024-01-31\",\n  \"period_name\": \"January 2024\",\n  \"is_closed\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/periods/fiscal-periods/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "fiscal-periods", ""]
+						},
+						"description": "Create a fiscal period manually"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Fiscal Period",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"fiscal_year\": 1,\n  \"period_number\": 1,\n  \"start_date\": \"2024-01-01\",\n  \"end_date\": \"2024-01-31\",\n  \"period_name\": \"January 2024 - Updated\",\n  \"is_closed\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/periods/fiscal-periods/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "fiscal-periods", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Fiscal Period",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/periods/fiscal-periods/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "fiscal-periods", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Close Fiscal Period",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/periods/fiscal-periods/:id/close_period/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "fiscal-periods", ":id", "close_period", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Close a fiscal period (prevents transactions in this period)"
+					},
+					"response": []
+				},
+				{
+					"name": "Open Fiscal Period",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/periods/fiscal-periods/:id/open_period/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "fiscal-periods", ":id", "open_period", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Reopen a closed fiscal period"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current Period",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/periods/fiscal-periods/current_period/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "fiscal-periods", "current_period", ""]
+						},
+						"description": "Get the current open fiscal period based on today's date"
+					},
+					"response": []
+				},
+				{
+					"name": "Validate Date in Period",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/periods/fiscal-periods/validate_date/?date=2024-03-15",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "fiscal-periods", "validate_date", ""],
+							"query": [
+								{
+									"key": "date",
+									"value": "2024-03-15",
+									"description": "Required - Date to validate (YYYY-MM-DD)"
+								}
+							]
+						},
+						"description": "Check if a date falls within an open fiscal period"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Period Status",
+			"item": [
+				{
+					"name": "List Period Statuses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/periods/period-status/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "period-status", ""],
+							"query": [
+								{
+									"key": "fiscal_period",
+									"value": "1",
+									"description": "Filter by fiscal period ID",
+									"disabled": true
+								},
+								{
+									"key": "module",
+									"value": "AR",
+									"description": "Filter by module: AR, AP, GL, etc.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get period status records for different modules"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Period Status by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/periods/period-status/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "period-status", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Period Status",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"fiscal_period\": 1,\n  \"module\": \"AR\",\n  \"is_open\": true,\n  \"closed_by\": null,\n  \"closed_date\": null\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/periods/period-status/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "period-status", ""]
+						},
+						"description": "Create module-specific period status (e.g., AR, AP, GL can have different open/close status)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Period Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"fiscal_period\": 1,\n  \"module\": \"AR\",\n  \"is_open\": false,\n  \"closed_by\": \"admin\",\n  \"closed_date\": \"2024-02-05\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/periods/period-status/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "period-status", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Period Status",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/periods/period-status/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "periods", "period-status", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

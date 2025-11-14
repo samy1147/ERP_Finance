@@ -474,7 +474,7 @@ class PRHeader(models.Model):
         """Callback when approval workflow completes successfully."""
         # Get the user who approved (from the approval workflow)
         from django.contrib.auth.models import User
-        approver = User.objects.get(id=2)  # Default to admin in dev mode
+        approver = User.objects.first()  # Default to first user in dev mode
         
         if self.status == 'SUBMITTED':
             self.status = 'APPROVED'

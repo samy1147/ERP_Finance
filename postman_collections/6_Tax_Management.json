@@ -1,0 +1,199 @@
+{
+	"info": {
+		"name": "ERP Finance - Tax Management",
+		"description": "VAT/Tax rate management and Corporate Tax filing/accrual",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "VAT & Tax Rates",
+			"item": [
+				{
+					"name": "Seed VAT Presets",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"country\": \"SA\",\n  \"overwrite\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tax/seed-vat-presets/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tax", "seed-vat-presets", ""]
+						},
+						"description": "Populate VAT rate presets for a country. Supports: SA (Saudi Arabia, 15%), AE (UAE, 5%), GB (UK, 20%), US (varies by state)"
+					},
+					"response": []
+				},
+				{
+					"name": "List Tax Rates",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tax/list-tax-rates/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tax", "list-tax-rates", ""],
+							"query": [
+								{
+									"key": "country",
+									"value": "SA",
+									"description": "Optional - Filter by country code",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get all configured tax rates. Can filter by country."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Corporate Tax Accrual",
+			"item": [
+				{
+					"name": "Create Corporate Tax Accrual",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"country\": \"SA\",\n  \"date_from\": \"2024-01-01\",\n  \"date_to\": \"2024-12-31\",\n  \"org_id\": \"ORG-001\",\n  \"override\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tax/corporate-tax-accrual/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tax", "corporate-tax-accrual", ""]
+						},
+						"description": "Create corporate tax accrual journal entry for a period. Calculates tax based on profit and country rate."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Corporate Tax Filing",
+			"item": [
+				{
+					"name": "List Corporate Tax Filings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tax/corporate-tax-file/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tax", "corporate-tax-file", ""]
+						},
+						"description": "List all corporate tax filings"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Corporate Tax Filing",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"country\": \"SA\",\n  \"filing_period_start\": \"2024-01-01\",\n  \"filing_period_end\": \"2024-12-31\",\n  \"tax_year\": 2024,\n  \"taxable_income\": 1000000.00,\n  \"tax_rate\": 20.00,\n  \"tax_amount\": 200000.00,\n  \"filing_date\": \"2025-03-31\",\n  \"due_date\": \"2025-04-30\",\n  \"status\": \"draft\",\n  \"notes\": \"Annual corporate tax filing for 2024\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tax/corporate-tax-file/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tax", "corporate-tax-file", ""]
+						},
+						"description": "Create a new corporate tax filing record"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Corporate Tax Filing Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tax/corporate-tax-filing-detail/?filing_id=123",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tax", "corporate-tax-filing-detail", ""],
+							"query": [
+								{
+									"key": "filing_id",
+									"value": "123",
+									"description": "Required - Corporate tax filing ID"
+								}
+							]
+						},
+						"description": "Get detailed information for a specific tax filing"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Corporate Tax Reversal",
+			"item": [
+				{
+					"name": "Get Reversible Tax Entries",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tax/corporate-tax-reverse/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tax", "corporate-tax-reverse", ""]
+						},
+						"description": "List all corporate tax entries that can be reversed"
+					},
+					"response": []
+				},
+				{
+					"name": "Reverse Corporate Tax Entry",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"journal_entry_id\": 456,\n  \"reversal_date\": \"2025-01-15\",\n  \"reason\": \"Correction of tax calculation error\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tax/corporate-tax-reverse/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tax", "corporate-tax-reverse", ""]
+						},
+						"description": "Reverse a corporate tax accrual journal entry"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

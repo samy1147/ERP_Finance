@@ -95,13 +95,66 @@ class VendorBillCreateSerializer(serializers.ModelSerializer):
         ]
     
     def create(self, validated_data):
-        """Create vendor bill with lines."""
+        """Create vendor bill with lines and perform 3-way match validation."""
         lines_data = validated_data.pop('lines')
         
         # Set created_by if request context is available
         request = self.context.get('request')
         if request and hasattr(request, 'user') and request.user.is_authenticated:
             validated_data['created_by'] = request.user
+        
+        # === VALIDATION: Perform 3-way match if GRN and PO are provided ===
+        grn_header = validated_data.get('grn_header')
+        po_header = validated_data.get('po_header')
+        
+        validation_warnings = []
+        validation_errors = []
+        
+        if grn_header and lines_data:
+            from .validation import ThreeWayMatchValidator
+            
+            # Prepare lines for validation
+            validation_lines = []
+            for line in lines_data:
+                validation_lines.append({
+                    'grn_line_id': line.get('grn_line_id') or line.get('grn_line_reference'),
+                    'quantity': line.get('quantity', 0),
+                    'unit_price': line.get('unit_price', 0),
+                    'line_total': line.get('line_total', 0),
+                    'line_number': line.get('line_number', len(validation_lines) + 1)
+                })
+            
+            # Perform validation
+            if po_header:
+                # Full 3-way match: PO ↔ GRN ↔ Invoice
+                validation_result = ThreeWayMatchValidator.validate_full_3way_match(
+                    po_header, grn_header, validation_lines
+                )
+            else:
+                # 2-way match: GRN ↔ Invoice
+                validation_result = ThreeWayMatchValidator.validate_vendor_bill_against_grn(
+                    grn_header, validation_lines
+                )
+            
+            validation_warnings = validation_result.get('warnings', [])
+            validation_errors = validation_result.get('errors', [])
+            
+            # If there are blocking errors, raise ValidationError
+            if not validation_result.get('can_proceed', False):
+                from rest_framework.exceptions import ValidationError
+                raise ValidationError({
+                    'validation_errors': validation_errors,
+                    'warnings': validation_warnings,
+                    'variances': validation_result.get('variances', []),
+                    'line_validations': validation_result.get('line_validations', []),
+                    'message': 'Vendor bill has blocking validation errors. Please review and correct.'
+                })
+            
+            # Log warnings even if validation passes
+            if validation_warnings:
+                print(">>> 3-WAY MATCH VALIDATION WARNINGS:")
+                for warning in validation_warnings:
+                    print(f"    - {warning}")
         
         try:
             vendor_bill = VendorBill.objects.create(**validated_data)

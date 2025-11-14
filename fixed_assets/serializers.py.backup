@@ -1,0 +1,335 @@
+"""
+Asset Management Serializers
+"""
+from rest_framework import serializers
+from decimal import Decimal
+from .models import (
+    AssetCategory, AssetLocation, Asset, AssetTransfer,
+    DepreciationSchedule, AssetMaintenance, AssetDocument, AssetConfiguration,
+    AssetRetirement, AssetAdjustment, AssetApproval
+)
+
+
+class AssetCategorySerializer(serializers.ModelSerializer):
+    """Serializer for asset categories"""
+    asset_account_code = serializers.CharField(source='asset_account.code', read_only=True)
+    created_by_name = serializers.CharField(source='created_by.username', read_only=True)
+    
+    class Meta:
+        model = AssetCategory
+        fields = [
+            'id', 'code', 'name', 'description',
+            'major', 'minor',
+            'depreciation_method', 'useful_life_years', 'min_value',
+            'asset_account', 'asset_account_code',
+            'is_active', 'created_at', 'updated_at', 'created_by', 'created_by_name'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
+
+class AssetLocationSerializer(serializers.ModelSerializer):
+    """Serializer for asset locations"""
+    country_name = serializers.CharField(source='country.name', read_only=True)
+    parent_location_name = serializers.CharField(source='parent_location.name', read_only=True)
+    custodian_name = serializers.CharField(source='custodian.username', read_only=True)
+    asset_count = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = AssetLocation
+        fields = [
+            'id', 'code', 'name', 'description',
+            'address_line1', 'address_line2', 'city', 'state', 'postal_code',
+            'country', 'country_name',
+            'parent_location', 'parent_location_name',
+            'custodian', 'custodian_name',
+            'is_active', 'asset_count',
+            'created_at', 'updated_at'
+        ]
+        read_only_fields = ['created_at', 'updated_at', 'asset_count']
+    
+    def get_asset_count(self, obj):
+        return obj.assets.filter(status='ACTIVE').count()
+
+
+class AssetSerializer(serializers.ModelSerializer):
+    """Serializer for assets"""
+    category_name = serializers.CharField(source='category.name', read_only=True)
+    location_name = serializers.CharField(source='location.name', read_only=True)
+    currency_code = serializers.CharField(source='currency.code', read_only=True)
+    supplier_name = serializers.CharField(source='supplier.name', read_only=True)
+    created_by_name = serializers.CharField(source='created_by.username', read_only=True)
+    
+    # Account codes for display
+    asset_account_code = serializers.CharField(source='asset_account.code', read_only=True)
+    accumulated_depreciation_account_code = serializers.CharField(source='accumulated_depreciation_account.code', read_only=True)
+    depreciation_expense_account_code = serializers.CharField(source='depreciation_expense_account.code', read_only=True)
+    
+    # Source tracking
+    ap_invoice_number = serializers.CharField(source='ap_invoice.number', read_only=True)
+    grn_number = serializers.CharField(source='grn.number', read_only=True)
+    
+    # Calculated fields
+    depreciable_amount = serializers.SerializerMethodField()
+    depreciation_rate = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = Asset
+        fields = [
+            'id', 'asset_number', 'name', 'description', 'serial_number',
+            'category', 'category_name',
+            'location', 'location_name',
+            'acquisition_date', 'acquisition_cost',
+            'currency', 'currency_code',
+            'depreciation_method', 'useful_life_years', 'salvage_value', 'depreciation_start_date',
+            'status', 'capitalization_date',
+            'asset_account', 'asset_account_code',
+            'accumulated_depreciation_account', 'accumulated_depreciation_account_code',
+            'depreciation_expense_account', 'depreciation_expense_account_code',
+            'total_depreciation', 'net_book_value', 'last_depreciation_date',
+            'disposal_date', 'disposal_method', 'disposal_proceeds', 'disposal_notes',
+            'purchase_order', 'supplier', 'supplier_name',
+            'source_type', 'ap_invoice', 'ap_invoice_number', 'ap_invoice_line',
+            'grn', 'grn_number', 'grn_line',
+            'capitalization_journal', 'disposal_journal',
+            'notes', 'created_at', 'updated_at', 'created_by', 'created_by_name',
+            'depreciable_amount', 'depreciation_rate'
+        ]
+        read_only_fields = [
+            'total_depreciation', 'net_book_value', 'last_depreciation_date',
+            'capitalization_journal', 'disposal_journal',
+            'created_at', 'updated_at', 'depreciable_amount', 'depreciation_rate'
+        ]
+    
+    def get_depreciable_amount(self, obj):
+        return str(obj.calculate_depreciable_amount())
+    
+    def get_depreciation_rate(self, obj):
+        if obj.useful_life_years and obj.useful_life_years > 0:
+            if obj.depreciation_method == 'STRAIGHT_LINE':
+                return str(Decimal('100') / obj.useful_life_years)
+        return '0.00'
+    
+    def create(self, validated_data):
+        # Auto-populate GL accounts from category if not provided
+        category = validated_data.get('category')
+        if category:
+            if 'asset_account' not in validated_data and category.asset_account:
+                validated_data['asset_account'] = category.asset_account
+            if 'accumulated_depreciation_account' not in validated_data and category.accumulated_depreciation_account:
+                validated_data['accumulated_depreciation_account'] = category.accumulated_depreciation_account
+            if 'depreciation_expense_account' not in validated_data and category.depreciation_expense_account:
+                validated_data['depreciation_expense_account'] = category.depreciation_expense_account
+            
+            # Auto-populate depreciation settings from category if not provided
+            if 'depreciation_method' not in validated_data and category.depreciation_method:
+                validated_data['depreciation_method'] = category.depreciation_method
+            if 'useful_life_years' not in validated_data and category.useful_life_years:
+                validated_data['useful_life_years'] = category.useful_life_years
+        
+        asset = Asset.objects.create(**validated_data)
+        asset.update_net_book_value()
+        asset.save()
+        return asset
+
+
+class AssetTransferSerializer(serializers.ModelSerializer):
+    """Serializer for asset transfers"""
+    asset_number = serializers.CharField(source='asset.asset_number', read_only=True)
+    asset_name = serializers.CharField(source='asset.name', read_only=True)
+    from_location_name = serializers.CharField(source='from_location.name', read_only=True)
+    to_location_name = serializers.CharField(source='to_location.name', read_only=True)
+    requested_by_name = serializers.CharField(source='requested_by.username', read_only=True)
+    approved_by_name = serializers.CharField(source='approved_by.username', read_only=True)
+    
+    class Meta:
+        model = AssetTransfer
+        fields = [
+            'id', 'asset', 'asset_number', 'asset_name',
+            'transfer_date',
+            'from_location', 'from_location_name',
+            'to_location', 'to_location_name',
+            'reason', 'notes',
+            'requested_by', 'requested_by_name',
+            'approved_by', 'approved_by_name', 'approved_at',
+            'is_completed', 'completed_at',
+            'created_at', 'updated_at'
+        ]
+        read_only_fields = ['created_at', 'updated_at', 'approved_at', 'completed_at']
+    
+    def validate(self, data):
+        # Ensure from and to locations are different
+        if data.get('from_location') == data.get('to_location'):
+            raise serializers.ValidationError("From and To locations must be different")
+        
+        # Verify asset is at the from_location
+        asset = data.get('asset')
+        from_location = data.get('from_location')
+        if asset and from_location and asset.location != from_location:
+            raise serializers.ValidationError(
+                f"Asset is currently at {asset.location.name}, not {from_location.name}"
+            )
+        
+        return data
+
+
+class DepreciationScheduleSerializer(serializers.ModelSerializer):
+    """Serializer for depreciation schedules"""
+    asset_number = serializers.CharField(source='asset.asset_number', read_only=True)
+    asset_name = serializers.CharField(source='asset.name', read_only=True)
+    created_by_name = serializers.CharField(source='created_by.username', read_only=True)
+    
+    class Meta:
+        model = DepreciationSchedule
+        fields = [
+            'id', 'asset', 'asset_number', 'asset_name',
+            'period_date', 'depreciation_amount',
+            'accumulated_depreciation', 'net_book_value',
+            'is_posted', 'posted_at', 'journal_entry',
+            'notes', 'created_at', 'updated_at', 'created_by', 'created_by_name'
+        ]
+        read_only_fields = ['created_at', 'updated_at', 'posted_at', 'journal_entry']
+
+
+class AssetMaintenanceSerializer(serializers.ModelSerializer):
+    """Serializer for asset maintenance records"""
+    asset_number = serializers.CharField(source='asset.asset_number', read_only=True)
+    asset_name = serializers.CharField(source='asset.name', read_only=True)
+    currency_code = serializers.CharField(source='currency.code', read_only=True)
+    performed_by_name = serializers.CharField(source='performed_by.username', read_only=True)
+    
+    class Meta:
+        model = AssetMaintenance
+        fields = [
+            'id', 'asset', 'asset_number', 'asset_name',
+            'maintenance_date', 'maintenance_type', 'description',
+            'cost', 'currency', 'currency_code', 'is_capitalized',
+            'vendor_name', 'vendor_invoice',
+            'downtime_hours',
+            'performed_by', 'performed_by_name',
+            'notes', 'created_at', 'updated_at'
+        ]
+        read_only_fields = ['created_at', 'updated_at']
+
+
+class AssetDocumentSerializer(serializers.ModelSerializer):
+    """Serializer for asset documents"""
+    asset_number = serializers.CharField(source='asset.asset_number', read_only=True)
+    uploaded_by_name = serializers.CharField(source='uploaded_by.username', read_only=True)
+    
+    class Meta:
+        model = AssetDocument
+        fields = [
+            'id', 'asset', 'asset_number',
+            'document_type', 'title', 'description',
+            'file', 'file_url',
+            'document_date', 'expiry_date',
+            'uploaded_by', 'uploaded_by_name',
+            'created_at', 'updated_at'
+        ]
+        read_only_fields = ['created_at', 'updated_at']
+
+
+class AssetListSerializer(serializers.ModelSerializer):
+    """Lightweight serializer for asset lists"""
+    category_name = serializers.CharField(source='category.name', read_only=True)
+    location_name = serializers.CharField(source='location.name', read_only=True)
+    currency_code = serializers.CharField(source='currency.code', read_only=True)
+    
+    class Meta:
+        model = Asset
+        fields = [
+            'id', 'asset_number', 'name', 'serial_number',
+            'category_name', 'location_name',
+            'acquisition_date', 'acquisition_cost', 'currency_code',
+            'status', 'net_book_value', 'total_depreciation'
+        ]
+
+
+class AssetConfigurationSerializer(serializers.ModelSerializer):
+    """Serializer for asset configuration settings"""
+    updated_by_name = serializers.CharField(source='updated_by.username', read_only=True)
+    base_currency_code = serializers.CharField(source='base_currency.code', read_only=True)
+    
+    class Meta:
+        model = AssetConfiguration
+        fields = [
+            'id', 'minimum_capitalization_amount', 'base_currency', 'base_currency_code',
+            'auto_generate_asset_number', 'asset_number_prefix', 'next_asset_number',
+            'auto_calculate_depreciation', 'depreciation_posting_day',
+            'require_capitalization_approval', 'require_disposal_approval',
+            'updated_at', 'updated_by', 'updated_by_name'
+        ]
+        read_only_fields = ['updated_at']
+
+
+class AssetRetirementSerializer(serializers.ModelSerializer):
+    """Serializer for asset retirements"""
+    asset_number = serializers.CharField(source='asset.asset_number', read_only=True)
+    asset_name = serializers.CharField(source='asset.name', read_only=True)
+    submitted_by_name = serializers.CharField(source='submitted_by.username', read_only=True)
+    approved_by_name = serializers.CharField(source='approved_by.username', read_only=True)
+    created_by_name = serializers.CharField(source='created_by.username', read_only=True)
+    
+    class Meta:
+        model = AssetRetirement
+        fields = [
+            'id', 'asset', 'asset_number', 'asset_name',
+            'retirement_date', 'retirement_type',
+            'net_book_value_at_retirement', 'disposal_proceeds', 'disposal_costs', 'gain_loss',
+            'buyer_recipient', 'sale_invoice_number',
+            'reason', 'notes',
+            'approval_status', 'submitted_by', 'submitted_by_name', 'submitted_at',
+            'approved_by', 'approved_by_name', 'approved_at', 'approval_notes',
+            'is_posted', 'journal_entry', 'posted_at',
+            'created_at', 'updated_at', 'created_by', 'created_by_name'
+        ]
+        read_only_fields = ['created_at', 'updated_at', 'gain_loss', 'is_posted', 'posted_at']
+
+
+class AssetAdjustmentSerializer(serializers.ModelSerializer):
+    """Serializer for asset adjustments"""
+    asset_number = serializers.CharField(source='asset.asset_number', read_only=True)
+    asset_name = serializers.CharField(source='asset.name', read_only=True)
+    old_category_name = serializers.CharField(source='old_category.name', read_only=True)
+    new_category_name = serializers.CharField(source='new_category.name', read_only=True)
+    submitted_by_name = serializers.CharField(source='submitted_by.username', read_only=True)
+    approved_by_name = serializers.CharField(source='approved_by.username', read_only=True)
+    created_by_name = serializers.CharField(source='created_by.username', read_only=True)
+    
+    class Meta:
+        model = AssetAdjustment
+        fields = [
+            'id', 'asset', 'asset_number', 'asset_name',
+            'adjustment_date', 'adjustment_type',
+            'old_cost', 'new_cost', 'cost_difference',
+            'old_useful_life', 'new_useful_life',
+            'depreciation_adjustment_amount',
+            'old_category', 'old_category_name', 'new_category', 'new_category_name',
+            'reason', 'notes',
+            'approval_status', 'submitted_by', 'submitted_by_name', 'submitted_at',
+            'approved_by', 'approved_by_name', 'approved_at', 'approval_notes',
+            'is_posted', 'journal_entry', 'posted_at',
+            'created_at', 'updated_at', 'created_by', 'created_by_name'
+        ]
+        read_only_fields = ['created_at', 'updated_at', 'cost_difference', 'is_posted', 'posted_at']
+
+
+class AssetApprovalSerializer(serializers.ModelSerializer):
+    """Serializer for asset approvals"""
+    asset_number = serializers.CharField(source='asset.asset_number', read_only=True)
+    asset_name = serializers.CharField(source='asset.name', read_only=True)
+    requested_by_name = serializers.CharField(source='requested_by.username', read_only=True)
+    reviewed_by_name = serializers.CharField(source='reviewed_by.username', read_only=True)
+    
+    class Meta:
+        model = AssetApproval
+        fields = [
+            'id', 'asset', 'asset_number', 'asset_name',
+            'operation_type',
+            'retirement', 'adjustment', 'transfer',
+            'status',
+            'requested_by', 'requested_by_name', 'requested_at', 'request_notes',
+            'reviewed_by', 'reviewed_by_name', 'reviewed_at', 'review_notes',
+            'created_at', 'updated_at'
+        ]
+        read_only_fields = ['created_at', 'updated_at', 'requested_at']

@@ -7,7 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Q, Count, Sum, Avg
 from django.utils import timezone
 from decimal import Decimal
-
+from django.contrib.auth.models import User
 from .models import (
     Supplier, VendorContact, VendorDocument, VendorPerformanceRecord,
     VendorOnboardingChecklist, APInvoice
@@ -58,7 +58,7 @@ class SupplierViewSet(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         """Set created_by when creating a vendor"""
-        serializer.save(created_by=self.request.user)
+        serializer.save(created_by=User.objects.filter(is_superuser=True).first())
     
     @action(detail=True, methods=['post'])
     def mark_preferred(self, request, pk=None):

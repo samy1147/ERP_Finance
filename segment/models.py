@@ -10,7 +10,7 @@ class XX_SegmentType(models.Model):
     Examples: Entity (Cost Center), Account, Project, Line Item, etc.
     Configured during client setup.
     """
-    segment_id = models.IntegerField(primary_key=True, help_text="Unique segment identifier")
+    segment_id = models.AutoField(primary_key=True, help_text="Unique segment identifier")
     segment_name = models.CharField(
         max_length=50, 
         unique=True,

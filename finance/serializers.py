@@ -57,27 +57,53 @@ class JournalLineSerializer(serializers.ModelSerializer):
     class Meta:
         model = JournalLine
         fields = ["id", "account", "debit", "credit", "segments"]
+        read_only_fields = ['id']
     
     def validate(self, data):
-        """Validate that all required segment types have a segment assigned"""
+        """Validate that ALL active segment types have exactly one segment assigned"""
         segments_data = data.get('segments', [])
         
-        # Get all required segment types
-        required_segment_types = XX_SegmentType.objects.filter(is_required=True, is_active=True)
+        # Get all active segment types (not just required ones)
+        active_segment_types = XX_SegmentType.objects.filter(is_active=True)
         
-        # Check that we have a segment for each required type
-        provided_types = {seg['segment_type'].segment_id for seg in segments_data if 'segment_type' in seg}
-        required_types = {st.segment_id for st in required_segment_types}
+        # Get provided segment types
+        provided_type_ids = [seg['segment_type'].segment_id for seg in segments_data if 'segment_type' in seg]
+        expected_type_ids = {st.segment_id for st in active_segment_types}
+        provided_type_set = set(provided_type_ids)
         
-        missing_types = required_types - provided_types
+        # Check for missing segment types
+        missing_types = expected_type_ids - provided_type_set
         if missing_types:
             missing_names = [
-                st.segment_name for st in required_segment_types 
+                st.segment_name for st in active_segment_types 
                 if st.segment_id in missing_types
             ]
             raise serializers.ValidationError({
-                'segments': f"Missing required segment types: {', '.join(missing_names)}. "
-                           f"You must provide one child segment from each required segment type."
+                'segments': f"Missing segment types: {', '.join(missing_names)}. "
+                           f"You must provide exactly one segment for EACH active segment type. "
+                           f"Expected {len(expected_type_ids)} segment types, got {len(provided_type_set)}."
+            })
+        
+        # Check for extra segment types (not active)
+        extra_types = provided_type_set - expected_type_ids
+        if extra_types:
+            raise serializers.ValidationError({
+                'segments': f"Provided segments for inactive or non-existent segment types. "
+                           f"Only active segment types are allowed."
+            })
+        
+        # Check for duplicate segment types (should have exactly one per type)
+        from collections import Counter
+        type_counts = Counter(provided_type_ids)
+        duplicates = [type_id for type_id, count in type_counts.items() if count > 1]
+        if duplicates:
+            duplicate_names = [
+                st.segment_name for st in active_segment_types 
+                if st.segment_id in duplicates
+            ]
+            raise serializers.ValidationError({
+                'segments': f"Duplicate segment types found: {', '.join(duplicate_names)}. "
+                           f"You must provide exactly ONE segment for each segment type."
             })
         
         return data
@@ -126,6 +152,7 @@ class JournalLineDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = JournalLine
         fields = ["id", "debit", "credit", "entry", "account", "segments"]
+        read_only_fields = ['id']
     
     def get_entry(self, obj):
         return {
@@ -150,7 +177,7 @@ class JournalEntrySerializer(serializers.ModelSerializer):
     class Meta: 
         model = JournalEntry
         fields = ["id", "date", "currency", "memo", "posted", "lines"]
-        read_only_fields = ["posted"]
+        read_only_fields = ['id', "posted"]
     
     def validate_lines(self, lines_data):
         """Validate that debits equal credits"""
@@ -191,9 +218,14 @@ class ARItemSerializer(serializers.ModelSerializer):
     class Meta: 
         model = ARItem
         fields = ["id","description","quantity","unit_price","tax_rate"]
+        read_only_fields = ['id']
 
 class InvoiceGLLineSerializer(serializers.Serializer):
-    """Serializer for AR Invoice GL Distribution Lines - DEPRECATED"""
+    """Serializer for AR Invoice GL Distribution Lines (DEPRECATED - Old single-segment model)
+    
+    This is the OLD structure with a single 'account' field.
+    For NEW invoices using dynamic segments, use ARInvoiceDistributionSerializer instead.
+    """
     id = serializers.IntegerField(required=False)
     account = serializers.IntegerField(required=False)
     account_code = serializers.CharField(required=False, allow_blank=True)
@@ -202,9 +234,76 @@ class InvoiceGLLineSerializer(serializers.Serializer):
     amount = serializers.DecimalField(max_digits=15, decimal_places=2, required=False)
     description = serializers.CharField(required=False, allow_blank=True)
 
+
+class ARInvoiceDistributionSegmentSerializer(serializers.Serializer):
+    """Serializer for segment assignments in AR dynamic GL distributions"""
+    segment_type = serializers.IntegerField(help_text="ID of the segment type (e.g., Account, Department, Cost Center)")
+    segment_type_name = serializers.CharField(read_only=True, help_text="Name of the segment type")
+    segment = serializers.IntegerField(help_text="ID of the child segment to assign")
+    segment_code = serializers.CharField(read_only=True, help_text="Code of the assigned segment")
+    segment_name = serializers.CharField(read_only=True, help_text="Name of the assigned segment")
+    
+    def validate_segment(self, value):
+        """Validate that the segment exists and is a child segment"""
+        try:
+            segment = XX_Segment.objects.get(id=value)
+            if segment.node_type != 'child':
+                raise serializers.ValidationError(
+                    f"Only child segments can be assigned. "
+                    f"Segment '{segment.code}' is a '{segment.node_type}' type."
+                )
+            return value
+        except XX_Segment.DoesNotExist:
+            raise serializers.ValidationError(f"Segment with ID {value} does not exist")
+
+
+class ARInvoiceDistributionSerializer(serializers.Serializer):
+    """Serializer for AR Invoice GL Distribution Lines (NEW dynamic multi-segment model)"""
+    id = serializers.IntegerField(required=False, read_only=True)
+    amount = serializers.DecimalField(max_digits=15, decimal_places=2, help_text="Distribution amount")
+    description = serializers.CharField(required=False, allow_blank=True, help_text="Description")
+    line_type = serializers.ChoiceField(choices=['DEBIT', 'CREDIT'], required=True, help_text="Debit or Credit")
+    segments = ARInvoiceDistributionSegmentSerializer(many=True, help_text="Segment assignments")
+    
+    def validate_segments(self, value):
+        """Validate that all required segment types are provided"""
+        if not value:
+            raise serializers.ValidationError("At least one segment must be provided")
+        
+        required_types = XX_SegmentType.objects.filter(is_required=True, is_active=True)
+        provided_type_ids = {seg['segment_type'] for seg in value}
+        required_type_ids = {st.segment_id for st in required_types}
+        
+        missing = required_type_ids - provided_type_ids
+        if missing:
+            missing_names = [st.segment_name for st in required_types if st.segment_id in missing]
+            raise serializers.ValidationError(f"Missing required segment types: {', '.join(missing_names)}")
+        
+        for seg_data in value:
+            segment_type_id = seg_data['segment_type']
+            segment_id = seg_data['segment']
+            try:
+                segment = XX_Segment.objects.get(id=segment_id)
+                if segment.segment_type_id != segment_type_id:
+                    raise serializers.ValidationError(
+                        f"Segment {segment.code} does not belong to segment type {segment_type_id}"
+                    )
+            except XX_Segment.DoesNotExist:
+                raise serializers.ValidationError(f"Segment {segment_id} does not exist")
+        
+        return value
+    
+    def validate_amount(self, value):
+        """Validate amount is positive"""
+        if value <= 0:
+            raise serializers.ValidationError("Amount must be greater than zero")
+        return value
+
+
 class ARInvoiceSerializer(serializers.ModelSerializer):
     items = ARItemSerializer(many=True)
-    gl_lines = InvoiceGLLineSerializer(many=True, required=False)
+    gl_lines = InvoiceGLLineSerializer(many=True, required=False)  # OLD: Deprecated single-segment
+    distributions = ARInvoiceDistributionSerializer(many=True, required=False)  # NEW: Dynamic multi-segment
     totals = serializers.SerializerMethodField()
     invoice_number = serializers.CharField(source='number', required=False)
     subtotal = serializers.SerializerMethodField()
@@ -217,14 +316,20 @@ class ARInvoiceSerializer(serializers.ModelSerializer):
     
     class Meta: 
         model = ARInvoice
-        fields = ["id","customer","customer_name","number","invoice_number","date","due_date","currency","currency_code","country","exchange_rate","base_currency_total","is_posted","payment_status","approval_status","is_cancelled","posted_at","paid_at","cancelled_at","items","gl_lines","totals","subtotal","tax_amount","total","paid_amount","balance"]
-        read_only_fields = ["is_posted","payment_status","approval_status","is_cancelled","posted_at","paid_at","cancelled_at","exchange_rate","base_currency_total","totals","subtotal","tax_amount","total","paid_amount","balance","customer_name","currency_code"]
+        fields = ["id","customer","customer_name","number","invoice_number","date","due_date","currency","currency_code","country","exchange_rate","base_currency_total","is_posted","payment_status","approval_status","is_cancelled","posted_at","paid_at","cancelled_at","items","gl_lines","distributions","totals","subtotal","tax_amount","total","paid_amount","balance"]
+        read_only_fields = ['id', "is_posted","payment_status","approval_status","is_cancelled","posted_at","paid_at","cancelled_at","exchange_rate","base_currency_total","totals","subtotal","tax_amount","total","paid_amount","balance","customer_name","currency_code"]
     
     def validate(self, attrs):
         print(f"DEBUG validate(): Received attrs keys: {attrs.keys()}")
         print(f"DEBUG validate(): Items count: {len(attrs.get('items', []))}")
         if 'items' in attrs:
             print(f"DEBUG validate(): Items data: {attrs['items']}")
+        
+        # Check if using new distribution format
+        distributions = attrs.get('distributions', [])
+        if distributions:
+            print(f"DEBUG validate(): Using NEW dynamic segment distributions: {len(distributions)} lines")
+        
         return attrs
     
     def _get_cached_totals(self, obj):
@@ -262,14 +367,20 @@ class ARInvoiceSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         items_data = validated_data.pop("items", [])
-        gl_lines_data = validated_data.pop("gl_lines", [])
-        print(f"DEBUG: Creating AR Invoice with {len(items_data)} items and {len(gl_lines_data)} GL lines")
-        print(f"DEBUG: Items data: {items_data}")
-        print(f"DEBUG: GL lines data: {gl_lines_data}")
+        gl_lines_data = validated_data.pop("gl_lines", [])  # OLD format (deprecated)
+        distributions_data = validated_data.pop("distributions", [])  # NEW format (multi-segment)
         
-        # Validate GL lines are provided
-        if not gl_lines_data or len(gl_lines_data) == 0:
-            raise serializers.ValidationError("GL distribution lines are required. Please add at least one GL line.")
+        print(f"DEBUG: Creating AR Invoice with {len(items_data)} items")
+        print(f"DEBUG: Items data: {items_data}")
+        print(f"DEBUG: Old GL lines: {len(gl_lines_data)}, New distributions: {len(distributions_data)}")
+        
+        # Support both old and new formats - prefer new format if provided
+        if distributions_data:
+            print(f"DEBUG: Using NEW distributions format with {len(distributions_data)} lines")
+            gl_lines_data = distributions_data  # Use new format
+        elif not gl_lines_data:
+            # Neither format provided
+            raise serializers.ValidationError("GL distribution lines are required. Please add at least one distribution line.")
         
         inv = ARInvoice.objects.create(**validated_data)
         print(f"DEBUG: Created invoice #{inv.id}: {inv.number}")
@@ -317,32 +428,95 @@ class ARInvoiceSerializer(serializers.ModelSerializer):
         inv.calculate_and_save_totals()
         print(f"DEBUG: Saved totals - Subtotal: {inv.subtotal}, Tax: {inv.tax_amount}, Total: {inv.total}")
         
-        # Create GL distribution lines (REQUIRED)
-        from decimal import Decimal
-        total_debits = Decimal('0.00')
-        total_credits = Decimal('0.00')
-        
-        for gl_line_data in gl_lines_data:
-            gl_line = InvoiceGLLine.objects.create(invoice=inv, **gl_line_data)
-            if gl_line.line_type == 'DEBIT':
-                total_debits += gl_line.amount
-            else:
-                total_credits += gl_line.amount
-        
-        # Validate that debits = credits = invoice total
-        invoice_total = inv.total or Decimal('0.00')
-        if total_debits != total_credits:
-            inv.delete()
-            raise serializers.ValidationError(
-                f"GL lines validation failed: Total debits ({total_debits}) must equal total credits ({total_credits})"
-            )
-        if total_debits != invoice_total:
-            inv.delete()
-            raise serializers.ValidationError(
-                f"GL lines validation failed: Total debits/credits ({total_debits}) must equal invoice total ({invoice_total})"
-            )
-        
-        print(f"DEBUG: Created {len(gl_lines_data)} GL lines. Debits={total_debits}, Credits={total_credits}, Invoice Total={invoice_total}")
+        # CREATE GL DISTRIBUTION LINES WITH DYNAMIC SEGMENTS
+        if gl_lines_data:
+            print(f"DEBUG: Creating {len(gl_lines_data)} distributions with dynamic segments")
+            from ar.models import InvoiceGLLine, ARInvoiceDistributionSegment
+            from segment.models import XX_Segment, XX_SegmentType
+            from decimal import Decimal
+            
+            total_debits = Decimal('0.00')
+            total_credits = Decimal('0.00')
+            
+            for idx, dist_data in enumerate(gl_lines_data):
+                try:
+                    amount = dist_data['amount']
+                    description = dist_data.get('description', '')
+                    line_type = dist_data.get('line_type', 'DEBIT')
+                    segments_data = dist_data.get('segments', [])
+                    
+                    print(f"DEBUG: Creating distribution {idx+1}: Amount={amount}, Type={line_type}, Segments={len(segments_data)}")
+                    
+                    # Create the GL line
+                    gl_line = InvoiceGLLine.objects.create(
+                        invoice=inv,
+                        amount=amount,
+                        description=description,
+                        line_type=line_type
+                    )
+                    
+                    # Track debits/credits
+                    if line_type == 'DEBIT':
+                        total_debits += Decimal(str(amount))
+                    else:
+                        total_credits += Decimal(str(amount))
+                    
+                    # Create segment assignments for this distribution line
+                    for seg_data in segments_data:
+                        segment_type_id = seg_data['segment_type']
+                        segment_id = seg_data['segment']
+                        
+                        # Validate segment exists and is child type
+                        try:
+                            segment = XX_Segment.objects.get(id=segment_id)
+                            segment_type = XX_SegmentType.objects.get(segment_id=segment_type_id)
+                            
+                            if segment.node_type != 'child':
+                                raise serializers.ValidationError(
+                                    f"Segment {segment_id} must be a child type, got: {segment.node_type}"
+                                )
+                            
+                            if segment.segment_type_id != segment_type_id:
+                                raise serializers.ValidationError(
+                                    f"Segment {segment_id} does not belong to segment type {segment_type_id}"
+                                )
+                            
+                            # Create segment assignment
+                            ARInvoiceDistributionSegment.objects.create(
+                                gl_line=gl_line,
+                                segment_type=segment_type,
+                                segment=segment
+                            )
+                            print(f"DEBUG: Created segment assignment: Type={segment_type.segment_name}, Segment={segment.alias}")
+                            
+                        except XX_Segment.DoesNotExist:
+                            inv.delete()
+                            raise serializers.ValidationError(f"Segment with ID {segment_id} does not exist")
+                        except XX_SegmentType.DoesNotExist:
+                            inv.delete()
+                            raise serializers.ValidationError(f"Segment type with ID {segment_type_id} does not exist")
+                    
+                except KeyError as e:
+                    inv.delete()
+                    raise serializers.ValidationError(f"Distribution {idx+1} missing required field: {e}")
+                except Exception as e:
+                    inv.delete()
+                    raise serializers.ValidationError(f"Error creating distribution {idx+1}: {str(e)}")
+            
+            # Validate that debits = credits = invoice total
+            invoice_total = inv.total or Decimal('0.00')
+            if total_debits != total_credits:
+                inv.delete()
+                raise serializers.ValidationError(
+                    f"GL lines validation failed: Total debits ({total_debits}) must equal total credits ({total_credits})"
+                )
+            if total_debits != invoice_total:
+                inv.delete()
+                raise serializers.ValidationError(
+                    f"GL lines validation failed: Total debits/credits ({total_debits}) must equal invoice total ({invoice_total})"
+                )
+            
+            print(f"DEBUG: Created {len(gl_lines_data)} distributions. Debits={total_debits}, Credits={total_credits}, Invoice Total={invoice_total}")
         
         return inv
     
@@ -400,6 +574,67 @@ class ARInvoiceSerializer(serializers.ModelSerializer):
         
         return instance
 
+# Payment Distribution Serializers (Dynamic Segments)
+class PaymentDistributionSegmentSerializer(serializers.Serializer):
+    """Serializer for segment assignments in payment GL distributions"""
+    segment_type = serializers.IntegerField(help_text="ID of the segment type")
+    segment_type_name = serializers.CharField(read_only=True, help_text="Name of the segment type")
+    segment = serializers.IntegerField(help_text="ID of the child segment")
+    segment_code = serializers.CharField(read_only=True, help_text="Code of the segment")
+    segment_name = serializers.CharField(read_only=True, help_text="Name of the segment")
+    
+    def validate_segment(self, value):
+        try:
+            segment = XX_Segment.objects.get(id=value)
+            if segment.node_type != 'child':
+                raise serializers.ValidationError(
+                    f"Only child segments can be assigned. Segment '{segment.code}' is a '{segment.node_type}' type."
+                )
+            return value
+        except XX_Segment.DoesNotExist:
+            raise serializers.ValidationError(f"Segment with ID {value} does not exist")
+
+
+class PaymentDistributionSerializer(serializers.Serializer):
+    """Serializer for Payment GL Distribution Lines (NEW dynamic multi-segment model)"""
+    id = serializers.IntegerField(required=False, read_only=True)
+    amount = serializers.DecimalField(max_digits=15, decimal_places=2, help_text="Distribution amount")
+    description = serializers.CharField(required=False, allow_blank=True, help_text="Description")
+    segments = PaymentDistributionSegmentSerializer(many=True, help_text="Segment assignments")
+    
+    def validate_segments(self, value):
+        if not value:
+            raise serializers.ValidationError("At least one segment must be provided")
+        
+        required_types = XX_SegmentType.objects.filter(is_required=True, is_active=True)
+        provided_type_ids = {seg['segment_type'] for seg in value}
+        required_type_ids = {st.segment_id for st in required_types}
+        
+        missing = required_type_ids - provided_type_ids
+        if missing:
+            missing_names = [st.segment_name for st in required_types if st.segment_id in missing]
+            raise serializers.ValidationError(f"Missing required segment types: {', '.join(missing_names)}")
+        
+        for seg_data in value:
+            segment_type_id = seg_data['segment_type']
+            segment_id = seg_data['segment']
+            try:
+                segment = XX_Segment.objects.get(id=segment_id)
+                if segment.segment_type_id != segment_type_id:
+                    raise serializers.ValidationError(
+                        f"Segment {segment.code} does not belong to segment type {segment_type_id}"
+                    )
+            except XX_Segment.DoesNotExist:
+                raise serializers.ValidationError(f"Segment {segment_id} does not exist")
+        
+        return value
+    
+    def validate_amount(self, value):
+        if value <= 0:
+            raise serializers.ValidationError("Amount must be greater than zero")
+        return value
+
+
 # Payment Allocation Serializers
 class ARPaymentAllocationSerializer(serializers.ModelSerializer):
     invoice_number = serializers.CharField(source='invoice.number', read_only=True)
@@ -435,18 +670,19 @@ class ARPaymentSerializer(serializers.ModelSerializer):
     status = serializers.SerializerMethodField()
     invoice_currency_code = serializers.CharField(source='invoice_currency.code', read_only=True)
     payment_currency_code = serializers.CharField(source='currency.code', read_only=True)
+    distributions = PaymentDistributionSerializer(many=True, required=False)  # NEW: Dynamic multi-segment
     
     class Meta:
         model = ARPayment
         fields = ["id", "customer", "customer_name", "payment_date", "amount", "reference_number", 
                   "memo", "bank_account", "invoice", "status", "posted_at", "reconciled",
                   "invoice_currency", "invoice_currency_code", "exchange_rate", 
-                  "currency", "payment_currency_code"]
+                  "currency", "payment_currency_code", "distributions"]
         extra_kwargs = {
             'invoice': {'write_only': False},
             'date': {'write_only': True}
         }
-        read_only_fields = ['invoice_currency', 'exchange_rate']
+        read_only_fields = ['id', 'invoice_currency', 'exchange_rate']
     
     def get_status(self, obj):
         """Return payment status based on posted_at"""
@@ -490,9 +726,14 @@ class APItemSerializer(serializers.ModelSerializer):
     class Meta: 
         model = APItem
         fields = ["id","description","quantity","unit_price","tax_rate"]
+        read_only_fields = ['id']
 
 class APInvoiceGLLineSerializer(serializers.Serializer):
-    """Serializer for AP Invoice GL Distribution Lines (deprecated model)"""
+    """Serializer for AP Invoice GL Distribution Lines (DEPRECATED - Old single-segment model)
+    
+    This is the OLD structure with a single 'account' field.
+    For NEW invoices using dynamic segments, use APInvoiceDistributionSerializer instead.
+    """
     id = serializers.IntegerField(required=False)
     account = serializers.IntegerField(required=False)
     account_code = serializers.CharField(required=False, allow_blank=True)
@@ -501,9 +742,139 @@ class APInvoiceGLLineSerializer(serializers.Serializer):
     amount = serializers.DecimalField(max_digits=15, decimal_places=2, required=False)
     description = serializers.CharField(required=False, allow_blank=True)
 
+
+class APInvoiceDistributionSegmentSerializer(serializers.Serializer):
+    """Serializer for segment assignments in dynamic GL distributions"""
+    segment_type = serializers.IntegerField(help_text="ID of the segment type (e.g., Account, Department, Cost Center)")
+    segment_type_name = serializers.CharField(read_only=True, help_text="Name of the segment type")
+    segment = serializers.IntegerField(help_text="ID of the child segment to assign")
+    segment_code = serializers.CharField(read_only=True, help_text="Code of the assigned segment")
+    segment_name = serializers.CharField(read_only=True, help_text="Name of the assigned segment")
+    
+    def to_representation(self, instance):
+        """Convert model instance to dict for serialization"""
+        from ap.models import APInvoiceDistributionSegment
+        
+        # If instance is a model object, extract the data
+        if isinstance(instance, APInvoiceDistributionSegment):
+            return {
+                'segment_type': instance.segment_type.segment_id if instance.segment_type else None,
+                'segment_type_name': instance.segment_type.segment_name if instance.segment_type else None,
+                'segment': instance.segment.id if instance.segment else None,
+                'segment_code': instance.segment.code if instance.segment else None,
+                'segment_name': instance.segment.alias if instance.segment else None,  # Use 'alias' field
+            }
+        # Otherwise it's already a dict from create()
+        return super().to_representation(instance)
+    
+    def validate_segment(self, value):
+        """Validate that the segment exists and is a child segment"""
+        try:
+            segment = XX_Segment.objects.get(id=value)
+            if segment.node_type != 'child':
+                raise serializers.ValidationError(
+                    f"Only child segments can be assigned. "
+                    f"Segment '{segment.code}' is a '{segment.node_type}' type."
+                )
+            return value
+        except XX_Segment.DoesNotExist:
+            raise serializers.ValidationError(f"Segment with ID {value} does not exist")
+
+
+class APInvoiceDistributionSerializer(serializers.Serializer):
+    """Serializer for AP Invoice GL Distribution Lines (NEW dynamic multi-segment model)
+    
+    This is the NEW structure for dynamic segment system.
+    Each distribution line can have multiple segment assignments (Account, Department, Cost Center, Project, etc.)
+    
+    Example:
+    {
+        "amount": "1000.00",
+        "description": "Office supplies expense",
+        "segments": [
+            {"segment_type": 1, "segment": 101},  // Account: 5000-001 (Expenses)
+            {"segment_type": 2, "segment": 201},  // Department: SALES
+            {"segment_type": 3, "segment": 301}   // Cost Center: CC-001
+        ]
+    }
+    """
+    id = serializers.IntegerField(required=False, read_only=True)
+    amount = serializers.DecimalField(
+        max_digits=15, 
+        decimal_places=2, 
+        help_text="Distribution amount"
+    )
+    description = serializers.CharField(
+        required=False, 
+        allow_blank=True,
+        help_text="Description of this distribution line"
+    )
+    segments = APInvoiceDistributionSegmentSerializer(
+        many=True,
+        help_text="List of segment assignments (Account, Department, Cost Center, Project, etc.)"
+    )
+    
+    def validate_segments(self, value):
+        """Validate that all required segment types are provided"""
+        if not value:
+            raise serializers.ValidationError("At least one segment must be provided")
+        
+        # Get all required segment types
+        required_types = XX_SegmentType.objects.filter(is_required=True, is_active=True)
+        provided_type_ids = {seg['segment_type'] for seg in value}
+        required_type_ids = {st.segment_id for st in required_types}
+        
+        missing = required_type_ids - provided_type_ids
+        if missing:
+            missing_names = [st.segment_name for st in required_types if st.segment_id in missing]
+            raise serializers.ValidationError(
+                f"Missing required segment types: {', '.join(missing_names)}"
+            )
+        
+        # Validate that each segment belongs to its segment type
+        for seg_data in value:
+            segment_type_id = seg_data['segment_type']
+            segment_id = seg_data['segment']
+            
+            try:
+                segment = XX_Segment.objects.get(id=segment_id)
+                if segment.segment_type_id != segment_type_id:
+                    raise serializers.ValidationError(
+                        f"Segment {segment.code} does not belong to segment type {segment_type_id}"
+                    )
+            except XX_Segment.DoesNotExist:
+                raise serializers.ValidationError(f"Segment {segment_id} does not exist")
+        
+        return value
+    
+    def validate_amount(self, value):
+        """Validate amount is positive"""
+        if value <= 0:
+            raise serializers.ValidationError("Amount must be greater than zero")
+        return value
+    
+    def to_representation(self, instance):
+        """Convert model instance to dict for serialization"""
+        from ap.models import APInvoiceGLLine
+        
+        # If instance is a model object, extract the data
+        if isinstance(instance, APInvoiceGLLine):
+            return {
+                'id': instance.id,
+                'amount': str(instance.amount),
+                'description': instance.description,
+                'segments': APInvoiceDistributionSegmentSerializer(
+                    instance.segments.all(),  # Use 'segments' related name
+                    many=True
+                ).data
+            }
+        # Otherwise it's already a dict from create()
+        return super().to_representation(instance)
+
 class APInvoiceSerializer(serializers.ModelSerializer):
     items = APItemSerializer(many=True)
-    gl_lines = APInvoiceGLLineSerializer(many=True, required=False)
+    gl_lines = APInvoiceGLLineSerializer(many=True, required=False)  # OLD: Deprecated single-segment
+    distributions = APInvoiceDistributionSerializer(many=True, required=False)  # NEW: Dynamic multi-segment
     totals = serializers.SerializerMethodField()
     invoice_number = serializers.CharField(source='number', required=False)
     subtotal = serializers.SerializerMethodField()
@@ -524,8 +895,8 @@ class APInvoiceSerializer(serializers.ModelSerializer):
     
     class Meta: 
         model = APInvoice
-        fields = ["id","supplier","supplier_name","number","invoice_number","date","due_date","currency","currency_code","country","exchange_rate","base_currency_total","po_header","po_number","po_header_id","goods_receipt","grn_number","goods_receipt_id","three_way_match_status","match_variance_amount","match_variance_notes","match_performed_at","is_posted","payment_status","approval_status","is_cancelled","posted_at","paid_at","cancelled_at","items","gl_lines","totals","subtotal","tax_amount","total","paid_amount","balance"]
-        read_only_fields = ["is_posted","payment_status","is_cancelled","posted_at","paid_at","cancelled_at","exchange_rate","base_currency_total","three_way_match_status","match_variance_amount","match_variance_notes","match_performed_at","totals","subtotal","tax_amount","total","paid_amount","balance","supplier_name","currency_code","grn_number","po_number","goods_receipt_id","po_header_id"]
+        fields = ["id","supplier","supplier_name","number","invoice_number","date","due_date","currency","currency_code","country","exchange_rate","base_currency_total","po_header","po_number","po_header_id","goods_receipt","grn_number","goods_receipt_id","three_way_match_status","match_variance_amount","match_variance_notes","match_performed_at","is_posted","payment_status","approval_status","is_cancelled","posted_at","paid_at","cancelled_at","items","gl_lines","distributions","totals","subtotal","tax_amount","total","paid_amount","balance"]
+        read_only_fields = ['id', "is_posted","payment_status","is_cancelled","posted_at","paid_at","cancelled_at","exchange_rate","base_currency_total","three_way_match_status","match_variance_amount","match_variance_notes","match_performed_at","totals","subtotal","tax_amount","total","paid_amount","balance","supplier_name","currency_code","grn_number","po_number","goods_receipt_id","po_header_id"]
 
     
     def validate(self, attrs):
@@ -533,6 +904,12 @@ class APInvoiceSerializer(serializers.ModelSerializer):
         print(f"DEBUG validate(): Items count: {len(attrs.get('items', []))}")
         if 'items' in attrs:
             print(f"DEBUG validate(): Items data: {attrs['items']}")
+        
+        # Check if using new distribution format
+        distributions = attrs.get('distributions', [])
+        if distributions:
+            print(f"DEBUG validate(): Using NEW dynamic segment distributions: {len(distributions)} lines")
+        
         return attrs
     
     def _get_cached_totals(self, obj):
@@ -571,10 +948,13 @@ class APInvoiceSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         items_data = validated_data.pop("items", [])
         gl_lines_data = validated_data.pop("gl_lines", [])  # Accept but don't use (deprecated)
+        distributions_data = validated_data.pop("distributions", [])  # NEW: Dynamic multi-segment distributions
         print(f"DEBUG: Creating AP Invoice with {len(items_data)} items")
         print(f"DEBUG: Items data: {items_data}")
         if gl_lines_data:
             print(f"DEBUG: GL lines data (deprecated): {len(gl_lines_data)} lines")
+        if distributions_data:
+            print(f"DEBUG: Distributions data (NEW): {len(distributions_data)} lines")
         
         inv = APInvoice.objects.create(**validated_data)
         print(f"DEBUG: Created invoice #{inv.id}: {inv.number}")
@@ -621,6 +1001,81 @@ class APInvoiceSerializer(serializers.ModelSerializer):
         # Calculate and save totals to database
         inv.calculate_and_save_totals()
         print(f"DEBUG: Saved totals - Subtotal: {inv.subtotal}, Tax: {inv.tax_amount}, Total: {inv.total}")
+        
+        # CREATE GL DISTRIBUTION LINES
+        if distributions_data:
+            # NEW: User provided explicit distributions with dynamic segments
+            print(f"DEBUG: Creating {len(distributions_data)} user-provided distributions with dynamic segments")
+            from ap.models import APInvoiceGLLine, APInvoiceDistributionSegment
+            from segment.models import XX_Segment, XX_SegmentType
+            
+            for idx, dist_data in enumerate(distributions_data):
+                try:
+                    amount = dist_data['amount']
+                    description = dist_data.get('description', '')
+                    segments_data = dist_data['segments']
+                    
+                    print(f"DEBUG: Creating distribution {idx+1}: Amount={amount}, Segments={len(segments_data)}")
+                    
+                    # Create the GL line (without account field for new dynamic model)
+                    gl_line = APInvoiceGLLine.objects.create(
+                        invoice=inv,
+                        amount=amount,
+                        description=description,
+                        line_type='distribution'
+                    )
+                    print(f"DEBUG: Created GL line #{gl_line.id}")
+                    
+                    # Create segment assignments
+                    for seg_data in segments_data:
+                        segment_type_id = seg_data['segment_type']
+                        segment_id = seg_data['segment']
+                        
+                        APInvoiceDistributionSegment.objects.create(
+                            distribution=gl_line,
+                            segment_type_id=segment_type_id,
+                            segment_id=segment_id
+                        )
+                        print(f"DEBUG: Assigned segment type {segment_type_id}, segment {segment_id}")
+                    
+                    print(f"DEBUG: Distribution {idx+1} created successfully with {len(segments_data)} segments")
+                except Exception as e:
+                    print(f"DEBUG: ERROR creating distribution {idx+1}: {e}")
+                    inv.delete()
+                    raise serializers.ValidationError(f"Failed to create distribution {idx+1}: {str(e)}")
+            
+            print(f"DEBUG: All {len(distributions_data)} distributions created successfully")
+            
+        else:
+            # AUTO-CREATE GL DISTRIBUTION LINES FROM ITEMS (OLD BEHAVIOR)
+            try:
+                # Get default expense account for distributions
+                from segment.models import XX_Segment
+                default_account = XX_Segment.objects.filter(
+                    segment_type__segment_name='Account',
+                    code__in=['5000-001', '5000', '6000-001'],  # Common expense accounts
+                    node_type='child',
+                    is_active=True
+                ).first()
+                
+                if default_account:
+                    print(f"DEBUG: Auto-creating distribution lines using account: {default_account.code}")
+                    distributions = inv.create_distributions_from_items(default_account=default_account)
+                    print(f"DEBUG: Created {len(distributions)} distribution lines")
+                    
+                    # Validate distributions
+                    validation = inv.validate_distributions()
+                    if validation['valid']:
+                        print(f"DEBUG: Distribution validation passed ✓")
+                    else:
+                        print(f"DEBUG: Distribution validation warnings: {validation['errors']}")
+                else:
+                    print(f"DEBUG: WARNING - No default expense account found for distributions")
+                    print(f"DEBUG: Invoice created without GL distributions - will need manual entry")
+            except Exception as e:
+                print(f"DEBUG: Error creating distributions (non-fatal): {e}")
+                # Don't fail invoice creation if distribution creation fails
+                # User can add distributions manually later
         
         # Note: GL distribution lines are deprecated and no longer created
         # The GL lines are now handled when the invoice is posted to GL
@@ -700,18 +1155,19 @@ class APPaymentSerializer(serializers.ModelSerializer):
     status = serializers.SerializerMethodField()
     invoice_currency_code = serializers.CharField(source='invoice_currency.code', read_only=True)
     payment_currency_code = serializers.CharField(source='currency.code', read_only=True)
+    distributions = PaymentDistributionSerializer(many=True, required=False)  # NEW: Dynamic multi-segment
     
     class Meta:
         model = APPayment
         fields = ["id", "supplier", "supplier_name", "payment_date", "amount", "reference_number", 
                   "memo", "bank_account", "invoice", "status", "posted_at", "reconciled",
                   "invoice_currency", "invoice_currency_code", "exchange_rate",
-                  "currency", "payment_currency_code"]
+                  "currency", "payment_currency_code", "distributions"]
         extra_kwargs = {
             'invoice': {'write_only': False},
             'date': {'write_only': True}
         }
-        read_only_fields = ['invoice_currency', 'exchange_rate']
+        read_only_fields = ['id', 'invoice_currency', 'exchange_rate']
     
     def get_status(self, obj):
         """Return payment status based on posted_at"""
@@ -752,6 +1208,7 @@ class JournalLineReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = JournalLine
         fields = ["id","account_code","account_name","debit","credit"]
+        read_only_fields = ['id']
 
 
 class JournalEntryReadSerializer(serializers.ModelSerializer):
@@ -759,12 +1216,14 @@ class JournalEntryReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = JournalEntry
         fields = ["id","date","currency","memo","posted","lines"]
+        read_only_fields = ['id']
 
 
 class BankAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = BankAccount
         fields = ["id","name","account_code","iban","swift","currency","active"]
+        read_only_fields = ['id']
 
 class SeedVATRequestSerializer(serializers.Serializer):
     effective_from = serializers.DateField(required=False)
@@ -840,7 +1299,7 @@ class ExchangeRateSerializer(serializers.ModelSerializer):
             'rate_date', 'rate', 'rate_type', 'source', 'is_active', 
             'created_at', 'updated_at'
         ]
-        read_only_fields = ['created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at']
 
 
 class ExchangeRateCreateSerializer(serializers.Serializer):
@@ -883,6 +1342,7 @@ class FXGainLossAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = FXGainLossAccount
         fields = ['id', 'account', 'account_code', 'account_name', 'gain_loss_type', 'is_active', 'notes']
+        read_only_fields = ['id']
 
 
 class CurrencyConversionRequestSerializer(serializers.Serializer):

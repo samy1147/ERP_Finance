@@ -318,8 +318,8 @@ export default function NewRequisitionPage() {
 
     try {
       // Get current user ID (you may need to fetch this from auth context)
-      // Using user ID 2 (admin) - exists in database
-      const userId = 2; // TODO: Get from auth context
+      // Removed requestor field - backend will auto-assign to current user or default user
+      // const userId = 1; // TODO: Get from auth context
       
       // Get default currency ID - 1 = USD
       const currencyId = 1; // USD
@@ -327,7 +327,7 @@ export default function NewRequisitionPage() {
       const prData = {
         title: formData.title,
         description: formData.description,
-        requestor: userId,
+        // requestor: userId, // Removed - backend auto-assigns
         cost_center: formData.cost_center_id ? parseInt(formData.cost_center_id) : null,
         project: formData.project_id ? parseInt(formData.project_id) : null,
         priority: formData.priority,

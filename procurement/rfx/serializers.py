@@ -22,7 +22,7 @@ class RFxItemSerializer(serializers.ModelSerializer):
             'attachment_url', 'notes', 'created_at',
             'quote_count', 'best_quote_price'
         ]
-        read_only_fields = ['created_at']
+        read_only_fields = ['id', 'created_at']
     
     def get_quote_count(self, obj):
         return obj.get_quote_count()
@@ -45,7 +45,7 @@ class SupplierInvitationSerializer(serializers.ModelSerializer):
             'invitation_message', 'decline_reason',
             'invited_by', 'invited_by_name'
         ]
-        read_only_fields = ['invited_date', 'sent_date', 'viewed_date', 'responded_date']
+        read_only_fields = ['id', 'invited_date', 'sent_date', 'viewed_date', 'responded_date']
 
 
 class SupplierQuoteLineSerializer(serializers.ModelSerializer):
@@ -89,7 +89,7 @@ class SupplierQuoteSerializer(serializers.ModelSerializer):
             'auction_bid_time', 'previous_bid_amount', 'attachment_files',
             'notes', 'created_at', 'updated_at', 'quote_lines'
         ]
-        read_only_fields = ['submitted_date', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'submitted_date', 'created_at', 'updated_at']
 
 
 class RFxEventListSerializer(serializers.ModelSerializer):
@@ -161,7 +161,7 @@ class RFxEventDetailSerializer(serializers.ModelSerializer):
             'items', 'invitations', 'quotes',
             'response_count', 'invited_count', 'is_open', 'is_overdue'
         ]
-        read_only_fields = ['created_at', 'updated_at', 'publish_date', 'award_date']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'publish_date', 'award_date']
     
     def get_response_count(self, obj):
         return obj.get_response_count()
@@ -234,7 +234,7 @@ class RFxAwardLineSerializer(serializers.ModelSerializer):
             'id', 'award', 'rfx_item', 'rfx_item_description', 'quote_line',
             'quantity_awarded', 'unit_price', 'line_total', 'delivery_date', 'notes'
         ]
-        read_only_fields = ['line_total']
+        read_only_fields = ['id', 'line_total']
 
 
 class RFxAwardSerializer(serializers.ModelSerializer):
@@ -255,7 +255,7 @@ class RFxAwardSerializer(serializers.ModelSerializer):
             'po_number', 'po_created_date', 'po_created_by',
             'created_at', 'created_by', 'notes', 'award_lines'
         ]
-        read_only_fields = ['created_at', 'approved_date', 'po_created_date']
+        read_only_fields = ['id', 'created_at', 'approved_date', 'po_created_date']
 
 
 class AuctionBidSerializer(serializers.ModelSerializer):
@@ -270,7 +270,7 @@ class AuctionBidSerializer(serializers.ModelSerializer):
             'bid_number', 'bid_amount', 'bid_time', 'is_valid',
             'is_current_best', 'rank', 'caused_extension', 'notes'
         ]
-        read_only_fields = ['bid_time']
+        read_only_fields = ['id', 'bid_time']
 
 
 class QuoteComparisonSerializer(serializers.Serializer):

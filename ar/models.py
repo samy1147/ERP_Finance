@@ -238,10 +238,34 @@ class ARItem(models.Model):
 # REMOVED: InvoiceGLLine model - table dropped in migration 0013
 # Kept as stub to prevent import errors in serializers
 class InvoiceGLLine(models.Model):
-    """Deprecated - Table removed"""
+    """AR Invoice GL Distribution Line with multi-segment support"""
+    invoice = models.ForeignKey(ARInvoice, related_name="gl_lines", on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=15, decimal_places=2, default=0, help_text="Distribution amount")
+    description = models.CharField(max_length=500, blank=True, help_text="Distribution description")
+    line_type = models.CharField(max_length=50, choices=[('DEBIT', 'Debit'), ('CREDIT', 'Credit')], default='DEBIT', help_text="Debit or Credit")
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    
     class Meta:
-        managed = False  # Don't create/modify table
-        db_table = 'ar_invoiceglline'
+        db_table = 'ar_invoice_distribution'
+    
+    def __str__(self):
+        return f"{self.invoice.number} - {self.line_type} {self.amount}"
+
+
+class ARInvoiceDistributionSegment(models.Model):
+    """Segment assignment for AR invoice distribution lines"""
+    gl_line = models.ForeignKey(InvoiceGLLine, related_name="segments", on_delete=models.CASCADE, 
+                                 db_column="distribution_id", help_text="FK to distribution line")
+    segment_type = models.ForeignKey('segment.XX_SegmentType', on_delete=models.PROTECT)
+    segment = models.ForeignKey('segment.XX_Segment', on_delete=models.PROTECT)
+    
+    class Meta:
+        db_table = 'ar_invoice_distribution_segment'
+        unique_together = [['gl_line', 'segment_type']]
+    
+    def __str__(self):
+        return f"{self.segment_type.segment_name}: {self.segment.alias}"
 
 
 class ARPayment(models.Model):

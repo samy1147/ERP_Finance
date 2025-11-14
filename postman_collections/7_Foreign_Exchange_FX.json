@@ -1,0 +1,334 @@
+{
+	"info": {
+		"name": "ERP Finance - Foreign Exchange (FX)",
+		"description": "Exchange rates, currency conversion, FX gain/loss tracking",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Exchange Rates",
+			"item": [
+				{
+					"name": "List Exchange Rates",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/fx/exchange-rates/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "fx", "exchange-rates", ""],
+							"query": [
+								{
+									"key": "from_currency",
+									"value": "USD",
+									"description": "Filter by source currency code",
+									"disabled": true
+								},
+								{
+									"key": "to_currency",
+									"value": "SAR",
+									"description": "Filter by target currency code",
+									"disabled": true
+								},
+								{
+									"key": "rate_type",
+									"value": "SPOT",
+									"description": "Filter by rate type: SPOT, AVERAGE, BUDGET",
+									"disabled": true
+								},
+								{
+									"key": "date_from",
+									"value": "2024-01-01",
+									"description": "Filter by effective date from",
+									"disabled": true
+								},
+								{
+									"key": "date_to",
+									"value": "2024-12-31",
+									"description": "Filter by effective date to",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get all exchange rates with optional filters"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Exchange Rate by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/fx/exchange-rates/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "fx", "exchange-rates", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Exchange Rate",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"from_currency\": \"USD\",\n  \"to_currency\": \"SAR\",\n  \"rate\": 3.75,\n  \"effective_date\": \"2024-01-01\",\n  \"rate_type\": \"SPOT\",\n  \"source\": \"MANUAL\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/fx/exchange-rates/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "fx", "exchange-rates", ""]
+						},
+						"description": "Create a new exchange rate. rate_type options: SPOT, AVERAGE, BUDGET. source options: MANUAL, API, CENTRAL_BANK"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Exchange Rate",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"from_currency\": \"USD\",\n  \"to_currency\": \"SAR\",\n  \"rate\": 3.76,\n  \"effective_date\": \"2024-01-01\",\n  \"rate_type\": \"SPOT\",\n  \"source\": \"MANUAL\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/fx/exchange-rates/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "fx", "exchange-rates", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Exchange Rate",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/fx/exchange-rates/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "fx", "exchange-rates", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Currency Conversion",
+			"item": [
+				{
+					"name": "Convert Currency Amount",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"from_currency\": \"USD\",\n  \"to_currency\": \"SAR\",\n  \"amount\": 1000.00,\n  \"date\": \"2024-12-31\",\n  \"rate_type\": \"SPOT\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/fx/currency-convert/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "fx", "currency-convert", ""]
+						},
+						"description": "Convert an amount from one currency to another using the exchange rate for a specific date. rate_type options: SPOT (default), AVERAGE, BUDGET"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Exchange Rate (Alternative)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"from_currency\": \"EUR\",\n  \"to_currency\": \"SAR\",\n  \"rate\": 4.05,\n  \"effective_date\": \"2024-01-01\",\n  \"rate_type\": \"SPOT\",\n  \"source\": \"API\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/fx/create-exchange-rate/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "fx", "create-exchange-rate", ""]
+						},
+						"description": "Alternative endpoint to create exchange rates"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FX Gain/Loss Accounts",
+			"item": [
+				{
+					"name": "List FX Gain/Loss Accounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/fx/fx-gain-loss-accounts/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "fx", "fx-gain-loss-accounts", ""]
+						},
+						"description": "Get configured FX gain/loss accounts for automatic journal entries"
+					},
+					"response": []
+				},
+				{
+					"name": "Get FX Gain/Loss Account by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/fx/fx-gain-loss-accounts/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "fx", "fx-gain-loss-accounts", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create FX Gain/Loss Account",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"currency\": \"USD\",\n  \"gain_account\": 501,\n  \"loss_account\": 601,\n  \"is_realized\": true,\n  \"description\": \"FX gain/loss accounts for realized USD transactions\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/fx/fx-gain-loss-accounts/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "fx", "fx-gain-loss-accounts", ""]
+						},
+						"description": "Configure FX gain/loss accounts for a currency. is_realized: true for realized gains/losses, false for unrealized"
+					},
+					"response": []
+				},
+				{
+					"name": "Update FX Gain/Loss Account",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"currency\": \"USD\",\n  \"gain_account\": 501,\n  \"loss_account\": 601,\n  \"is_realized\": true,\n  \"description\": \"Updated FX gain/loss accounts for realized USD transactions\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/fx/fx-gain-loss-accounts/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "fx", "fx-gain-loss-accounts", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete FX Gain/Loss Account",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/fx/fx-gain-loss-accounts/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "fx", "fx-gain-loss-accounts", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Base Currency",
+			"item": [
+				{
+					"name": "Get Base Currency",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/fx/base-currency/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "fx", "base-currency", ""]
+						},
+						"description": "Get the system's base (functional) currency"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,549 @@
+{
+	"info": {
+		"name": "ERP Finance - Core Finance APIs",
+		"description": "Core Finance APIs including Currencies, Journal Entries, Bank Accounts, and CSRF Token",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "CSRF Token",
+			"item": [
+				{
+					"name": "Get CSRF Token",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/csrf/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "csrf", ""]
+						},
+						"description": "Get CSRF token for subsequent requests. Call this endpoint first to get the CSRF cookie."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Currencies",
+			"item": [
+				{
+					"name": "List Currencies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/currencies/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "currencies", ""],
+							"query": [
+								{
+									"key": "code",
+									"value": "AED",
+									"description": "Filter by currency code",
+									"disabled": true
+								},
+								{
+									"key": "is_base",
+									"value": "true",
+									"description": "Filter base currency",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get all currencies. Supports filtering by code and is_base."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Currency by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/currencies/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "currencies", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Currency ID"
+								}
+							]
+						},
+						"description": "Get a specific currency by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Currency",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"USD\",\n  \"name\": \"US Dollar\",\n  \"symbol\": \"$\",\n  \"is_base\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/currencies/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "currencies", ""]
+						},
+						"description": "Create a new currency"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Currency",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"USD\",\n  \"name\": \"US Dollar\",\n  \"symbol\": \"$\",\n  \"is_base\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/currencies/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "currencies", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Currency ID"
+								}
+							]
+						},
+						"description": "Update an existing currency"
+					},
+					"response": []
+				},
+				{
+					"name": "Partial Update Currency",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"is_base\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/currencies/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "currencies", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Currency ID"
+								}
+							]
+						},
+						"description": "Partially update a currency"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Currency",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/currencies/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "currencies", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Currency ID"
+								}
+							]
+						},
+						"description": "Delete a currency"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Journal Entries",
+			"item": [
+				{
+					"name": "List Journal Entries",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/journals/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "journals", ""]
+						},
+						"description": "Get all journal entries with lines and segments"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Journal Entry by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/journals/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "journals", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Journal Entry ID"
+								}
+							]
+						},
+						"description": "Get a specific journal entry"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Journal Entry",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"date\": \"2025-11-13\",\n  \"currency\": 1,\n  \"memo\": \"Test Journal Entry\",\n  \"lines\": [\n    {\n      \"account\": 101,\n      \"debit\": \"1000.00\",\n      \"credit\": \"0.00\",\n      \"segments\": [\n        {\n          \"segment_type\": 1,\n          \"segment\": 101\n        },\n        {\n          \"segment_type\": 2,\n          \"segment\": 201\n        }\n      ]\n    },\n    {\n      \"account\": 201,\n      \"debit\": \"0.00\",\n      \"credit\": \"1000.00\",\n      \"segments\": [\n        {\n          \"segment_type\": 1,\n          \"segment\": 201\n        },\n        {\n          \"segment_type\": 2,\n          \"segment\": 202\n        }\n      ]\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/journals/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "journals", ""]
+						},
+						"description": "Create a new journal entry with dynamic segments. Must balance debits and credits. All active segment types must be assigned."
+					},
+					"response": []
+				},
+				{
+					"name": "Post Journal Entry to GL",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/journals/:id/post/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "journals", ":id", "post", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Journal Entry ID"
+								}
+							]
+						},
+						"description": "Post journal entry to general ledger"
+					},
+					"response": []
+				},
+				{
+					"name": "Reverse Journal Entry",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/journals/:id/reverse/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "journals", ":id", "reverse", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Journal Entry ID"
+								}
+							]
+						},
+						"description": "Reverse a posted journal entry"
+					},
+					"response": []
+				},
+				{
+					"name": "Export Journal Entries (CSV)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/journals/export/?file_type=csv&date_from=2025-01-01&date_to=2025-12-31&posted_only=false",
+							"host": ["{{base_url}}"],
+							"path": ["api", "journals", "export", ""],
+							"query": [
+								{
+									"key": "file_type",
+									"value": "csv",
+									"description": "Export format (csv or xlsx)"
+								},
+								{
+									"key": "date_from",
+									"value": "2025-01-01",
+									"description": "Start date filter",
+									"disabled": true
+								},
+								{
+									"key": "date_to",
+									"value": "2025-12-31",
+									"description": "End date filter",
+									"disabled": true
+								},
+								{
+									"key": "posted_only",
+									"value": "false",
+									"description": "Only posted entries",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Export journal entries to CSV or XLSX"
+					},
+					"response": []
+				},
+				{
+					"name": "Export Journal Entries (XLSX)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/journals/export/?file_type=xlsx",
+							"host": ["{{base_url}}"],
+							"path": ["api", "journals", "export", ""],
+							"query": [
+								{
+									"key": "file_type",
+									"value": "xlsx"
+								}
+							]
+						},
+						"description": "Export journal entries to Excel format"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Journal Lines",
+			"item": [
+				{
+					"name": "List Journal Lines",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/journal-lines/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "journal-lines", ""],
+							"query": [
+								{
+									"key": "account",
+									"value": "101",
+									"description": "Filter by account ID",
+									"disabled": true
+								},
+								{
+									"key": "account_code",
+									"value": "1000",
+									"description": "Filter by account code",
+									"disabled": true
+								},
+								{
+									"key": "date_from",
+									"value": "2025-01-01",
+									"description": "Filter from date",
+									"disabled": true
+								},
+								{
+									"key": "date_to",
+									"value": "2025-12-31",
+									"description": "Filter to date",
+									"disabled": true
+								},
+								{
+									"key": "posted",
+									"value": "true",
+									"description": "Filter posted status",
+									"disabled": true
+								},
+								{
+									"key": "entry_id",
+									"value": "1",
+									"description": "Filter by journal entry ID",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get all journal lines with filtering. Read-only endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Journal Line by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/journal-lines/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "journal-lines", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Journal Line ID"
+								}
+							]
+						},
+						"description": "Get a specific journal line"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bank Accounts",
+			"item": [
+				{
+					"name": "List Bank Accounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/bank-accounts/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "bank-accounts", ""]
+						},
+						"description": "Get all bank accounts"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Bank Account by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/bank-accounts/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "bank-accounts", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Bank Account ID"
+								}
+							]
+						},
+						"description": "Get a specific bank account"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Bank Account",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Main Operating Account\",\n  \"account_code\": \"1010-001\",\n  \"iban\": \"AE070331234567890123456\",\n  \"swift\": \"BOMLAEAD\",\n  \"currency\": 1,\n  \"active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/bank-accounts/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "bank-accounts", ""]
+						},
+						"description": "Create a new bank account"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Bank Account",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Main Operating Account\",\n  \"account_code\": \"1010-001\",\n  \"iban\": \"AE070331234567890123456\",\n  \"swift\": \"BOMLAEAD\",\n  \"currency\": 1,\n  \"active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/bank-accounts/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "bank-accounts", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Bank Account ID"
+								}
+							]
+						},
+						"description": "Update a bank account"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Bank Account",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/bank-accounts/:id/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "bank-accounts", ":id", ""],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Bank Account ID"
+								}
+							]
+						},
+						"description": "Delete a bank account"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

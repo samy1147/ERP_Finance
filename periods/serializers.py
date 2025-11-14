@@ -12,6 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'first_name', 'last_name']
+        read_only_fields = ['id']
 
 
 class FiscalYearSerializer(serializers.ModelSerializer):
@@ -27,7 +28,7 @@ class FiscalYearSerializer(serializers.ModelSerializer):
             'period_count', 'open_period_count',
             'created_at', 'updated_at', 'created_by'
         ]
-        read_only_fields = ['created_at', 'updated_at', 'created_by']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'created_by']
     
     def get_period_count(self, obj):
         return obj.periods.count()
@@ -47,7 +48,7 @@ class PeriodStatusSerializer(serializers.ModelSerializer):
             'id', 'fiscal_period', 'period_code', 'old_status', 'new_status',
             'changed_at', 'changed_by', 'change_reason'
         ]
-        read_only_fields = ['changed_at', 'changed_by']
+        read_only_fields = ['id', 'changed_at', 'changed_by']
 
 
 class FiscalPeriodSerializer(serializers.ModelSerializer):
@@ -65,7 +66,7 @@ class FiscalPeriodSerializer(serializers.ModelSerializer):
             'is_adjustment_period', 'transaction_count', 'status_history',
             'created_at', 'updated_at', 'created_by'
         ]
-        read_only_fields = ['created_at', 'updated_at', 'created_by']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'created_by']
     
     def get_transaction_count(self, obj):
         """

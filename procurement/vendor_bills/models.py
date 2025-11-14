@@ -302,6 +302,41 @@ class VendorBill(models.Model):
                 tax_rate=None,  # APItem expects a TaxRate FK, not a percentage
             )
         
+        # Calculate and save invoice totals
+        ap_invoice.calculate_and_save_totals()
+        
+        # AUTO-CREATE GL DISTRIBUTION LINES FROM ITEMS
+        try:
+            from segment.models import XX_Segment
+            from ap.models import APInvoiceDistribution
+            
+            # Try to get a default expense account
+            default_account = XX_Segment.objects.filter(
+                segment_type__segment_name='Account',
+                code__in=['5000-001', '5000', '6000-001', '6000'],  # Common expense accounts
+                node_type='child',
+                is_active=True
+            ).first()
+            
+            if default_account:
+                # Auto-create distributions from items
+                distributions = ap_invoice.create_distributions_from_items(
+                    default_account=default_account
+                )
+                print(f"Created {len(distributions)} GL distribution lines for AP Invoice {ap_invoice.number}")
+                
+                # Link distributions to vendor bill lines
+                for idx, dist in enumerate(distributions):
+                    if idx < self.lines.count():
+                        bill_line = list(self.lines.all())[idx]
+                        dist.vendor_bill_line = bill_line
+                        dist.save()
+            else:
+                print(f"WARNING: No default expense account found - AP Invoice {ap_invoice.number} created without distributions")
+        except Exception as e:
+            print(f"Error creating distributions for AP Invoice {ap_invoice.number}: {e}")
+            # Don't fail the posting if distribution creation fails
+        
         # Link back to vendor bill
         self.ap_invoice = ap_invoice
         self.status = 'POSTED_TO_AP'

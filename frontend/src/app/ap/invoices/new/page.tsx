@@ -432,25 +432,20 @@ export default function NewAPInvoicePage() {
         })) as any,
       };
 
-      // Add GL distribution lines (REQUIRED)
-      if (!glLines || glLines.length === 0) {
-        toast.error('Please add at least one GL distribution line');
-        return;
+      // Add GL distribution lines (OPTIONAL - deprecated, will be created when posting to GL)
+      // Note: GL distributions are now created when the invoice is posted to GL via JournalEntry
+      // This field is kept for backward compatibility but is no longer required
+      if (glLines && glLines.length > 0) {
+        const validGlLines = glLines.filter(line => line.account && line.amount);
+        if (validGlLines.length > 0) {
+          invoiceData.gl_lines = validGlLines.map(line => ({
+            account: line.account,
+            line_type: line.line_type,
+            amount: line.amount,
+            description: line.description || ''
+          }));
+        }
       }
-      
-      // Validate GL lines before submitting
-      const validGlLines = glLines.filter(line => line.account && line.amount);
-      if (validGlLines.length === 0) {
-        toast.error('Please add valid GL distribution lines with account and amount');
-        return;
-      }
-      
-      invoiceData.gl_lines = validGlLines.map(line => ({
-        account: line.account,
-        line_type: line.line_type,
-        amount: line.amount,
-        description: line.description || ''
-      }));
 
       // Add exchange rate and base currency total if applicable
       if (exchangeRate) {
@@ -725,7 +720,7 @@ export default function NewAPInvoicePage() {
           </div>
         </div>
 
-        {/* GL Distribution Lines (REQUIRED) */}
+        {/* GL Distribution Lines (OPTIONAL - Created when posting to GL) */}
         <GLDistributionLines
           lines={glLines}
           accounts={accounts}

@@ -10,7 +10,7 @@ class SegmentTypeSerializer(serializers.ModelSerializer):
             "is_required", "has_hierarchy", "length", "display_order",
             "description", "is_active", "created_at", "updated_at"
         ]
-        read_only_fields = ["created_at", "updated_at"]
+        read_only_fields = ["segment_id", "created_at", "updated_at"]
 
 
 class SegmentSerializer(serializers.ModelSerializer):
@@ -28,7 +28,7 @@ class SegmentSerializer(serializers.ModelSerializer):
             "alias", "name", "type", "node_type", "level", "is_active", "envelope_amount",
             "full_path", "parent", "children", "created_at", "updated_at"
         ]
-        read_only_fields = ["created_at", "updated_at", "name", "type", "full_path"]
+        read_only_fields = ["id", "created_at", "updated_at", "name", "type", "full_path"]
     
     def validate(self, data):
         """
@@ -89,7 +89,7 @@ class AccountSerializer(serializers.ModelSerializer):
             "id", "code", "name", "alias", "node_type", "is_active", "parent_code",
             "level", "hierarchy_level", "full_path", "envelope_amount"
         ]
-        read_only_fields = ["level", "hierarchy_level", "full_path"]
+        read_only_fields = ['id', "level", "hierarchy_level", "full_path"]
     
     def validate(self, data):
         """

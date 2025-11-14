@@ -1,7 +1,7 @@
 # apps/finance/admin.py
 from django.contrib import admin
 from .models import (Invoice, InvoiceLine, InvoiceStatus, BankAccount,
-                     InvoiceApproval, JournalLineSegment)
+                     InvoiceApproval, JournalLineSegment, SegmentAssignmentRule)
 
 class InvoiceLineInline(admin.TabularInline):
     model = InvoiceLine
@@ -82,4 +82,40 @@ class JournalLineSegmentAdmin(admin.ModelAdmin):
     def segment_alias(self, obj):
         return obj.segment.alias if obj.segment else "-"
     segment_alias.short_description = "Segment Name"
+
+
+# Segment Assignment Rule Admin
+@admin.register(SegmentAssignmentRule)
+class SegmentAssignmentRuleAdmin(admin.ModelAdmin):
+    list_display = ("name", "priority", "is_active", "customer", "supplier", "account_segment_code", "department_segment_code")
+    list_filter = ("is_active", "priority")
+    search_fields = ("name", "customer__name", "supplier__name", "account_segment__code")
+    autocomplete_fields = ("customer", "supplier", "account_segment", "department_segment", 
+                          "cost_center_segment", "project_segment", "product_segment")
+    
+    fieldsets = (
+        ("Rule Information", {
+            "fields": ("name", "priority", "is_active", "notes")
+        }),
+        ("Conditions", {
+            "fields": ("customer", "supplier", "account_segment")
+        }),
+        ("Segment Assignments", {
+            "fields": ("department_segment", "cost_center_segment", "project_segment", "product_segment")
+        }),
+        ("Metadata", {
+            "fields": ("created_at", "updated_at"),
+            "classes": ("collapse",)
+        }),
+    )
+    
+    readonly_fields = ("created_at", "updated_at")
+    
+    def account_segment_code(self, obj):
+        return obj.account_segment.code if obj.account_segment else "-"
+    account_segment_code.short_description = "Account Code"
+    
+    def department_segment_code(self, obj):
+        return obj.department_segment.code if obj.department_segment else "-"
+    department_segment_code.short_description = "Department Code"
 

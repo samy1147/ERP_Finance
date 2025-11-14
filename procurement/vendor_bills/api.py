@@ -187,6 +187,83 @@ class VendorBillViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
     
+    @action(detail=False, methods=['post'])
+    def validate_3way_match(self, request):
+        """
+        Validate vendor bill against GRN and PO before creation.
+        
+        Request body:
+        {
+            "po_id": 1,
+            "grn_id": 1,
+            "lines": [
+                {
+                    "grn_line_id": 1,
+                    "quantity": 100,
+                    "unit_price": 10.50,
+                    "line_total": 1050.00
+                },
+                ...
+            ]
+        }
+        
+        Returns comprehensive validation with variances.
+        """
+        from procurement.purchase_orders.models import POHeader
+        from procurement.receiving.models import GoodsReceipt
+        from .validation import ThreeWayMatchValidator
+        
+        po_id = request.data.get('po_id')
+        grn_id = request.data.get('grn_id')
+        lines = request.data.get('lines', [])
+        
+        if not grn_id:
+            return Response(
+                {"error": "grn_id is required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        if not lines:
+            return Response(
+                {"error": "lines are required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            grn_header = GoodsReceipt.objects.get(id=grn_id)
+            po_header = POHeader.objects.get(id=po_id) if po_id else None
+            
+            if po_header:
+                # Full 3-way match validation
+                validation_result = ThreeWayMatchValidator.validate_full_3way_match(
+                    po_header, grn_header, lines
+                )
+            else:
+                # 2-way match validation (GRN vs Invoice only)
+                validation_result = ThreeWayMatchValidator.validate_vendor_bill_against_grn(
+                    grn_header, lines
+                )
+            
+            return Response(validation_result)
+        
+        except GoodsReceipt.DoesNotExist:
+            return Response(
+                {"error": "Goods Receipt not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except POHeader.DoesNotExist:
+            return Response(
+                {"error": "Purchase Order not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+    
     @action(detail=True, methods=['post'])
     def force_matched(self, request, pk=None):
         """TESTING ONLY: Force bill to MATCHED status to skip exception resolution"""

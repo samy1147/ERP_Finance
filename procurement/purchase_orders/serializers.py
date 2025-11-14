@@ -19,6 +19,7 @@ class POLineSerializer(serializers.ModelSerializer):
         model = POLine
         fields = '__all__'
         read_only_fields = [
+            'id',
             'line_total', 'base_currency_unit_price', 'base_currency_line_total',
             'item_type',  # Auto-set based on catalog_item
             'created_at', 'updated_at'
@@ -88,7 +89,7 @@ class POHeaderDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = POHeader
         fields = '__all__'
-        read_only_fields = [
+        read_only_fields = ['id', 
             'po_number', 'subtotal', 'total_amount',
             'base_currency_subtotal', 'base_currency_total',
             'created_at', 'updated_at', 'submitted_at', 'approved_at',
