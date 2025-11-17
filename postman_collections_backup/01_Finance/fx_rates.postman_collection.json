@@ -1,0 +1,221 @@
+{
+  "info": {
+    "name": "FX - Rates",
+    "_postman_id": "fx-rates-20251117",
+    "description": "API endpoints for FX - Rates",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List All ",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fx/rates/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fx",
+            "rates"
+          ]
+        },
+        "description": "Retrieve all  with optional filters"
+      },
+      "response": []
+    },
+    {
+      "name": "List  (with filters)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fx/rates/?status=ACTIVE&page=1&page_size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fx",
+            "rates",
+            "?status=ACTIVE&page=1&page_size=10"
+          ]
+        },
+        "description": "Retrieve  with status and pagination filters"
+      },
+      "response": []
+    },
+    {
+      "name": "Get :Pk by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fx/rates/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fx",
+            "rates",
+            ":pk"
+          ]
+        },
+        "description": "Retrieve specific :pk by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete :Pk",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fx/rates/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fx",
+            "rates",
+            ":pk"
+          ]
+        },
+        "description": "Delete specific :pk"
+      },
+      "response": []
+    },
+    {
+      "name": "Get :Pk\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fx/rates/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fx",
+            "rates",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific :pk\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete :Pk\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fx/rates/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fx",
+            "rates",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific :pk\\.:format"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

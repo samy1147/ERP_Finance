@@ -1,0 +1,128 @@
+{
+  "info": {
+    "name": "JOURNALS - Export",
+    "_postman_id": "journals-export-20251117",
+    "description": "API endpoints for JOURNALS - Export",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List All ",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/journals/export/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "journals",
+            "export"
+          ]
+        },
+        "description": "Retrieve all  with optional filters"
+      },
+      "response": []
+    },
+    {
+      "name": "List  (with filters)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/journals/export/?status=ACTIVE&page=1&page_size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "journals",
+            "export",
+            "?status=ACTIVE&page=1&page_size=10"
+          ]
+        },
+        "description": "Retrieve  with status and pagination filters"
+      },
+      "response": []
+    },
+    {
+      "name": "Create ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/journals/export/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "journals",
+            "export"
+          ]
+        },
+        "description": "Create a new ",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"journal_date\": \"2024-11-17\",\n  \"period\": 1,\n  \"description\": \"Test Journal Entry\",\n  \"lines\": []\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

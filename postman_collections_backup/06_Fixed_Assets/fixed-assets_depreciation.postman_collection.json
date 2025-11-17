@@ -1,0 +1,958 @@
+{
+  "info": {
+    "name": "FIXED-ASSETS - Depreciation",
+    "_postman_id": "fixed-assets-depreciation-20251117",
+    "description": "API endpoints for FIXED-ASSETS - Depreciation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List All ",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation"
+          ]
+        },
+        "description": "Retrieve all  with optional filters"
+      },
+      "response": []
+    },
+    {
+      "name": "List  (with filters)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/?status=ACTIVE&page=1&page_size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            "?status=ACTIVE&page=1&page_size=10"
+          ]
+        },
+        "description": "Retrieve  with status and pagination filters"
+      },
+      "response": []
+    },
+    {
+      "name": "Create ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation"
+          ]
+        },
+        "description": "Create a new ",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\",\n  \"required_date\": \"2024-12-01\",\n  \"department\": \"IT\",\n  \"status\": \"DRAFT\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List All ",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/calculate_monthly/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            "calculate_monthly"
+          ]
+        },
+        "description": "Retrieve all  with optional filters"
+      },
+      "response": []
+    },
+    {
+      "name": "List  (with filters)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/calculate_monthly/?status=ACTIVE&page=1&page_size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            "calculate_monthly",
+            "?status=ACTIVE&page=1&page_size=10"
+          ]
+        },
+        "description": "Retrieve  with status and pagination filters"
+      },
+      "response": []
+    },
+    {
+      "name": "Create ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/calculate_monthly/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            "calculate_monthly"
+          ]
+        },
+        "description": "Create a new ",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\",\n  \"required_date\": \"2024-12-01\",\n  \"department\": \"IT\",\n  \"status\": \"DRAFT\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Calculate_Monthly\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/calculate_monthly\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            "calculate_monthly\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific calculate_monthly\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Calculate_Monthly\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/calculate_monthly\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            "calculate_monthly\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of calculate_monthly\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\",\n  \"required_date\": \"2024-12-01\",\n  \"department\": \"IT\",\n  \"status\": \"DRAFT\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Calculate_Monthly\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/calculate_monthly\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            "calculate_monthly\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of calculate_monthly\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Calculate_Monthly\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/calculate_monthly\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            "calculate_monthly\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific calculate_monthly\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "List All ",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/post_monthly/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            "post_monthly"
+          ]
+        },
+        "description": "Retrieve all  with optional filters"
+      },
+      "response": []
+    },
+    {
+      "name": "List  (with filters)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/post_monthly/?status=ACTIVE&page=1&page_size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            "post_monthly",
+            "?status=ACTIVE&page=1&page_size=10"
+          ]
+        },
+        "description": "Retrieve  with status and pagination filters"
+      },
+      "response": []
+    },
+    {
+      "name": "Create ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/post_monthly/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            "post_monthly"
+          ]
+        },
+        "description": "Create a new ",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\",\n  \"required_date\": \"2024-12-01\",\n  \"department\": \"IT\",\n  \"status\": \"DRAFT\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Post_Monthly\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/post_monthly\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            "post_monthly\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific post_monthly\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Post_Monthly\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/post_monthly\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            "post_monthly\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of post_monthly\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\",\n  \"required_date\": \"2024-12-01\",\n  \"department\": \"IT\",\n  \"status\": \"DRAFT\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Post_Monthly\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/post_monthly\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            "post_monthly\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of post_monthly\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Post_Monthly\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/post_monthly\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            "post_monthly\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific post_monthly\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get :Pk by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            ":pk"
+          ]
+        },
+        "description": "Retrieve specific :pk by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            ":pk"
+          ]
+        },
+        "description": "Full update of :pk",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\",\n  \"required_date\": \"2024-12-01\",\n  \"department\": \"IT\",\n  \"status\": \"DRAFT\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            ":pk"
+          ]
+        },
+        "description": "Partial update of :pk",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete :Pk",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            ":pk"
+          ]
+        },
+        "description": "Delete specific :pk"
+      },
+      "response": []
+    },
+    {
+      "name": "Get :Pk\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific :pk\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of :pk\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\",\n  \"required_date\": \"2024-12-01\",\n  \"department\": \"IT\",\n  \"status\": \"DRAFT\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of :pk\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete :Pk\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/depreciation/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "depreciation",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific :pk\\.:format"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

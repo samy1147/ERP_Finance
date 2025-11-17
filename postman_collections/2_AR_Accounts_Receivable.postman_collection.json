@@ -1,0 +1,335 @@
+{
+	"info": {
+		"_postman_id": "ar-module-002",
+		"name": "ERP Finance - AR (Accounts Receivable)",
+		"description": "Accounts Receivable module including AR invoices, payments, and invoice approvals",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8007/api",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "AR Invoices",
+			"item": [
+				{
+					"name": "List AR Invoices",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ar/invoices/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ar", "invoices", ""]
+						}
+					}
+				},
+				{
+					"name": "Get AR Invoice",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ar/invoices/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ar", "invoices", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create AR Invoice",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customer\": 1,\n  \"invoice_date\": \"2025-11-17\",\n  \"due_date\": \"2025-12-17\",\n  \"currency\": 1,\n  \"total_amount\": \"1000.00\",\n  \"lines\": []\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ar/invoices/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ar", "invoices", ""]
+						}
+					}
+				},
+				{
+					"name": "Update AR Invoice",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Updated notes\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ar/invoices/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ar", "invoices", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete AR Invoice",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ar/invoices/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ar", "invoices", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Post AR Invoice to GL",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ar/invoices/:id/post-gl/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ar", "invoices", ":id", "post-gl", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Reverse AR Invoice",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ar/invoices/:id/reverse/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ar", "invoices", ":id", "reverse", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Submit for Approval",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"submitted_by\": \"user@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ar/invoices/:id/submit-for-approval/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ar", "invoices", ":id", "submit-for-approval", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "AR Payments",
+			"item": [
+				{
+					"name": "List AR Payments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ar/payments/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ar", "payments", ""]
+						}
+					}
+				},
+				{
+					"name": "Get AR Payment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ar/payments/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ar", "payments", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create AR Payment",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customer\": 1,\n  \"payment_date\": \"2025-11-17\",\n  \"amount\": \"1000.00\",\n  \"currency\": 1,\n  \"bank_account\": 1,\n  \"invoices\": []\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ar/payments/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ar", "payments", ""]
+						}
+					}
+				},
+				{
+					"name": "Update AR Payment",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Updated payment notes\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ar/payments/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ar", "payments", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete AR Payment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ar/payments/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ar", "payments", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Post AR Payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ar/payments/:id/post/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ar", "payments", ":id", "post", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Invoice Approvals",
+			"item": [
+				{
+					"name": "List Invoice Approvals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/invoice-approvals/",
+							"host": ["{{baseUrl}}"],
+							"path": ["invoice-approvals", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Invoice Approval",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/invoice-approvals/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["invoice-approvals", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Invoice Approval",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"invoice_type\": \"AR\",\n  \"invoice_id\": 1,\n  \"approver\": \"approver@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/invoice-approvals/",
+							"host": ["{{baseUrl}}"],
+							"path": ["invoice-approvals", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Invoice Approval",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"APPROVED\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/invoice-approvals/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["invoice-approvals", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Invoice Approval",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/invoice-approvals/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["invoice-approvals", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Approve Invoice",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"comments\": \"Approved\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/invoice-approvals/:id/approve/",
+							"host": ["{{baseUrl}}"],
+							"path": ["invoice-approvals", ":id", "approve", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Reject Invoice",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"comments\": \"Rejected due to incorrect amount\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/invoice-approvals/:id/reject/",
+							"host": ["{{baseUrl}}"],
+							"path": ["invoice-approvals", ":id", "reject", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		}
+	]
+}

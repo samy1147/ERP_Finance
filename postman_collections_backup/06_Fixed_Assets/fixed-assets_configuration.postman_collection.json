@@ -1,0 +1,695 @@
+{
+  "info": {
+    "name": "FIXED-ASSETS - Configuration",
+    "_postman_id": "fixed-assets-configuration-20251117",
+    "description": "API endpoints for FIXED-ASSETS - Configuration",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List All ",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/configuration/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "configuration"
+          ]
+        },
+        "description": "Retrieve all  with optional filters"
+      },
+      "response": []
+    },
+    {
+      "name": "List  (with filters)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/configuration/?status=ACTIVE&page=1&page_size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "configuration",
+            "?status=ACTIVE&page=1&page_size=10"
+          ]
+        },
+        "description": "Retrieve  with status and pagination filters"
+      },
+      "response": []
+    },
+    {
+      "name": "Create ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/configuration/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "configuration"
+          ]
+        },
+        "description": "Create a new ",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List All ",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/configuration/check_threshold/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "configuration",
+            "check_threshold"
+          ]
+        },
+        "description": "Retrieve all  with optional filters"
+      },
+      "response": []
+    },
+    {
+      "name": "List  (with filters)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/configuration/check_threshold/?status=ACTIVE&page=1&page_size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "configuration",
+            "check_threshold",
+            "?status=ACTIVE&page=1&page_size=10"
+          ]
+        },
+        "description": "Retrieve  with status and pagination filters"
+      },
+      "response": []
+    },
+    {
+      "name": "Create ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/configuration/check_threshold/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "configuration",
+            "check_threshold"
+          ]
+        },
+        "description": "Create a new ",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Check_Threshold\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/configuration/check_threshold\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "configuration",
+            "check_threshold\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific check_threshold\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Check_Threshold\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/configuration/check_threshold\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "configuration",
+            "check_threshold\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of check_threshold\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Check_Threshold\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/configuration/check_threshold\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "configuration",
+            "check_threshold\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of check_threshold\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Check_Threshold\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/configuration/check_threshold\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "configuration",
+            "check_threshold\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific check_threshold\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get :Pk by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/configuration/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "configuration",
+            ":pk"
+          ]
+        },
+        "description": "Retrieve specific :pk by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/configuration/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "configuration",
+            ":pk"
+          ]
+        },
+        "description": "Full update of :pk",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/configuration/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "configuration",
+            ":pk"
+          ]
+        },
+        "description": "Partial update of :pk",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete :Pk",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/configuration/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "configuration",
+            ":pk"
+          ]
+        },
+        "description": "Delete specific :pk"
+      },
+      "response": []
+    },
+    {
+      "name": "Get :Pk\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/configuration/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "configuration",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific :pk\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/configuration/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "configuration",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of :pk\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/configuration/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "configuration",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of :pk\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete :Pk\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/configuration/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "configuration",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific :pk\\.:format"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

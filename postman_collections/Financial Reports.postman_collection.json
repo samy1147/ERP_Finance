@@ -1,0 +1,385 @@
+{
+  "info": {
+    "name": "Financial Reports",
+    "_postman_id": "10_reports-20251117103036",
+    "description": "AR aging, AP aging, trial balance, and other financial reports",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "ERP_Finance_System"
+  },
+  "item": [
+    {
+      "name": "Ap Aging",
+      "item": [
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/reports/ap-aging/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "reports",
+                "ap-aging"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/reports/ap-aging/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "reports",
+                "ap-aging",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        },
+        {
+          "name": "Create ",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/reports/ap-aging/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "reports",
+                "ap-aging"
+              ]
+            },
+            "description": "Create a new ",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"po_number\": \"PO-TEST-001\",\n  \"supplier\": 1,\n  \"order_date\": \"2024-11-17\",\n  \"delivery_date\": \"2024-12-01\",\n  \"currency\": \"USD\",\n  \"status\": \"DRAFT\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "3 requests for Ap Aging"
+    },
+    {
+      "name": "Ar Aging",
+      "item": [
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/reports/ar-aging/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "reports",
+                "ar-aging"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/reports/ar-aging/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "reports",
+                "ar-aging",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        },
+        {
+          "name": "Create ",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/reports/ar-aging/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "reports",
+                "ar-aging"
+              ]
+            },
+            "description": "Create a new ",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"po_number\": \"PO-TEST-001\",\n  \"supplier\": 1,\n  \"order_date\": \"2024-11-17\",\n  \"delivery_date\": \"2024-12-01\",\n  \"currency\": \"USD\",\n  \"status\": \"DRAFT\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "3 requests for Ar Aging"
+    },
+    {
+      "name": "Trial Balance",
+      "item": [
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/reports/trial-balance/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "reports",
+                "trial-balance"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/reports/trial-balance/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "reports",
+                "trial-balance",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        },
+        {
+          "name": "Create ",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/reports/trial-balance/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "reports",
+                "trial-balance"
+              ]
+            },
+            "description": "Create a new ",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"po_number\": \"PO-TEST-001\",\n  \"supplier\": 1,\n  \"order_date\": \"2024-11-17\",\n  \"delivery_date\": \"2024-12-01\",\n  \"currency\": \"USD\",\n  \"status\": \"DRAFT\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "3 requests for Trial Balance"
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string",
+      "description": "Authentication token (if required)"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Pre-request script for all requests in this collection",
+          "// You can add global pre-request logic here"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Test script for all requests in this collection",
+          "// Basic status code validation",
+          "pm.test('Status code is valid', function() {",
+          "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+          "});"
+        ]
+      }
+    }
+  ]
+}

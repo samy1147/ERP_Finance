@@ -1,0 +1,684 @@
+{
+	"info": {
+		"_postman_id": "procurement-rfx-001",
+		"name": "ERP Finance - Procurement: RFx & Sourcing",
+		"description": "RFx events, supplier quotes, awards, auctions, and supplier invitations for strategic sourcing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8007/api",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "RFx Events",
+			"item": [
+				{
+					"name": "List RFx Events",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-events/?event_type=&status=&date_from=&date_to=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-events", ""],
+							"query": [
+								{"key": "event_type", "value": ""},
+								{"key": "status", "value": ""},
+								{"key": "date_from", "value": ""},
+								{"key": "date_to", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get RFx Event",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-events/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-events", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create RFx Event",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"event_number\": \"RFX-2025-001\",\n  \"event_type\": \"RFQ\",\n  \"title\": \"Office Supplies RFQ\",\n  \"start_date\": \"2025-11-17\",\n  \"end_date\": \"2025-11-30\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-events/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-events", ""]
+						}
+					}
+				},
+				{
+					"name": "Update RFx Event",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"end_date\": \"2025-12-05\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-events/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-events", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete RFx Event",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-events/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-events", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Publish RFx Event",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-events/:id/publish/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-events", ":id", "publish", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Close RFx Event",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-events/:id/close/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-events", ":id", "close", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Invite Suppliers",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"supplier_ids\": [1, 2, 3]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-events/:id/invite_suppliers/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-events", ":id", "invite_suppliers", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Get Quote Comparison",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-events/:id/quote_comparison/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-events", ":id", "quote_comparison", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Award",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"winning_quote_ids\": [5],\n  \"award_type\": \"single\",\n  \"notes\": \"Best price and quality\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-events/:id/create_award/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-events", ":id", "create_award", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Get Statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-events/statistics/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-events", "statistics", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "RFx Items",
+			"item": [
+				{
+					"name": "List RFx Items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-items/?event=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-items", ""],
+							"query": [{"key": "event", "value": ""}]
+						}
+					}
+				},
+				{
+					"name": "Get RFx Item",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-items/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-items", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create RFx Item",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"event\": 1,\n  \"line_number\": 1,\n  \"item_description\": \"Office Paper A4\",\n  \"quantity\": \"1000\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-items/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-items", ""]
+						}
+					}
+				},
+				{
+					"name": "Update RFx Item",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": \"1500\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-items/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-items", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete RFx Item",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-items/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-items", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Supplier Invitations",
+			"item": [
+				{
+					"name": "List Invitations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/supplier-invitations/?event=&supplier=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "supplier-invitations", ""],
+							"query": [
+								{"key": "event", "value": ""},
+								{"key": "supplier", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Invitation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/supplier-invitations/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "supplier-invitations", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Invitation",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"event\": 1,\n  \"supplier\": 1,\n  \"invitation_date\": \"2025-11-17\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/supplier-invitations/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "supplier-invitations", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Invitation",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"response_status\": \"ACCEPTED\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/supplier-invitations/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "supplier-invitations", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Invitation",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/supplier-invitations/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "supplier-invitations", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Supplier Quotes",
+			"item": [
+				{
+					"name": "List Quotes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/supplier-quotes/?event=&supplier=&status=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "supplier-quotes", ""],
+							"query": [
+								{"key": "event", "value": ""},
+								{"key": "supplier", "value": ""},
+								{"key": "status", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Quote",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/supplier-quotes/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "supplier-quotes", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Quote",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"event\": 1,\n  \"supplier\": 1,\n  \"quote_date\": \"2025-11-18\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/supplier-quotes/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "supplier-quotes", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Quote",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Updated pricing\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/supplier-quotes/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "supplier-quotes", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Quote",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/supplier-quotes/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "supplier-quotes", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Submit Quote",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/supplier-quotes/:id/submit/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "supplier-quotes", ":id", "submit", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Calculate Totals",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/supplier-quotes/:id/calculate_totals/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "supplier-quotes", ":id", "calculate_totals", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Calculate Scores",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/supplier-quotes/:id/calculate_scores/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "supplier-quotes", ":id", "calculate_scores", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Set Technical Score",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"technical_score\": 85,\n  \"evaluator_notes\": \"Meets all technical requirements\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/supplier-quotes/:id/set_technical_score/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "supplier-quotes", ":id", "set_technical_score", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "RFx Awards",
+			"item": [
+				{
+					"name": "List Awards",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-awards/?event=&status=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-awards", ""],
+							"query": [
+								{"key": "event", "value": ""},
+								{"key": "status", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Award",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-awards/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-awards", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Award",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"event\": 1,\n  \"supplier\": 1,\n  \"award_amount\": \"10000.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-awards/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-awards", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Award",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"award_amount\": \"9500.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-awards/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-awards", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Award",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-awards/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-awards", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Approve Award",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"approver_notes\": \"Award approved\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-awards/:id/approve/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-awards", ":id", "approve", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create PO from Award",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/rfx-awards/:id/create_po/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "rfx-awards", ":id", "create_po", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Auction Bids",
+			"item": [
+				{
+					"name": "List Bids",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/auction-bids/?event=&supplier=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "auction-bids", ""],
+							"query": [
+								{"key": "event", "value": ""},
+								{"key": "supplier", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Bid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/auction-bids/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "auction-bids", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Bid",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"event\": 1,\n  \"supplier\": 1,\n  \"bid_amount\": \"8500.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/auction-bids/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "auction-bids", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Bid",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bid_amount\": \"8000.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/auction-bids/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "auction-bids", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Bid",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/auction-bids/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "auction-bids", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Submit Bid",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"event\": 1,\n  \"supplier\": 1,\n  \"bid_amount\": \"7500.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/rfx/auction-bids/submit_bid/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "rfx", "auction-bids", "submit_bid", ""]
+						}
+					}
+				}
+			]
+		}
+	]
+}

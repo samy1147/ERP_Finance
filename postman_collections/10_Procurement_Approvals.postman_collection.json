@@ -1,0 +1,580 @@
+{
+	"info": {
+		"_postman_id": "procurement-approvals-001",
+		"name": "ERP Finance - Procurement: Approval Workflows",
+		"description": "Approval workflows, instances, steps, delegations, and budget allocations",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8007/api",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Approval Workflows",
+			"item": [
+				{
+					"name": "List Workflows",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/workflows/?entity_type=&active=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "workflows", ""],
+							"query": [
+								{"key": "entity_type", "value": ""},
+								{"key": "active", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Workflow",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/workflows/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "workflows", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Workflow",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"PR Approval Workflow\",\n  \"entity_type\": \"PR\",\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/workflows/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "workflows", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Workflow",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/workflows/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "workflows", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Workflow",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/workflows/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "workflows", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Approval Instances",
+			"item": [
+				{
+					"name": "List Instances",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/instances/?workflow=&status=&entity_type=&entity_id=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "instances", ""],
+							"query": [
+								{"key": "workflow", "value": ""},
+								{"key": "status", "value": ""},
+								{"key": "entity_type", "value": ""},
+								{"key": "entity_id", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Instance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/instances/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "instances", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Instance",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"workflow\": 1,\n  \"entity_type\": \"PR\",\n  \"entity_id\": 5\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/instances/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "instances", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Instance",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"IN_PROGRESS\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/instances/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "instances", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Instance",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/instances/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "instances", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "My Pending Approvals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/instances/my_pending/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "instances", "my_pending", ""]
+						}
+					}
+				},
+				{
+					"name": "Cancel Instance",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cancellation_reason\": \"Request withdrawn\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/instances/:id/cancel/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "instances", ":id", "cancel", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Approval Steps",
+			"item": [
+				{
+					"name": "List Steps",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/steps/?instance=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "steps", ""],
+							"query": [{"key": "instance", "value": ""}]
+						}
+					}
+				},
+				{
+					"name": "Get Step",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/steps/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "steps", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Step",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"instance\": 1,\n  \"step_order\": 1,\n  \"approver\": 2\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/steps/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "steps", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Step",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"PENDING\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/steps/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "steps", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Step",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/steps/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "steps", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Approve Step",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"comments\": \"Approved\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/steps/:id/approve/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "steps", ":id", "approve", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Reject Step",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"comments\": \"Rejected due to incomplete information\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/steps/:id/reject/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "steps", ":id", "reject", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Approval Delegations",
+			"item": [
+				{
+					"name": "List Delegations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/delegations/?delegator=&delegate=&active=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "delegations", ""],
+							"query": [
+								{"key": "delegator", "value": ""},
+								{"key": "delegate", "value": ""},
+								{"key": "active", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Delegation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/delegations/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "delegations", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Delegation",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"delegator\": 1,\n  \"delegate\": 2,\n  \"start_date\": \"2025-11-17\",\n  \"end_date\": \"2025-11-30\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/delegations/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "delegations", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Delegation",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"end_date\": \"2025-12-15\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/delegations/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "delegations", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Delegation",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/delegations/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "delegations", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "My Delegations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/delegations/my_delegations/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "delegations", "my_delegations", ""]
+						}
+					}
+				},
+				{
+					"name": "Active Now",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/delegations/active_now/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "delegations", "active_now", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Budget Allocations",
+			"item": [
+				{
+					"name": "List Budget Allocations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/budgets/?cost_center=&fiscal_year=&status=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "budgets", ""],
+							"query": [
+								{"key": "cost_center", "value": ""},
+								{"key": "fiscal_year", "value": ""},
+								{"key": "status", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Budget Allocation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/budgets/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "budgets", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Budget Allocation",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cost_center\": 1,\n  \"fiscal_year\": 2025,\n  \"allocated_amount\": \"50000.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/budgets/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "budgets", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Budget Allocation",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"allocated_amount\": \"60000.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/budgets/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "budgets", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Budget Allocation",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/budgets/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "budgets", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Check Budget Availability",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": \"5000.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/budgets/:id/check_availability/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "budgets", ":id", "check_availability", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Get Over Budget",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/budgets/over_budget/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "budgets", "over_budget", ""]
+						}
+					}
+				},
+				{
+					"name": "Get At Warning",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/budgets/at_warning/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "budgets", "at_warning", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Budget Checks",
+			"item": [
+				{
+					"name": "List Budget Checks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/budget-checks/?pr_header=&passed=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "budget-checks", ""],
+							"query": [
+								{"key": "pr_header", "value": ""},
+								{"key": "passed", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Budget Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/approvals/budget-checks/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "approvals", "budget-checks", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		}
+	]
+}

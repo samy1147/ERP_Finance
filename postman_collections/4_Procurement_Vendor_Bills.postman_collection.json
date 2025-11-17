@@ -1,0 +1,334 @@
+{
+	"info": {
+		"_postman_id": "procurement-vendor-bills-001",
+		"name": "ERP Finance - Procurement: Vendor Bills",
+		"description": "Vendor bills management including 3-way matching, approvals, and attachments",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8007/api",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Vendor Bills",
+			"item": [
+				{
+					"name": "List Vendor Bills",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/vendor-bills/bills/?status=&match_status=&supplier=&date_from=&date_to=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "vendor-bills", "bills", ""],
+							"query": [
+								{"key": "status", "value": ""},
+								{"key": "match_status", "value": ""},
+								{"key": "supplier", "value": ""},
+								{"key": "date_from", "value": ""},
+								{"key": "date_to", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Vendor Bill",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/vendor-bills/bills/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "vendor-bills", "bills", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Vendor Bill",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"supplier\": 1,\n  \"bill_number\": \"VB-2025-001\",\n  \"bill_date\": \"2025-11-17\",\n  \"due_date\": \"2025-12-17\",\n  \"currency\": 1,\n  \"total_amount\": \"5000.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/vendor-bills/bills/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "vendor-bills", "bills", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Vendor Bill",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Updated bill notes\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/vendor-bills/bills/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "vendor-bills", "bills", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Vendor Bill",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/vendor-bills/bills/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "vendor-bills", "bills", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Submit Vendor Bill",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/vendor-bills/bills/:id/submit/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "vendor-bills", "bills", ":id", "submit", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Perform 3-Way Match",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tolerance_percentage\": 5\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/vendor-bills/bills/:id/match/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "vendor-bills", "bills", ":id", "match", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Validate Bill",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/vendor-bills/bills/:id/validate_bill/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "vendor-bills", "bills", ":id", "validate_bill", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Approve Bill",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"comments\": \"Approved for payment\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/vendor-bills/bills/:id/approve/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "vendor-bills", "bills", ":id", "approve", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Reject Bill",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Pricing discrepancy\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/vendor-bills/bills/:id/reject/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "vendor-bills", "bills", ":id", "reject", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Post Bill to AP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/vendor-bills/bills/:id/post_to_ap/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "vendor-bills", "bills", ":id", "post_to_ap", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Cancel Bill",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Duplicate entry\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/vendor-bills/bills/:id/cancel/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "vendor-bills", "bills", ":id", "cancel", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create AP Invoice from Bill",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/vendor-bills/bills/:id/create_ap_invoice/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "vendor-bills", "bills", ":id", "create_ap_invoice", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Bulk Approve Bills",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bill_ids\": [1, 2, 3]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/vendor-bills/bills/bulk-approve/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "vendor-bills", "bills", "bulk-approve", ""]
+						}
+					}
+				},
+				{
+					"name": "Bulk Post Bills",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bill_ids\": [1, 2, 3]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/vendor-bills/bills/bulk-post/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "vendor-bills", "bills", "bulk-post", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Matching Issues",
+			"item": [
+				{
+					"name": "Get Matching Issues",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/vendor-bills/bills/:billId/matching-issues/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "vendor-bills", "bills", ":billId", "matching-issues", ""],
+							"variable": [{"key": "billId", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Resolve Issue",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"resolution_notes\": \"Price variance approved by manager\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/vendor-bills/bills/:billId/resolve-issue/:issueId/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "vendor-bills", "bills", ":billId", "resolve-issue", ":issueId", ""],
+							"variable": [
+								{"key": "billId", "value": "1"},
+								{"key": "issueId", "value": "1"}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Attachments",
+			"item": [
+				{
+					"name": "Upload Attachment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/vendor-bills/bills/:billId/upload-attachment/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "vendor-bills", "bills", ":billId", "upload-attachment", ""],
+							"variable": [{"key": "billId", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Attachment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/vendor-bills/bills/:billId/attachments/:attachmentId/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "vendor-bills", "bills", ":billId", "attachments", ":attachmentId", ""],
+							"variable": [
+								{"key": "billId", "value": "1"},
+								{"key": "attachmentId", "value": "1"}
+							]
+						}
+					}
+				}
+			]
+		}
+	]
+}

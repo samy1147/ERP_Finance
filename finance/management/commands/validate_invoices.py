@@ -1,4 +1,12 @@
 # apps/finance/management/commands/validate_invoices.py
+"""
+DEPRECATED COMMAND - DO NOT USE!
+
+This command validates the LEGACY finance.Invoice model.
+The finance.Invoice model is deprecated and should not be used.
+
+For the current AR invoice system, use ar.ARInvoice instead.
+"""
 
 import csv
 
@@ -14,7 +22,7 @@ from finance.models import Invoice, InvoiceStatus
  
 class Command(BaseCommand):
 
-    help = "Scan all invoices and report violations (lines, accounts/tax, totals). Optionally fix drifted totals on DRAFT."
+    help = "[DEPRECATED] Scan all LEGACY finance.Invoice records. Use ar.ARInvoice for current invoices."
  
     def add_arguments(self, parser):
 

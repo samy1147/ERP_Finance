@@ -1,0 +1,307 @@
+{
+  "info": {
+    "name": "Authentication & Documentation",
+    "_postman_id": "12_auth-20251117103036",
+    "description": "CSRF tokens, API documentation, and schema endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "ERP_Finance_System"
+  },
+  "item": [
+    {
+      "name": "General",
+      "item": [
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/csrf/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "csrf"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/csrf/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "csrf",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/docs/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "docs"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/docs/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "docs",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/redoc/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "redoc"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/redoc/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "redoc",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/schema/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "schema"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/schema/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "schema",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        }
+      ],
+      "description": "8 requests for General"
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string",
+      "description": "Authentication token (if required)"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Pre-request script for all requests in this collection",
+          "// You can add global pre-request logic here"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Test script for all requests in this collection",
+          "// Basic status code validation",
+          "pm.test('Status code is valid', function() {",
+          "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+          "});"
+        ]
+      }
+    }
+  ]
+}

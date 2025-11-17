@@ -1,0 +1,1368 @@
+{
+  "info": {
+    "name": "PERIODS - Fiscal Years",
+    "_postman_id": "periods-fiscal-years-20251117",
+    "description": "API endpoints for PERIODS - Fiscal Years",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List All ",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years"
+          ]
+        },
+        "description": "Retrieve all  with optional filters"
+      },
+      "response": []
+    },
+    {
+      "name": "List  (with filters)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/?status=ACTIVE&page=1&page_size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            "?status=ACTIVE&page=1&page_size=10"
+          ]
+        },
+        "description": "Retrieve  with status and pagination filters"
+      },
+      "response": []
+    },
+    {
+      "name": "Create ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years"
+          ]
+        },
+        "description": "Create a new ",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"year\": 2025,\n  \"start_date\": \"2025-01-01\",\n  \"end_date\": \"2025-12-31\",\n  \"is_closed\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get :Pk by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk"
+          ]
+        },
+        "description": "Retrieve specific :pk by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk"
+          ]
+        },
+        "description": "Full update of :pk",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"year\": 2025,\n  \"start_date\": \"2025-01-01\",\n  \"end_date\": \"2025-12-31\",\n  \"is_closed\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk"
+          ]
+        },
+        "description": "Partial update of :pk",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"year\": 2025,\n  \"start_date\": \"2025-01-01\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete :Pk",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk"
+          ]
+        },
+        "description": "Delete specific :pk"
+      },
+      "response": []
+    },
+    {
+      "name": "Get :Pk\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific :pk\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of :pk\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"year\": 2025,\n  \"start_date\": \"2025-01-01\",\n  \"end_date\": \"2025-12-31\",\n  \"is_closed\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of :pk\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"year\": 2025,\n  \"start_date\": \"2025-01-01\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete :Pk\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific :pk\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Close_Year by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/close_year/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "close_year"
+          ]
+        },
+        "description": "Retrieve specific close_year by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Close_Year (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/close_year/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "close_year"
+          ]
+        },
+        "description": "Full update of close_year",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"year\": 2025,\n  \"start_date\": \"2025-01-01\",\n  \"end_date\": \"2025-12-31\",\n  \"is_closed\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Close_Year (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/close_year/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "close_year"
+          ]
+        },
+        "description": "Partial update of close_year",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"year\": 2025,\n  \"start_date\": \"2025-01-01\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Close_Year",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/close_year/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "close_year"
+          ]
+        },
+        "description": "Delete specific close_year"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Close_Year\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/close_year\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "close_year\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific close_year\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Close_Year\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/close_year\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "close_year\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of close_year\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"year\": 2025,\n  \"start_date\": \"2025-01-01\",\n  \"end_date\": \"2025-12-31\",\n  \"is_closed\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Close_Year\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/close_year\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "close_year\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of close_year\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"year\": 2025,\n  \"start_date\": \"2025-01-01\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Close_Year\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/close_year\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "close_year\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific close_year\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Generate_Periods by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/generate_periods/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "generate_periods"
+          ]
+        },
+        "description": "Retrieve specific generate_periods by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Generate_Periods (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/generate_periods/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "generate_periods"
+          ]
+        },
+        "description": "Full update of generate_periods",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"year\": 2025,\n  \"start_date\": \"2025-01-01\",\n  \"end_date\": \"2025-12-31\",\n  \"is_closed\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Generate_Periods (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/generate_periods/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "generate_periods"
+          ]
+        },
+        "description": "Partial update of generate_periods",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"year\": 2025,\n  \"start_date\": \"2025-01-01\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Generate_Periods",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/generate_periods/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "generate_periods"
+          ]
+        },
+        "description": "Delete specific generate_periods"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Generate_Periods\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/generate_periods\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "generate_periods\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific generate_periods\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Generate_Periods\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/generate_periods\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "generate_periods\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of generate_periods\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"year\": 2025,\n  \"start_date\": \"2025-01-01\",\n  \"end_date\": \"2025-12-31\",\n  \"is_closed\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Generate_Periods\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/generate_periods\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "generate_periods\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of generate_periods\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"year\": 2025,\n  \"start_date\": \"2025-01-01\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Generate_Periods\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/generate_periods\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "generate_periods\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific generate_periods\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Open_Year by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/open_year/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "open_year"
+          ]
+        },
+        "description": "Retrieve specific open_year by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Open_Year (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/open_year/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "open_year"
+          ]
+        },
+        "description": "Full update of open_year",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"year\": 2025,\n  \"start_date\": \"2025-01-01\",\n  \"end_date\": \"2025-12-31\",\n  \"is_closed\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Open_Year (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/open_year/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "open_year"
+          ]
+        },
+        "description": "Partial update of open_year",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"year\": 2025,\n  \"start_date\": \"2025-01-01\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Open_Year",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/open_year/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "open_year"
+          ]
+        },
+        "description": "Delete specific open_year"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Open_Year\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/open_year\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "open_year\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific open_year\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Open_Year\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/open_year\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "open_year\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of open_year\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"year\": 2025,\n  \"start_date\": \"2025-01-01\",\n  \"end_date\": \"2025-12-31\",\n  \"is_closed\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Open_Year\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/open_year\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "open_year\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of open_year\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"year\": 2025,\n  \"start_date\": \"2025-01-01\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Open_Year\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/periods/fiscal-years/:pk/open_year\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "periods",
+            "fiscal-years",
+            ":pk",
+            "open_year\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific open_year\\.:format"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

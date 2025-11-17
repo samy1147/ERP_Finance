@@ -264,16 +264,6 @@ class XX_Segment(models.Model):
             # Tables might not exist yet
             pass
         
-        # Check in InvoiceLine (if table exists)
-        try:
-            from finance.models import InvoiceLine
-            invoice_line_count = InvoiceLine.objects.filter(account=self).count()
-            if invoice_line_count > 0:
-                usage.append(f"Used in {invoice_line_count} invoice line(s)")
-        except (ImportError, OperationalError):
-            # Table might not exist
-            pass
-        
         # Check in procurement payment models (if they exist)
         try:
             from procurement.payments.models import (

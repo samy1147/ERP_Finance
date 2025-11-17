@@ -1,0 +1,2518 @@
+{
+  "info": {
+    "name": "SEGMENT - Values",
+    "_postman_id": "segment-values-20251117",
+    "description": "API endpoints for SEGMENT - Values",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List All ",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values"
+          ]
+        },
+        "description": "Retrieve all  with optional filters"
+      },
+      "response": []
+    },
+    {
+      "name": "List  (with filters)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/?status=ACTIVE&page=1&page_size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            "?status=ACTIVE&page=1&page_size=10"
+          ]
+        },
+        "description": "Retrieve  with status and pagination filters"
+      },
+      "response": []
+    },
+    {
+      "name": "Create ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values"
+          ]
+        },
+        "description": "Create a new ",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\",\n  \"segment_type\": 1,\n  \"is_active\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List All ",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/child_segments/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            "child_segments"
+          ]
+        },
+        "description": "Retrieve all  with optional filters"
+      },
+      "response": []
+    },
+    {
+      "name": "List  (with filters)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/child_segments/?status=ACTIVE&page=1&page_size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            "child_segments",
+            "?status=ACTIVE&page=1&page_size=10"
+          ]
+        },
+        "description": "Retrieve  with status and pagination filters"
+      },
+      "response": []
+    },
+    {
+      "name": "Create ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/child_segments/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            "child_segments"
+          ]
+        },
+        "description": "Create a new ",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\",\n  \"segment_type\": 1,\n  \"is_active\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Child_Segments\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/child_segments\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            "child_segments\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific child_segments\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Child_Segments\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/child_segments\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            "child_segments\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of child_segments\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\",\n  \"segment_type\": 1,\n  \"is_active\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Child_Segments\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/child_segments\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            "child_segments\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of child_segments\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Child_Segments\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/child_segments\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            "child_segments\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific child_segments\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "List All ",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/hierarchy/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            "hierarchy"
+          ]
+        },
+        "description": "Retrieve all  with optional filters"
+      },
+      "response": []
+    },
+    {
+      "name": "List  (with filters)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/hierarchy/?status=ACTIVE&page=1&page_size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            "hierarchy",
+            "?status=ACTIVE&page=1&page_size=10"
+          ]
+        },
+        "description": "Retrieve  with status and pagination filters"
+      },
+      "response": []
+    },
+    {
+      "name": "Create ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/hierarchy/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            "hierarchy"
+          ]
+        },
+        "description": "Create a new ",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\",\n  \"segment_type\": 1,\n  \"is_active\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Hierarchy\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/hierarchy\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            "hierarchy\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific hierarchy\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Hierarchy\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/hierarchy\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            "hierarchy\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of hierarchy\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\",\n  \"segment_type\": 1,\n  \"is_active\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Hierarchy\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/hierarchy\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            "hierarchy\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of hierarchy\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Hierarchy\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/hierarchy\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            "hierarchy\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific hierarchy\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get :Pk by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk"
+          ]
+        },
+        "description": "Retrieve specific :pk by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk"
+          ]
+        },
+        "description": "Full update of :pk",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\",\n  \"segment_type\": 1,\n  \"is_active\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk"
+          ]
+        },
+        "description": "Partial update of :pk",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete :Pk",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk"
+          ]
+        },
+        "description": "Delete specific :pk"
+      },
+      "response": []
+    },
+    {
+      "name": "Get :Pk\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific :pk\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of :pk\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\",\n  \"segment_type\": 1,\n  \"is_active\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of :pk\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete :Pk\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific :pk\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Activate by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/activate/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "activate"
+          ]
+        },
+        "description": "Retrieve specific activate by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Activate (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/activate/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "activate"
+          ]
+        },
+        "description": "Full update of activate",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\",\n  \"segment_type\": 1,\n  \"is_active\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Activate (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/activate/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "activate"
+          ]
+        },
+        "description": "Partial update of activate",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Activate",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/activate/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "activate"
+          ]
+        },
+        "description": "Delete specific activate"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Activate\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/activate\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "activate\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific activate\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Activate\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/activate\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "activate\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of activate\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\",\n  \"segment_type\": 1,\n  \"is_active\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Activate\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/activate\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "activate\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of activate\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Activate\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/activate\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "activate\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific activate\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Check_Usage by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/check_usage/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "check_usage"
+          ]
+        },
+        "description": "Retrieve specific check_usage by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Check_Usage (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/check_usage/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "check_usage"
+          ]
+        },
+        "description": "Full update of check_usage",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\",\n  \"segment_type\": 1,\n  \"is_active\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Check_Usage (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/check_usage/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "check_usage"
+          ]
+        },
+        "description": "Partial update of check_usage",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Check_Usage",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/check_usage/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "check_usage"
+          ]
+        },
+        "description": "Delete specific check_usage"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Check_Usage\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/check_usage\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "check_usage\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific check_usage\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Check_Usage\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/check_usage\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "check_usage\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of check_usage\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\",\n  \"segment_type\": 1,\n  \"is_active\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Check_Usage\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/check_usage\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "check_usage\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of check_usage\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Check_Usage\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/check_usage\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "check_usage\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific check_usage\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Children by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/children/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "children"
+          ]
+        },
+        "description": "Retrieve specific children by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Children (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/children/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "children"
+          ]
+        },
+        "description": "Full update of children",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\",\n  \"segment_type\": 1,\n  \"is_active\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Children (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/children/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "children"
+          ]
+        },
+        "description": "Partial update of children",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Children",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/children/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "children"
+          ]
+        },
+        "description": "Delete specific children"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Children\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/children\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "children\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific children\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Children\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/children\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "children\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of children\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\",\n  \"segment_type\": 1,\n  \"is_active\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Children\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/children\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "children\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of children\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Children\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/children\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "children\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific children\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Deactivate by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/deactivate/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "deactivate"
+          ]
+        },
+        "description": "Retrieve specific deactivate by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Deactivate (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/deactivate/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "deactivate"
+          ]
+        },
+        "description": "Full update of deactivate",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\",\n  \"segment_type\": 1,\n  \"is_active\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Deactivate (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/deactivate/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "deactivate"
+          ]
+        },
+        "description": "Partial update of deactivate",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Deactivate",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/deactivate/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "deactivate"
+          ]
+        },
+        "description": "Delete specific deactivate"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Deactivate\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/deactivate\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "deactivate\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific deactivate\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Deactivate\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/deactivate\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "deactivate\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of deactivate\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\",\n  \"segment_type\": 1,\n  \"is_active\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Deactivate\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/deactivate\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "deactivate\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of deactivate\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Deactivate\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/deactivate\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "deactivate\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific deactivate\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Descendants by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/descendants/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "descendants"
+          ]
+        },
+        "description": "Retrieve specific descendants by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Descendants (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/descendants/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "descendants"
+          ]
+        },
+        "description": "Full update of descendants",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\",\n  \"segment_type\": 1,\n  \"is_active\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Descendants (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/descendants/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "descendants"
+          ]
+        },
+        "description": "Partial update of descendants",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Descendants",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/descendants/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "descendants"
+          ]
+        },
+        "description": "Delete specific descendants"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Descendants\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/descendants\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "descendants\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific descendants\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Descendants\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/descendants\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "descendants\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of descendants\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\",\n  \"segment_type\": 1,\n  \"is_active\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Descendants\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/descendants\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "descendants\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of descendants\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"DEPT-TEST\",\n  \"alias\": \"Test Department\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Descendants\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/segment/values/:pk/descendants\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "segment",
+            "values",
+            ":pk",
+            "descendants\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific descendants\\.:format"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

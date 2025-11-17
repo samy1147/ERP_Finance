@@ -30,10 +30,12 @@ class JournalLineDisplaySerializer(serializers.ModelSerializer):
     segments = JournalLineSegmentDisplaySerializer(many=True, read_only=True)
     line_type = serializers.SerializerMethodField()
     amount = serializers.SerializerMethodField()
+    account_code = serializers.CharField(source='account.code', read_only=True)
+    account_name = serializers.CharField(source='account.alias', read_only=True)
     
     class Meta:
         model = JournalLine
-        fields = ['id', 'debit', 'credit', 'description', 'line_type', 'amount', 'segments']
+        fields = ['id', 'account', 'account_code', 'account_name', 'debit', 'credit', 'line_type', 'amount', 'segments']
     
     def get_line_type(self, obj):
         """Return DEBIT or CREDIT based on which is non-zero"""

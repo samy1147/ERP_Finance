@@ -1,32 +1,10 @@
 # apps/finance/admin.py
 from django.contrib import admin
-from .models import (Invoice, InvoiceLine, InvoiceStatus, BankAccount,
-                     InvoiceApproval, JournalLineSegment, SegmentAssignmentRule)
+from .models import (BankAccount, InvoiceApproval, JournalLineSegment, SegmentAssignmentRule)
 
-class InvoiceLineInline(admin.TabularInline):
-    model = InvoiceLine
-    extra = 0
-
-class InvoiceAdmin(admin.ModelAdmin):
-    # inlines = [InvoiceLineInline]  # Temporarily disabled due to admin check issue with lazy ForeignKey
-    list_display = ("invoice_no", "customer", "status", "currency", "total_gross", "posted_at")
-    readonly_fields_when_posted = (
-        "invoice_no", "customer", "currency", "total_net", "total_tax", "total_gross", "posted_at"
-    )
-
-    def get_readonly_fields(self, request, obj=None):
-        if obj and obj.status == InvoiceStatus.POSTED:
-            return self.readonly_fields_when_posted
-        return super().get_readonly_fields(request, obj)
-
-    def has_change_permission(self, request, obj=None):
-        # Allow viewing but block editing when posted
-        if obj and obj.status == InvoiceStatus.POSTED and request.method in ("POST", "PUT", "PATCH"):
-            return False
-        return super().has_change_permission(request, obj)
-
-admin.site.register(Invoice, InvoiceAdmin)
-
+# Note: Legacy Invoice and InvoiceLine models have been removed
+# Use ar.ARInvoice for customer invoices
+# Use ap.APInvoice for supplier invoices
 
 # Note: Account Admin moved to segment/admin.py
 # Note: Customer admin moved to ar/admin.py

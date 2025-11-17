@@ -1,12 +1,12 @@
 
 from decimal import Decimal
 from rest_framework import serializers
-from .models import Invoice, InvoiceLine, InvoiceStatus, JournalEntry, JournalLine, JournalLineSegment, BankAccount
+from .models import JournalEntry, JournalLine, JournalLineSegment, BankAccount
 from segment.models import XX_Segment, XX_SegmentType
 from ar.models import ARInvoice, ARItem, ARPayment, ARPaymentAllocation, InvoiceGLLine
 from ap.models import APInvoice, APItem, APPayment, APPaymentAllocation, APInvoiceGLLine
 from core.models import Currency, TaxRate
-from .services import validate_ready_to_post, ar_totals, ap_totals
+from .services import ar_totals, ap_totals
 from django.core.exceptions import ValidationError as DjangoValidationError
 
 class CurrencySerializer(serializers.ModelSerializer):
@@ -1234,53 +1234,15 @@ class CorpTaxAccrualRequestSerializer(serializers.Serializer):
     date_to = serializers.DateField()
 
 
-class InvoiceLineSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = InvoiceLine
-        fields = ("id", "description", "account", "tax_code", "quantity", "unit_price",
-                  "amount_net", "tax_amount", "amount_gross")
-        read_only_fields = ("amount_net", "tax_amount", "amount_gross")
-
-class InvoiceSerializer(serializers.ModelSerializer):
-    lines = InvoiceLineSerializer(many=True)
-
-    class Meta:
-        model = Invoice
-        fields = ("id", "invoice_no", "customer", "currency", "status",
-                  "total_net", "total_tax", "total_gross", "posted_at", "lines")
-        read_only_fields = ("total_net", "total_tax", "total_gross", "posted_at")
-
-    def validate(self, attrs):
-        instance = self.instance or Invoice(**attrs)
-        # If updating posted: block (read-only)
-        if self.instance and self.instance.status == InvoiceStatus.POSTED:
-            raise serializers.ValidationError("Posted invoices are read-only. Use reversal API.")
-        return attrs
-
-    def create(self, validated):
-        lines_data = validated.pop("lines", [])
-        inv = Invoice.objects.create(**validated)
-        for ld in lines_data:
-            InvoiceLine.objects.create(invoice=inv, **ld)
-        inv.recompute_totals()
-        inv.save(update_fields=["total_net", "total_tax", "total_gross", "updated_at"])
-        return inv
-
-    def update(self, instance, validated):
-        lines = validated.pop("lines", None)
-        for k, v in validated.items():
-            setattr(instance, k, v)
-        instance.save()
-
-        if lines is not None:
-            # replace lines for simplicity (or implement delta)
-            instance.lines.all().delete()
-            for ld in lines:
-                InvoiceLine.objects.create(invoice=instance, **ld)
-
-        instance.recompute_totals()
-        instance.save(update_fields=["total_net", "total_tax", "total_gross", "updated_at"])
-        return instance
+# ============================================================================
+# REMOVED: Legacy Invoice Serializers
+# ============================================================================
+# The following serializers were for the deprecated finance.Invoice model
+# which has been removed. Use ARInvoiceSerializer or APInvoiceSerializer instead.
+#
+# - InvoiceLineSerializer - REMOVED
+# - InvoiceSerializer - REMOVED
+# ============================================================================
 
 
 # ========== FX (Foreign Exchange) Serializers ==========

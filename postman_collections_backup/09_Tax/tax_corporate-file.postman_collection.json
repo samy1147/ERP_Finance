@@ -1,0 +1,172 @@
+{
+  "info": {
+    "name": "TAX - Corporate File",
+    "_postman_id": "tax-corporate-file-20251117",
+    "description": "API endpoints for TAX - Corporate File",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get :Filing_Id by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/tax/corporate-file/:filing_id/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tax",
+            "corporate-file",
+            ":filing_id"
+          ]
+        },
+        "description": "Retrieve specific :filing_id by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Filing_Id (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/tax/corporate-file/:filing_id/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tax",
+            "corporate-file",
+            ":filing_id"
+          ]
+        },
+        "description": "Full update of :filing_id",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"po_number\": \"PO-TEST-001\",\n  \"supplier\": 1,\n  \"order_date\": \"2024-11-17\",\n  \"delivery_date\": \"2024-12-01\",\n  \"currency\": \"USD\",\n  \"status\": \"DRAFT\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Filing_Id (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/tax/corporate-file/:filing_id/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tax",
+            "corporate-file",
+            ":filing_id"
+          ]
+        },
+        "description": "Partial update of :filing_id",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"po_number\": \"PO-TEST-001\",\n  \"supplier\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete :Filing_Id",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/tax/corporate-file/:filing_id/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tax",
+            "corporate-file",
+            ":filing_id"
+          ]
+        },
+        "description": "Delete specific :filing_id"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

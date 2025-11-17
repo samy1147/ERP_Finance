@@ -1,0 +1,172 @@
+{
+  "info": {
+    "name": "JOURNALS - Reverse",
+    "_postman_id": "journals-reverse-20251117",
+    "description": "API endpoints for JOURNALS - Reverse",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Reverse by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/journals/:pk/reverse/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "journals",
+            ":pk",
+            "reverse"
+          ]
+        },
+        "description": "Retrieve specific reverse by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Reverse (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/journals/:pk/reverse/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "journals",
+            ":pk",
+            "reverse"
+          ]
+        },
+        "description": "Full update of reverse",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"journal_date\": \"2024-11-17\",\n  \"period\": 1,\n  \"description\": \"Test Journal Entry\",\n  \"lines\": []\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Reverse (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/journals/:pk/reverse/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "journals",
+            ":pk",
+            "reverse"
+          ]
+        },
+        "description": "Partial update of reverse",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"journal_date\": \"2024-11-17\",\n  \"period\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Reverse",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/journals/:pk/reverse/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "journals",
+            ":pk",
+            "reverse"
+          ]
+        },
+        "description": "Delete specific reverse"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

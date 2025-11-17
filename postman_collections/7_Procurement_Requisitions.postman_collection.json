@@ -1,0 +1,590 @@
+{
+	"info": {
+		"_postman_id": "procurement-requisitions-001",
+		"name": "ERP Finance - Procurement: Requisitions & PR-to-PO",
+		"description": "Purchase requisitions, PR lines, cost centers, projects, and PR-to-PO conversion",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8007/api",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Purchase Requisitions",
+			"item": [
+				{
+					"name": "List PRs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-headers/?status=&requester=&cost_center=&date_from=&date_to=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-headers", ""],
+							"query": [
+								{"key": "status", "value": ""},
+								{"key": "requester", "value": ""},
+								{"key": "cost_center", "value": ""},
+								{"key": "date_from", "value": ""},
+								{"key": "date_to", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get PR",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-headers/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-headers", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create PR",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Office Supplies Request\",\n  \"requester\": 1,\n  \"cost_center\": 1,\n  \"required_date\": \"2025-12-01\",\n  \"lines\": []\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-headers/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-headers", ""]
+						}
+					}
+				},
+				{
+					"name": "Update PR",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Updated notes\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-headers/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-headers", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete PR",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-headers/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-headers", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Submit PR",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-headers/:id/submit/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-headers", ":id", "submit", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Approve PR",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"approver_comments\": \"Approved\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-headers/:id/approve/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-headers", ":id", "approve", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Reject PR",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"rejection_reason\": \"Budget exceeded\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-headers/:id/reject/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-headers", ":id", "reject", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Cancel PR",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cancellation_reason\": \"No longer needed\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-headers/:id/cancel/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-headers", ":id", "cancel", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Check Budget",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-headers/:id/check_budget/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-headers", ":id", "check_budget", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Generate Suggestions",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-headers/:id/generate_suggestions/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-headers", ":id", "generate_suggestions", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Convert to PO (Simple)",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"supplier_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-headers/:id/convert_to_po/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-headers", ":id", "convert_to_po", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Split by Vendor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-headers/:id/split_by_vendor/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-headers", ":id", "split_by_vendor", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "My PRs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-headers/my_prs/?requestor_id=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-headers", "my_prs", ""],
+							"query": [{"key": "requestor_id", "value": ""}]
+						}
+					}
+				},
+				{
+					"name": "Pending Approval",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-headers/pending_approval/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-headers", "pending_approval", ""]
+						}
+					}
+				},
+				{
+					"name": "PR Statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-headers/statistics/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-headers", "statistics", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "PR-to-PO Conversion",
+			"item": [
+				{
+					"name": "Get Convertible Lines",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-headers/convertible_lines/?pr_header_ids=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-headers", "convertible_lines", ""],
+							"query": [{"key": "pr_header_ids", "value": ""}]
+						}
+					}
+				},
+				{
+					"name": "Convert Lines to PO",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pr_line_selections\": [\n    {\n      \"pr_line_id\": 1,\n      \"quantity\": 10,\n      \"unit_price\": 50.00\n    }\n  ],\n  \"title\": \"PO from PR-001\",\n  \"vendor_name\": \"ABC Supplier\",\n  \"delivery_date\": \"2025-12-15\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-headers/convert_lines_to_po/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-headers", "convert_lines_to_po", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Conversion Summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-headers/:id/conversion_summary/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-headers", ":id", "conversion_summary", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "PR Lines",
+			"item": [
+				{
+					"name": "List PR Lines",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-lines/?pr_header=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-lines", ""],
+							"query": [{"key": "pr_header", "value": ""}]
+						}
+					}
+				},
+				{
+					"name": "Get PR Line",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-lines/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-lines", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create PR Line",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pr_header\": 1,\n  \"item_description\": \"Office Desk\",\n  \"quantity\": 5,\n  \"unit_price\": \"350.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-lines/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-lines", ""]
+						}
+					}
+				},
+				{
+					"name": "Update PR Line",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": 10\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-lines/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-lines", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete PR Line",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/pr-lines/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "pr-lines", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Cost Centers",
+			"item": [
+				{
+					"name": "List Cost Centers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/cost-centers/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "cost-centers", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Cost Center",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/cost-centers/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "cost-centers", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Cost Center",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"CC-001\",\n  \"name\": \"IT Department\",\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/cost-centers/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "cost-centers", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Cost Center",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/cost-centers/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "cost-centers", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Cost Center",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/cost-centers/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "cost-centers", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Budget Summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/cost-centers/:id/budget_summary/?fiscal_year=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "cost-centers", ":id", "budget_summary", ""],
+							"query": [{"key": "fiscal_year", "value": ""}],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Utilization",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/cost-centers/:id/utilization/?start_date=&end_date=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "cost-centers", ":id", "utilization", ""],
+							"query": [
+								{"key": "start_date", "value": ""},
+								{"key": "end_date", "value": ""}
+							],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Projects",
+			"item": [
+				{
+					"name": "List Projects",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/projects/?status=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "projects", ""],
+							"query": [{"key": "status", "value": ""}]
+						}
+					}
+				},
+				{
+					"name": "Get Project",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/projects/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "projects", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Project",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"PRJ-001\",\n  \"name\": \"Office Renovation\",\n  \"status\": \"ACTIVE\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/projects/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "projects", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Project",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"COMPLETED\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/projects/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "projects", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Project",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/projects/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "projects", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Active Projects",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/projects/active/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "projects", "active", ""]
+						}
+					}
+				},
+				{
+					"name": "Project Utilization",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/requisitions/projects/:id/utilization/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "requisitions", "projects", ":id", "utilization", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		}
+	]
+}

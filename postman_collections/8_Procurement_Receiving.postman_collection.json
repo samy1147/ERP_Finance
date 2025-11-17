@@ -1,0 +1,641 @@
+{
+	"info": {
+		"_postman_id": "procurement-receiving-001",
+		"name": "ERP Finance - Procurement: Goods Receipt & Quality",
+		"description": "Goods receipts, quality inspections, non-conformance, and returns to vendor (RTV)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8007/api",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Goods Receipts",
+			"item": [
+				{
+					"name": "List Goods Receipts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/receipts/?status=&supplier=&date_from=&date_to=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "receipts", ""],
+							"query": [
+								{"key": "status", "value": ""},
+								{"key": "supplier", "value": ""},
+								{"key": "date_from", "value": ""},
+								{"key": "date_to", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Goods Receipt",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/receipts/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "receipts", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Goods Receipt",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"po_number\": \"PO-2025-001\",\n  \"supplier\": 1,\n  \"receipt_date\": \"2025-11-17\",\n  \"warehouse\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/receipts/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "receipts", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Goods Receipt",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Updated notes\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/receipts/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "receipts", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Goods Receipt",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/receipts/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "receipts", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Post Receipt",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/receipts/:id/post-receipt/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "receipts", ":id", "post-receipt", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Inspect Receipt",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"inspector_id\": 1,\n  \"inspection_notes\": \"Quality check passed\",\n  \"line_statuses\": [\n    {\n      \"line_id\": 1,\n      \"quality_status\": \"PASSED\"\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/receipts/:id/inspect/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "receipts", ":id", "inspect", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Accept Receipt",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/receipts/:id/accept/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "receipts", ":id", "accept", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Reject Receipt",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Quality issues detected\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/receipts/:id/reject/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "receipts", ":id", "reject", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Return to Vendor",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"return_reason\": \"Damaged goods\",\n  \"return_quantity\": \"5\",\n  \"line_ids\": [1, 2]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/receipts/:id/return-to-vendor/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "receipts", ":id", "return-to-vendor", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Quality Inspections",
+			"item": [
+				{
+					"name": "List Inspections",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/inspections/?grn=&status=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "inspections", ""],
+							"query": [
+								{"key": "grn", "value": ""},
+								{"key": "status", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Inspection",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/inspections/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "inspections", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Inspection",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"grn\": 1,\n  \"inspector\": 1,\n  \"scheduled_date\": \"2025-11-18\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/inspections/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "inspections", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Inspection",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Inspection notes updated\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/inspections/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "inspections", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Inspection",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/inspections/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "inspections", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Start Inspection",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"inspector_id\": 1,\n  \"start_date\": \"2025-11-17\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/inspections/:id/start/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "inspections", ":id", "start", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Complete Inspection",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"completion_date\": \"2025-11-17\",\n  \"inspection_notes\": \"All items passed inspection\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/inspections/:id/complete/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "inspections", ":id", "complete", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Approve Inspection",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"approval_notes\": \"Approved for use\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/inspections/:id/approve/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "inspections", ":id", "approve", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Reject Inspection",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"rejection_reason\": \"Does not meet quality standards\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/inspections/:id/reject/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "inspections", ":id", "reject", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Non-Conformances",
+			"item": [
+				{
+					"name": "List Non-Conformances",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/non-conformances/?inspection=&status=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "non-conformances", ""],
+							"query": [
+								{"key": "inspection", "value": ""},
+								{"key": "status", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Non-Conformance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/non-conformances/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "non-conformances", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Non-Conformance",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"inspection\": 1,\n  \"issue_type\": \"DEFECT\",\n  \"description\": \"Product defect found\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/non-conformances/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "non-conformances", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Non-Conformance",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"IN_PROGRESS\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/non-conformances/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "non-conformances", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Non-Conformance",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/non-conformances/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "non-conformances", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Resolve Non-Conformance",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"resolution_notes\": \"Issue resolved by vendor replacement\",\n  \"resolved_date\": \"2025-11-20\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/non-conformances/:id/resolve/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "non-conformances", ":id", "resolve", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Returns to Vendor (RTV)",
+			"item": [
+				{
+					"name": "List RTVs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/returns/?grn=&status=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "returns", ""],
+							"query": [
+								{"key": "grn", "value": ""},
+								{"key": "status", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get RTV",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/returns/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "returns", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create RTV",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"grn\": 1,\n  \"return_reason\": \"DAMAGED\",\n  \"supplier\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/returns/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "returns", ""]
+						}
+					}
+				},
+				{
+					"name": "Update RTV",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Updated return notes\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/returns/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "returns", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete RTV",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/returns/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "returns", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Submit RTV",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/returns/:id/submit/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "returns", ":id", "submit", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Approve RTV",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"approval_notes\": \"Return approved\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/returns/:id/approve/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "returns", ":id", "approve", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Ship RTV",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"ship_date\": \"2025-11-18\",\n  \"tracking_number\": \"TRK123456\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/returns/:id/ship/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "returns", ":id", "ship", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Complete RTV",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"completion_date\": \"2025-11-25\",\n  \"credit_note_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/returns/:id/complete/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "returns", ":id", "complete", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Warehouses",
+			"item": [
+				{
+					"name": "List Warehouses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/warehouses/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "warehouses", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Warehouse",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/warehouses/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "warehouses", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Warehouse",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"WH-001\",\n  \"name\": \"Main Warehouse\",\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/warehouses/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "warehouses", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Warehouse",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/warehouses/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "warehouses", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Warehouse",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/receiving/warehouses/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "receiving", "warehouses", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		}
+	]
+}

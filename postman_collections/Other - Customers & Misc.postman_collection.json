@@ -1,0 +1,563 @@
+{
+  "info": {
+    "name": "Other - Customers & Misc",
+    "_postman_id": "00_other-20251117103035",
+    "description": "Customer management and miscellaneous endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "ERP_Finance_System"
+  },
+  "item": [
+    {
+      "name": " ",
+      "item": [
+        {
+          "name": "Get :Pk\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/customers/:pk\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                ":pk\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific :pk\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update :Pk\\.:Format (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/customers/:pk\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                ":pk\\.:format",
+                "?"
+              ]
+            },
+            "description": "Full update of :pk\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"CUST-TEST-001\",\n  \"name\": \"Test Customer\",\n  \"email\": \"customer@test.com\",\n  \"currency\": \"USD\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update :Pk\\.:Format (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/customers/:pk\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                ":pk\\.:format",
+                "?"
+              ]
+            },
+            "description": "Partial update of :pk\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"CUST-TEST-001\",\n  \"name\": \"Test Customer\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete :Pk\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/customers/:pk\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                ":pk\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific :pk\\.:format"
+          },
+          "response": []
+        }
+      ],
+      "description": "4 requests for  "
+    },
+    {
+      "name": "General",
+      "item": [
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/customers/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/customers/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        },
+        {
+          "name": "Create ",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/customers/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers"
+              ]
+            },
+            "description": "Create a new ",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"CUST-TEST-001\",\n  \"name\": \"Test Customer\",\n  \"email\": \"customer@test.com\",\n  \"currency\": \"USD\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get :Pk by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/customers/:pk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                ":pk"
+              ]
+            },
+            "description": "Retrieve specific :pk by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update :Pk (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/customers/:pk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                ":pk"
+              ]
+            },
+            "description": "Full update of :pk",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"CUST-TEST-001\",\n  \"name\": \"Test Customer\",\n  \"email\": \"customer@test.com\",\n  \"currency\": \"USD\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update :Pk (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/customers/:pk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                ":pk"
+              ]
+            },
+            "description": "Partial update of :pk",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"CUST-TEST-001\",\n  \"name\": \"Test Customer\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete :Pk",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/customers/:pk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                ":pk"
+              ]
+            },
+            "description": "Delete specific :pk"
+          },
+          "response": []
+        },
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/outstanding-invoices/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "outstanding-invoices"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/outstanding-invoices/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "outstanding-invoices",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        },
+        {
+          "name": "Create ",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/outstanding-invoices/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "outstanding-invoices"
+              ]
+            },
+            "description": "Create a new ",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"invoice_number\": \"AP-TEST-001\",\n  \"invoice_date\": \"2024-11-17\",\n  \"due_date\": \"2024-12-17\",\n  \"currency\": \"USD\",\n  \"exchange_rate\": \"1.00\",\n  \"subtotal\": \"1000.00\",\n  \"tax_amount\": \"150.00\",\n  \"total\": \"1150.00\",\n  \"status\": \"DRAFT\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "10 requests for General"
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string",
+      "description": "Authentication token (if required)"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Pre-request script for all requests in this collection",
+          "// You can add global pre-request logic here"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Test script for all requests in this collection",
+          "// Basic status code validation",
+          "pm.test('Status code is valid', function() {",
+          "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+          "});"
+        ]
+      }
+    }
+  ]
+}

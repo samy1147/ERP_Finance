@@ -1,0 +1,4965 @@
+{
+  "info": {
+    "name": "FIXED-ASSETS - Assets",
+    "_postman_id": "fixed-assets-assets-20251117",
+    "description": "API endpoints for FIXED-ASSETS - Assets",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List All ",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets"
+          ]
+        },
+        "description": "Retrieve all  with optional filters"
+      },
+      "response": []
+    },
+    {
+      "name": "List  (with filters)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/?status=ACTIVE&page=1&page_size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "?status=ACTIVE&page=1&page_size=10"
+          ]
+        },
+        "description": "Retrieve  with status and pagination filters"
+      },
+      "response": []
+    },
+    {
+      "name": "Create ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets"
+          ]
+        },
+        "description": "Create a new ",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List All ",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/check_source_conversion/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "check_source_conversion"
+          ]
+        },
+        "description": "Retrieve all  with optional filters"
+      },
+      "response": []
+    },
+    {
+      "name": "List  (with filters)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/check_source_conversion/?status=ACTIVE&page=1&page_size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "check_source_conversion",
+            "?status=ACTIVE&page=1&page_size=10"
+          ]
+        },
+        "description": "Retrieve  with status and pagination filters"
+      },
+      "response": []
+    },
+    {
+      "name": "Create ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/check_source_conversion/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "check_source_conversion"
+          ]
+        },
+        "description": "Create a new ",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Check_Source_Conversion\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/check_source_conversion\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "check_source_conversion\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific check_source_conversion\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Check_Source_Conversion\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/check_source_conversion\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "check_source_conversion\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of check_source_conversion\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Check_Source_Conversion\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/check_source_conversion\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "check_source_conversion\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of check_source_conversion\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Check_Source_Conversion\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/check_source_conversion\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "check_source_conversion\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific check_source_conversion\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "List All ",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/create_from_ap_invoice/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "create_from_ap_invoice"
+          ]
+        },
+        "description": "Retrieve all  with optional filters"
+      },
+      "response": []
+    },
+    {
+      "name": "List  (with filters)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/create_from_ap_invoice/?status=ACTIVE&page=1&page_size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "create_from_ap_invoice",
+            "?status=ACTIVE&page=1&page_size=10"
+          ]
+        },
+        "description": "Retrieve  with status and pagination filters"
+      },
+      "response": []
+    },
+    {
+      "name": "Create ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/create_from_ap_invoice/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "create_from_ap_invoice"
+          ]
+        },
+        "description": "Create a new ",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"supplier\": 1,\n  \"invoice_number\": \"AP-TEST-001\",\n  \"invoice_date\": \"2024-11-17\",\n  \"due_date\": \"2024-12-17\",\n  \"currency\": \"USD\",\n  \"exchange_rate\": \"1.00\",\n  \"subtotal\": \"1000.00\",\n  \"tax_amount\": \"150.00\",\n  \"total\": \"1150.00\",\n  \"status\": \"DRAFT\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Create_From_Ap_Invoice\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/create_from_ap_invoice\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "create_from_ap_invoice\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific create_from_ap_invoice\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Create_From_Ap_Invoice\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/create_from_ap_invoice\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "create_from_ap_invoice\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of create_from_ap_invoice\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"supplier\": 1,\n  \"invoice_number\": \"AP-TEST-001\",\n  \"invoice_date\": \"2024-11-17\",\n  \"due_date\": \"2024-12-17\",\n  \"currency\": \"USD\",\n  \"exchange_rate\": \"1.00\",\n  \"subtotal\": \"1000.00\",\n  \"tax_amount\": \"150.00\",\n  \"total\": \"1150.00\",\n  \"status\": \"DRAFT\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Create_From_Ap_Invoice\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/create_from_ap_invoice\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "create_from_ap_invoice\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of create_from_ap_invoice\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"supplier\": 1,\n  \"invoice_number\": \"AP-TEST-001\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Create_From_Ap_Invoice\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/create_from_ap_invoice\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "create_from_ap_invoice\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific create_from_ap_invoice\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "List All ",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/create_from_grn/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "create_from_grn"
+          ]
+        },
+        "description": "Retrieve all  with optional filters"
+      },
+      "response": []
+    },
+    {
+      "name": "List  (with filters)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/create_from_grn/?status=ACTIVE&page=1&page_size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "create_from_grn",
+            "?status=ACTIVE&page=1&page_size=10"
+          ]
+        },
+        "description": "Retrieve  with status and pagination filters"
+      },
+      "response": []
+    },
+    {
+      "name": "Create ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/create_from_grn/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "create_from_grn"
+          ]
+        },
+        "description": "Create a new ",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Create_From_Grn\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/create_from_grn\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "create_from_grn\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific create_from_grn\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Create_From_Grn\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/create_from_grn\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "create_from_grn\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of create_from_grn\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Create_From_Grn\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/create_from_grn\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "create_from_grn\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of create_from_grn\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Create_From_Grn\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/create_from_grn\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            "create_from_grn\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific create_from_grn\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get :Pk by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk"
+          ]
+        },
+        "description": "Retrieve specific :pk by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk"
+          ]
+        },
+        "description": "Full update of :pk",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk"
+          ]
+        },
+        "description": "Partial update of :pk",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete :Pk",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk"
+          ]
+        },
+        "description": "Delete specific :pk"
+      },
+      "response": []
+    },
+    {
+      "name": "Get :Pk\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific :pk\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of :pk\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of :pk\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete :Pk\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific :pk\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Adjust_Cost by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/adjust_cost/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "adjust_cost"
+          ]
+        },
+        "description": "Retrieve specific adjust_cost by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Adjust_Cost (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/adjust_cost/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "adjust_cost"
+          ]
+        },
+        "description": "Full update of adjust_cost",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Adjust_Cost (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/adjust_cost/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "adjust_cost"
+          ]
+        },
+        "description": "Partial update of adjust_cost",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Adjust_Cost",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/adjust_cost/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "adjust_cost"
+          ]
+        },
+        "description": "Delete specific adjust_cost"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Adjust_Cost\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/adjust_cost\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "adjust_cost\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific adjust_cost\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Adjust_Cost\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/adjust_cost\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "adjust_cost\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of adjust_cost\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Adjust_Cost\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/adjust_cost\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "adjust_cost\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of adjust_cost\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Adjust_Cost\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/adjust_cost\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "adjust_cost\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific adjust_cost\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Adjust_Useful_Life by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/adjust_useful_life/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "adjust_useful_life"
+          ]
+        },
+        "description": "Retrieve specific adjust_useful_life by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Adjust_Useful_Life (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/adjust_useful_life/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "adjust_useful_life"
+          ]
+        },
+        "description": "Full update of adjust_useful_life",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Adjust_Useful_Life (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/adjust_useful_life/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "adjust_useful_life"
+          ]
+        },
+        "description": "Partial update of adjust_useful_life",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Adjust_Useful_Life",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/adjust_useful_life/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "adjust_useful_life"
+          ]
+        },
+        "description": "Delete specific adjust_useful_life"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Adjust_Useful_Life\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/adjust_useful_life\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "adjust_useful_life\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific adjust_useful_life\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Adjust_Useful_Life\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/adjust_useful_life\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "adjust_useful_life\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of adjust_useful_life\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Adjust_Useful_Life\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/adjust_useful_life\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "adjust_useful_life\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of adjust_useful_life\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Adjust_Useful_Life\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/adjust_useful_life\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "adjust_useful_life\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific adjust_useful_life\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Capitalize by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/capitalize/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "capitalize"
+          ]
+        },
+        "description": "Retrieve specific capitalize by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Capitalize (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/capitalize/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "capitalize"
+          ]
+        },
+        "description": "Full update of capitalize",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Capitalize (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/capitalize/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "capitalize"
+          ]
+        },
+        "description": "Partial update of capitalize",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Capitalize",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/capitalize/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "capitalize"
+          ]
+        },
+        "description": "Delete specific capitalize"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Capitalize\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/capitalize\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "capitalize\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific capitalize\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Capitalize\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/capitalize\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "capitalize\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of capitalize\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Capitalize\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/capitalize\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "capitalize\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of capitalize\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Capitalize\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/capitalize\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "capitalize\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific capitalize\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Depreciation_Schedule by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/depreciation_schedule/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "depreciation_schedule"
+          ]
+        },
+        "description": "Retrieve specific depreciation_schedule by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Depreciation_Schedule (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/depreciation_schedule/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "depreciation_schedule"
+          ]
+        },
+        "description": "Full update of depreciation_schedule",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\",\n  \"required_date\": \"2024-12-01\",\n  \"department\": \"IT\",\n  \"status\": \"DRAFT\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Depreciation_Schedule (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/depreciation_schedule/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "depreciation_schedule"
+          ]
+        },
+        "description": "Partial update of depreciation_schedule",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Depreciation_Schedule",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/depreciation_schedule/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "depreciation_schedule"
+          ]
+        },
+        "description": "Delete specific depreciation_schedule"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Depreciation_Schedule\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/depreciation_schedule\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "depreciation_schedule\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific depreciation_schedule\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Depreciation_Schedule\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/depreciation_schedule\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "depreciation_schedule\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of depreciation_schedule\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\",\n  \"required_date\": \"2024-12-01\",\n  \"department\": \"IT\",\n  \"status\": \"DRAFT\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Depreciation_Schedule\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/depreciation_schedule\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "depreciation_schedule\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of depreciation_schedule\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Depreciation_Schedule\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/depreciation_schedule\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "depreciation_schedule\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific depreciation_schedule\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Dispose by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/dispose/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "dispose"
+          ]
+        },
+        "description": "Retrieve specific dispose by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Dispose (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/dispose/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "dispose"
+          ]
+        },
+        "description": "Full update of dispose",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"po_number\": \"PO-TEST-001\",\n  \"supplier\": 1,\n  \"order_date\": \"2024-11-17\",\n  \"delivery_date\": \"2024-12-01\",\n  \"currency\": \"USD\",\n  \"status\": \"DRAFT\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Dispose (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/dispose/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "dispose"
+          ]
+        },
+        "description": "Partial update of dispose",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"po_number\": \"PO-TEST-001\",\n  \"supplier\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Dispose",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/dispose/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "dispose"
+          ]
+        },
+        "description": "Delete specific dispose"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Dispose\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/dispose\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "dispose\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific dispose\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Dispose\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/dispose\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "dispose\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of dispose\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"po_number\": \"PO-TEST-001\",\n  \"supplier\": 1,\n  \"order_date\": \"2024-11-17\",\n  \"delivery_date\": \"2024-12-01\",\n  \"currency\": \"USD\",\n  \"status\": \"DRAFT\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Dispose\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/dispose\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "dispose\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of dispose\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"po_number\": \"PO-TEST-001\",\n  \"supplier\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Dispose\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/dispose\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "dispose\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific dispose\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Documents by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/documents/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "documents"
+          ]
+        },
+        "description": "Retrieve specific documents by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Documents (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/documents/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "documents"
+          ]
+        },
+        "description": "Full update of documents",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Documents (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/documents/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "documents"
+          ]
+        },
+        "description": "Partial update of documents",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Documents",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/documents/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "documents"
+          ]
+        },
+        "description": "Delete specific documents"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Documents\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/documents\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "documents\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific documents\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Documents\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/documents\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "documents\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of documents\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Documents\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/documents\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "documents\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of documents\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Documents\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/documents\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "documents\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific documents\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Maintenance_History by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/maintenance_history/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "maintenance_history"
+          ]
+        },
+        "description": "Retrieve specific maintenance_history by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Maintenance_History (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/maintenance_history/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "maintenance_history"
+          ]
+        },
+        "description": "Full update of maintenance_history",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Maintenance_History (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/maintenance_history/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "maintenance_history"
+          ]
+        },
+        "description": "Partial update of maintenance_history",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Maintenance_History",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/maintenance_history/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "maintenance_history"
+          ]
+        },
+        "description": "Delete specific maintenance_history"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Maintenance_History\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/maintenance_history\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "maintenance_history\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific maintenance_history\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Maintenance_History\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/maintenance_history\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "maintenance_history\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of maintenance_history\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Maintenance_History\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/maintenance_history\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "maintenance_history\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of maintenance_history\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Maintenance_History\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/maintenance_history\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "maintenance_history\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific maintenance_history\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Manual_Depreciation_Adjustment by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/manual_depreciation_adjustment/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "manual_depreciation_adjustment"
+          ]
+        },
+        "description": "Retrieve specific manual_depreciation_adjustment by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Manual_Depreciation_Adjustment (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/manual_depreciation_adjustment/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "manual_depreciation_adjustment"
+          ]
+        },
+        "description": "Full update of manual_depreciation_adjustment",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\",\n  \"required_date\": \"2024-12-01\",\n  \"department\": \"IT\",\n  \"status\": \"DRAFT\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Manual_Depreciation_Adjustment (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/manual_depreciation_adjustment/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "manual_depreciation_adjustment"
+          ]
+        },
+        "description": "Partial update of manual_depreciation_adjustment",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Manual_Depreciation_Adjustment",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/manual_depreciation_adjustment/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "manual_depreciation_adjustment"
+          ]
+        },
+        "description": "Delete specific manual_depreciation_adjustment"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Manual_Depreciation_Adjustment\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/manual_depreciation_adjustment\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "manual_depreciation_adjustment\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific manual_depreciation_adjustment\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Manual_Depreciation_Adjustment\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/manual_depreciation_adjustment\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "manual_depreciation_adjustment\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of manual_depreciation_adjustment\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\",\n  \"required_date\": \"2024-12-01\",\n  \"department\": \"IT\",\n  \"status\": \"DRAFT\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Manual_Depreciation_Adjustment\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/manual_depreciation_adjustment\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "manual_depreciation_adjustment\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of manual_depreciation_adjustment\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Manual_Depreciation_Adjustment\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/manual_depreciation_adjustment\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "manual_depreciation_adjustment\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific manual_depreciation_adjustment\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Recategorize by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/recategorize/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "recategorize"
+          ]
+        },
+        "description": "Retrieve specific recategorize by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Recategorize (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/recategorize/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "recategorize"
+          ]
+        },
+        "description": "Full update of recategorize",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Recategorize (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/recategorize/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "recategorize"
+          ]
+        },
+        "description": "Partial update of recategorize",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Recategorize",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/recategorize/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "recategorize"
+          ]
+        },
+        "description": "Delete specific recategorize"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Recategorize\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/recategorize\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "recategorize\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific recategorize\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Recategorize\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/recategorize\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "recategorize\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of recategorize\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Recategorize\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/recategorize\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "recategorize\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of recategorize\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Recategorize\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/recategorize\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "recategorize\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific recategorize\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Submit_For_Capitalization by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/submit_for_capitalization/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "submit_for_capitalization"
+          ]
+        },
+        "description": "Retrieve specific submit_for_capitalization by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Submit_For_Capitalization (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/submit_for_capitalization/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "submit_for_capitalization"
+          ]
+        },
+        "description": "Full update of submit_for_capitalization",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Submit_For_Capitalization (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/submit_for_capitalization/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "submit_for_capitalization"
+          ]
+        },
+        "description": "Partial update of submit_for_capitalization",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Submit_For_Capitalization",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/submit_for_capitalization/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "submit_for_capitalization"
+          ]
+        },
+        "description": "Delete specific submit_for_capitalization"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Submit_For_Capitalization\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/submit_for_capitalization\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "submit_for_capitalization\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific submit_for_capitalization\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Submit_For_Capitalization\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/submit_for_capitalization\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "submit_for_capitalization\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of submit_for_capitalization\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Submit_For_Capitalization\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/submit_for_capitalization\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "submit_for_capitalization\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of submit_for_capitalization\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Submit_For_Capitalization\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/submit_for_capitalization\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "submit_for_capitalization\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific submit_for_capitalization\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Submit_For_Retirement by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/submit_for_retirement/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "submit_for_retirement"
+          ]
+        },
+        "description": "Retrieve specific submit_for_retirement by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Submit_For_Retirement (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/submit_for_retirement/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "submit_for_retirement"
+          ]
+        },
+        "description": "Full update of submit_for_retirement",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Submit_For_Retirement (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/submit_for_retirement/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "submit_for_retirement"
+          ]
+        },
+        "description": "Partial update of submit_for_retirement",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Submit_For_Retirement",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/submit_for_retirement/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "submit_for_retirement"
+          ]
+        },
+        "description": "Delete specific submit_for_retirement"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Submit_For_Retirement\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/submit_for_retirement\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "submit_for_retirement\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific submit_for_retirement\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Submit_For_Retirement\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/submit_for_retirement\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "submit_for_retirement\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of submit_for_retirement\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Submit_For_Retirement\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/submit_for_retirement\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "submit_for_retirement\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of submit_for_retirement\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Submit_For_Retirement\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/submit_for_retirement\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "submit_for_retirement\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific submit_for_retirement\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Transfer by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/transfer/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "transfer"
+          ]
+        },
+        "description": "Retrieve specific transfer by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Transfer (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/transfer/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "transfer"
+          ]
+        },
+        "description": "Full update of transfer",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Transfer (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/transfer/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "transfer"
+          ]
+        },
+        "description": "Partial update of transfer",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Transfer",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/transfer/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "transfer"
+          ]
+        },
+        "description": "Delete specific transfer"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Transfer\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/transfer\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "transfer\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific transfer\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Transfer\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/transfer\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "transfer\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of transfer\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Transfer\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/transfer\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "transfer\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of transfer\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Transfer\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/assets/:pk/transfer\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "assets",
+            ":pk",
+            "transfer\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific transfer\\.:format"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

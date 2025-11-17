@@ -1,0 +1,2838 @@
+{
+  "info": {
+    "name": "Inventory Management",
+    "_postman_id": "04_inventory-20251117103035",
+    "description": "Inventory balances, movements, adjustments, and transfers",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "ERP_Finance_System"
+  },
+  "item": [
+    {
+      "name": "Adjustments",
+      "item": [
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        },
+        {
+          "name": "Get :Pk by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk"
+              ]
+            },
+            "description": "Retrieve specific :pk by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete :Pk",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk"
+              ]
+            },
+            "description": "Delete specific :pk"
+          },
+          "response": []
+        },
+        {
+          "name": "Get :Pk\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific :pk\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete :Pk\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific :pk\\.:format"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Approve by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/approve/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk",
+                "approve"
+              ]
+            },
+            "description": "Retrieve specific approve by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Approve (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/approve/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk",
+                "approve"
+              ]
+            },
+            "description": "Full update of approve",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\",\n  \"required_date\": \"2024-12-01\",\n  \"department\": \"IT\",\n  \"status\": \"DRAFT\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Approve (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/approve/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk",
+                "approve"
+              ]
+            },
+            "description": "Partial update of approve",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Approve",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/approve/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk",
+                "approve"
+              ]
+            },
+            "description": "Delete specific approve"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Approve\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/approve\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk",
+                "approve\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific approve\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Approve\\.:Format (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/approve\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk",
+                "approve\\.:format",
+                "?"
+              ]
+            },
+            "description": "Full update of approve\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\",\n  \"required_date\": \"2024-12-01\",\n  \"department\": \"IT\",\n  \"status\": \"DRAFT\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Approve\\.:Format (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/approve\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk",
+                "approve\\.:format",
+                "?"
+              ]
+            },
+            "description": "Partial update of approve\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pr_number\": \"PR-TEST-001\",\n  \"requested_date\": \"2024-11-17\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Approve\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/approve\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk",
+                "approve\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific approve\\.:format"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Post_Adjustment by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/post_adjustment/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk",
+                "post_adjustment"
+              ]
+            },
+            "description": "Retrieve specific post_adjustment by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Post_Adjustment (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/post_adjustment/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk",
+                "post_adjustment"
+              ]
+            },
+            "description": "Full update of post_adjustment",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"po_number\": \"PO-TEST-001\",\n  \"supplier\": 1,\n  \"order_date\": \"2024-11-17\",\n  \"delivery_date\": \"2024-12-01\",\n  \"currency\": \"USD\",\n  \"status\": \"DRAFT\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Post_Adjustment (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/post_adjustment/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk",
+                "post_adjustment"
+              ]
+            },
+            "description": "Partial update of post_adjustment",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"po_number\": \"PO-TEST-001\",\n  \"supplier\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Post_Adjustment",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/post_adjustment/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk",
+                "post_adjustment"
+              ]
+            },
+            "description": "Delete specific post_adjustment"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Post_Adjustment\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/post_adjustment\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk",
+                "post_adjustment\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific post_adjustment\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Post_Adjustment\\.:Format (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/post_adjustment\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk",
+                "post_adjustment\\.:format",
+                "?"
+              ]
+            },
+            "description": "Full update of post_adjustment\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"po_number\": \"PO-TEST-001\",\n  \"supplier\": 1,\n  \"order_date\": \"2024-11-17\",\n  \"delivery_date\": \"2024-12-01\",\n  \"currency\": \"USD\",\n  \"status\": \"DRAFT\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Post_Adjustment\\.:Format (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/post_adjustment\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk",
+                "post_adjustment\\.:format",
+                "?"
+              ]
+            },
+            "description": "Partial update of post_adjustment\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"po_number\": \"PO-TEST-001\",\n  \"supplier\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Post_Adjustment\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/post_adjustment\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk",
+                "post_adjustment\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific post_adjustment\\.:format"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Submit by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/submit/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk",
+                "submit"
+              ]
+            },
+            "description": "Retrieve specific submit by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Submit",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/submit/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk",
+                "submit"
+              ]
+            },
+            "description": "Delete specific submit"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Submit\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/submit\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk",
+                "submit\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific submit\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Submit\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/adjustments/:pk/submit\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "adjustments",
+                ":pk",
+                "submit\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific submit\\.:format"
+          },
+          "response": []
+        }
+      ],
+      "description": "26 requests for Adjustments"
+    },
+    {
+      "name": "Balances",
+      "item": [
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/by_item/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances",
+                "by_item"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/by_item/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances",
+                "by_item",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        },
+        {
+          "name": "Create ",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/by_item/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances",
+                "by_item"
+              ]
+            },
+            "description": "Create a new ",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"ITEM-TEST-001\",\n  \"description\": \"Test Item\",\n  \"unit_of_measure\": \"EA\",\n  \"is_active\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get By_Item\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/by_item\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances",
+                "by_item\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific by_item\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update By_Item\\.:Format (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/by_item\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances",
+                "by_item\\.:format",
+                "?"
+              ]
+            },
+            "description": "Full update of by_item\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"ITEM-TEST-001\",\n  \"description\": \"Test Item\",\n  \"unit_of_measure\": \"EA\",\n  \"is_active\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update By_Item\\.:Format (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/by_item\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances",
+                "by_item\\.:format",
+                "?"
+              ]
+            },
+            "description": "Partial update of by_item\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"ITEM-TEST-001\",\n  \"description\": \"Test Item\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete By_Item\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/by_item\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances",
+                "by_item\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific by_item\\.:format"
+          },
+          "response": []
+        },
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/low_stock/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances",
+                "low_stock"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/low_stock/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances",
+                "low_stock",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Low_Stock\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/low_stock\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances",
+                "low_stock\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific low_stock\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Low_Stock\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/low_stock\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances",
+                "low_stock\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific low_stock\\.:format"
+          },
+          "response": []
+        },
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/summary_by_warehouse/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances",
+                "summary_by_warehouse"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/summary_by_warehouse/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances",
+                "summary_by_warehouse",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Summary_By_Warehouse\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/summary_by_warehouse\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances",
+                "summary_by_warehouse\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific summary_by_warehouse\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Summary_By_Warehouse\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/summary_by_warehouse\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances",
+                "summary_by_warehouse\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific summary_by_warehouse\\.:format"
+          },
+          "response": []
+        },
+        {
+          "name": "Get :Pk by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/:pk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances",
+                ":pk"
+              ]
+            },
+            "description": "Retrieve specific :pk by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete :Pk",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/:pk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances",
+                ":pk"
+              ]
+            },
+            "description": "Delete specific :pk"
+          },
+          "response": []
+        },
+        {
+          "name": "Get :Pk\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/:pk\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances",
+                ":pk\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific :pk\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete :Pk\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/balances/:pk\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "balances",
+                ":pk\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific :pk\\.:format"
+          },
+          "response": []
+        }
+      ],
+      "description": "21 requests for Balances"
+    },
+    {
+      "name": "Movements",
+      "item": [
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/movements/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "movements"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/movements/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "movements",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/movements/by_item/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "movements",
+                "by_item"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/movements/by_item/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "movements",
+                "by_item",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        },
+        {
+          "name": "Create ",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/movements/by_item/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "movements",
+                "by_item"
+              ]
+            },
+            "description": "Create a new ",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"ITEM-TEST-001\",\n  \"description\": \"Test Item\",\n  \"unit_of_measure\": \"EA\",\n  \"is_active\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get By_Item\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/movements/by_item\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "movements",
+                "by_item\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific by_item\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update By_Item\\.:Format (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/movements/by_item\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "movements",
+                "by_item\\.:format",
+                "?"
+              ]
+            },
+            "description": "Full update of by_item\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"ITEM-TEST-001\",\n  \"description\": \"Test Item\",\n  \"unit_of_measure\": \"EA\",\n  \"is_active\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update By_Item\\.:Format (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/movements/by_item\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "movements",
+                "by_item\\.:format",
+                "?"
+              ]
+            },
+            "description": "Partial update of by_item\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"ITEM-TEST-001\",\n  \"description\": \"Test Item\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete By_Item\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/movements/by_item\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "movements",
+                "by_item\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific by_item\\.:format"
+          },
+          "response": []
+        },
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/movements/by_reference/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "movements",
+                "by_reference"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/movements/by_reference/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "movements",
+                "by_reference",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        },
+        {
+          "name": "Get By_Reference\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/movements/by_reference\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "movements",
+                "by_reference\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific by_reference\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete By_Reference\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/movements/by_reference\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "movements",
+                "by_reference\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific by_reference\\.:format"
+          },
+          "response": []
+        },
+        {
+          "name": "Get :Pk by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/movements/:pk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "movements",
+                ":pk"
+              ]
+            },
+            "description": "Retrieve specific :pk by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete :Pk",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/movements/:pk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "movements",
+                ":pk"
+              ]
+            },
+            "description": "Delete specific :pk"
+          },
+          "response": []
+        },
+        {
+          "name": "Get :Pk\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/movements/:pk\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "movements",
+                ":pk\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific :pk\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete :Pk\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/movements/:pk\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "movements",
+                ":pk\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific :pk\\.:format"
+          },
+          "response": []
+        }
+      ],
+      "description": "17 requests for Movements"
+    },
+    {
+      "name": "Transfers",
+      "item": [
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/transfers/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "transfers"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/transfers/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "transfers",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        },
+        {
+          "name": "Get :Pk by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/transfers/:pk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "transfers",
+                ":pk"
+              ]
+            },
+            "description": "Retrieve specific :pk by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete :Pk",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/transfers/:pk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "transfers",
+                ":pk"
+              ]
+            },
+            "description": "Delete specific :pk"
+          },
+          "response": []
+        },
+        {
+          "name": "Get :Pk\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/transfers/:pk\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "transfers",
+                ":pk\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific :pk\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete :Pk\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/transfers/:pk\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "transfers",
+                ":pk\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific :pk\\.:format"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Receive by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/transfers/:pk/receive/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "transfers",
+                ":pk",
+                "receive"
+              ]
+            },
+            "description": "Retrieve specific receive by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Receive",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/transfers/:pk/receive/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "transfers",
+                ":pk",
+                "receive"
+              ]
+            },
+            "description": "Delete specific receive"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Receive\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/transfers/:pk/receive\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "transfers",
+                ":pk",
+                "receive\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific receive\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Receive\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/transfers/:pk/receive\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "transfers",
+                ":pk",
+                "receive\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific receive\\.:format"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Ship by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/transfers/:pk/ship/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "transfers",
+                ":pk",
+                "ship"
+              ]
+            },
+            "description": "Retrieve specific ship by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Ship",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/transfers/:pk/ship/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "transfers",
+                ":pk",
+                "ship"
+              ]
+            },
+            "description": "Delete specific ship"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Ship\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/transfers/:pk/ship\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "transfers",
+                ":pk",
+                "ship\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific ship\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Ship\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/inventory/transfers/:pk/ship\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "inventory",
+                "transfers",
+                ":pk",
+                "ship\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific ship\\.:format"
+          },
+          "response": []
+        }
+      ],
+      "description": "14 requests for Transfers"
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string",
+      "description": "Authentication token (if required)"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Pre-request script for all requests in this collection",
+          "// You can add global pre-request logic here"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Test script for all requests in this collection",
+          "// Basic status code validation",
+          "pm.test('Status code is valid', function() {",
+          "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+          "});"
+        ]
+      }
+    }
+  ]
+}

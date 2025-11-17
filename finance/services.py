@@ -3,7 +3,7 @@ from decimal import Decimal, ROUND_HALF_UP
 from django.db import transaction
 from django.conf import settings
 from django.db.models import Sum, F, Q
-from .models import Invoice, InvoiceLine, InvoiceStatus, JournalEntry, JournalLine, BankAccount,CorporateTaxRule,CorporateTaxFiling
+from .models import JournalEntry, JournalLine, BankAccount,CorporateTaxRule,CorporateTaxFiling
 from segment.models import XX_Segment
 from segment.utils import SegmentHelper
 from ar.models import ARInvoice, ARPayment
@@ -1171,87 +1171,13 @@ def file_corporate_tax(filing_id:int):
    return f
 
 
-def validate_ready_to_post(inv: Invoice):
-    # Always compute current totals from lines
-    inv.recompute_totals()
-
-    if not inv.has_lines():
-        raise ValidationError("Cannot post invoice: it has no lines.")
-
-    if inv.any_line_missing_account_or_tax():
-        raise ValidationError("Cannot post invoice: one or more lines missing account or tax code.")
-
-    if inv.is_zero_totals():
-        raise ValidationError("Cannot post invoice: totals are zero.")
-
-    # Optional: disallow negative gross (toggle as needed)
-    if inv.total_gross < 0:
-        raise ValidationError("Cannot post invoice: total gross cannot be negative.")
-
-def post_invoice(invoice_id: int) -> Invoice:
-    with transaction.atomic():
-        inv = Invoice.objects.select_for_update().get(pk=invoice_id)
-
-        if inv.status == InvoiceStatus.POSTED:
-            return inv  # idempotent: already posted
-
-        if inv.status != InvoiceStatus.DRAFT:
-            raise ValidationError(f"Only DRAFT invoices can be posted (current: {inv.status}).")
-
-        validate_ready_to_post(inv)
-
-        # Lock & persist
-        inv.status = InvoiceStatus.POSTED
-        inv.posted_at = timezone.now()
-        inv.save()
-
-        # (Optional) create Journal Entries here, if your JE module exists
-        # create_journal_for_invoice(inv)
-
-        return inv
-def reverse_posted_invoice(original_id: int) -> Invoice:
-    with transaction.atomic():
-        orig = Invoice.objects.select_for_update().get(pk=original_id)
-        if orig.status != InvoiceStatus.POSTED:
-            raise ValidationError("Only POSTED invoices can be reversed.")
-
-        # Idempotency: if it already has a reversal, return it
-        existing = orig.reversals.order_by("created_at").first()
-        if existing:
-            return existing
-
-        # Create reversing invoice (negative amounts)
-        rev = Invoice.objects.create(
-            customer=orig.customer,
-            invoice_no=f"{orig.invoice_no}-REV",
-            currency=orig.currency,
-            status=InvoiceStatus.POSTED,  # Post immediately (common pattern) or keep DRAFT if you want approval
-            posted_at=timezone.now(),
-            reversal_ref=orig,
-        )
-
-        # Mirror lines with negative signs
-        bulk = []
-        for line in orig.lines.all():
-            bulk.append(InvoiceLine(
-                invoice=rev,
-                description=f"REV of {line.description}",
-                account=line.account,
-                tax_code=line.tax_code,
-                quantity=-line.quantity,
-                unit_price=line.unit_price,  # qty negative is enough
-            ))
-        InvoiceLine.objects.bulk_create(bulk)
-
-        # Recompute totals & save
-        rev.recompute_totals()
-        rev.save()
-
-        # Mark original as REVERSED (read-only remains in effect)
-        orig.status = InvoiceStatus.REVERSED
-        orig.save(update_fields=["status", "updated_at"])
-
-        # (Optional) create reversing Journal Entries here
-        # create_reversing_journal_for_invoice(rev, original=orig)
-
-        return rev
+# ============================================================================
+# REMOVED: Legacy Invoice Functions
+# ============================================================================
+# The following functions were for the deprecated finance.Invoice model
+# which has been removed. Use ar.ARInvoice or ap.APInvoice instead.
+#
+# - validate_ready_to_post(inv: Invoice) - REMOVED
+# - post_invoice(invoice_id: int) - REMOVED  
+# - reverse_posted_invoice(original_id: int) - REMOVED
+# ============================================================================

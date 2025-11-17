@@ -1,0 +1,172 @@
+{
+  "info": {
+    "name": "INVOICE-APPROVALS - Reject",
+    "_postman_id": "invoice-approvals-reject-20251117",
+    "description": "API endpoints for INVOICE-APPROVALS - Reject",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Reject by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/invoice-approvals/:pk/reject/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "invoice-approvals",
+            ":pk",
+            "reject"
+          ]
+        },
+        "description": "Retrieve specific reject by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Reject (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/invoice-approvals/:pk/reject/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "invoice-approvals",
+            ":pk",
+            "reject"
+          ]
+        },
+        "description": "Full update of reject",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"supplier\": 1,\n  \"invoice_number\": \"AP-TEST-001\",\n  \"invoice_date\": \"2024-11-17\",\n  \"due_date\": \"2024-12-17\",\n  \"currency\": \"USD\",\n  \"exchange_rate\": \"1.00\",\n  \"subtotal\": \"1000.00\",\n  \"tax_amount\": \"150.00\",\n  \"total\": \"1150.00\",\n  \"status\": \"DRAFT\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Reject (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/invoice-approvals/:pk/reject/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "invoice-approvals",
+            ":pk",
+            "reject"
+          ]
+        },
+        "description": "Partial update of reject",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"supplier\": 1,\n  \"invoice_number\": \"AP-TEST-001\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Reject",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/invoice-approvals/:pk/reject/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "invoice-approvals",
+            ":pk",
+            "reject"
+          ]
+        },
+        "description": "Delete specific reject"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

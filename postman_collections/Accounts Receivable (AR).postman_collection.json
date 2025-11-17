@@ -1,0 +1,2392 @@
+{
+  "info": {
+    "name": "Accounts Receivable (AR)",
+    "_postman_id": "02_ar-20251117103035",
+    "description": "AR invoices, payments, and customer transactions",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "ERP_Finance_System"
+  },
+  "item": [
+    {
+      "name": "Invoices",
+      "item": [
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        },
+        {
+          "name": "Create ",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices"
+              ]
+            },
+            "description": "Create a new ",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"invoice_number\": \"AP-TEST-001\",\n  \"invoice_date\": \"2024-11-17\",\n  \"due_date\": \"2024-12-17\",\n  \"currency\": \"USD\",\n  \"exchange_rate\": \"1.00\",\n  \"subtotal\": \"1000.00\",\n  \"tax_amount\": \"150.00\",\n  \"total\": \"1150.00\",\n  \"status\": \"DRAFT\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get :Pk by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk"
+              ]
+            },
+            "description": "Retrieve specific :pk by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update :Pk (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk"
+              ]
+            },
+            "description": "Full update of :pk",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"invoice_number\": \"AP-TEST-001\",\n  \"invoice_date\": \"2024-11-17\",\n  \"due_date\": \"2024-12-17\",\n  \"currency\": \"USD\",\n  \"exchange_rate\": \"1.00\",\n  \"subtotal\": \"1000.00\",\n  \"tax_amount\": \"150.00\",\n  \"total\": \"1150.00\",\n  \"status\": \"DRAFT\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update :Pk (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk"
+              ]
+            },
+            "description": "Partial update of :pk",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"invoice_number\": \"AP-TEST-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete :Pk",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk"
+              ]
+            },
+            "description": "Delete specific :pk"
+          },
+          "response": []
+        },
+        {
+          "name": "Get :Pk\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific :pk\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update :Pk\\.:Format (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk\\.:format",
+                "?"
+              ]
+            },
+            "description": "Full update of :pk\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"invoice_number\": \"AP-TEST-001\",\n  \"invoice_date\": \"2024-11-17\",\n  \"due_date\": \"2024-12-17\",\n  \"currency\": \"USD\",\n  \"exchange_rate\": \"1.00\",\n  \"subtotal\": \"1000.00\",\n  \"tax_amount\": \"150.00\",\n  \"total\": \"1150.00\",\n  \"status\": \"DRAFT\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update :Pk\\.:Format (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk\\.:format",
+                "?"
+              ]
+            },
+            "description": "Partial update of :pk\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"invoice_number\": \"AP-TEST-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete :Pk\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific :pk\\.:format"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Post-Gl by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk/post-gl/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk",
+                "post-gl"
+              ]
+            },
+            "description": "Retrieve specific post-gl by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Post-Gl (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk/post-gl/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk",
+                "post-gl"
+              ]
+            },
+            "description": "Full update of post-gl",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"invoice_number\": \"AP-TEST-001\",\n  \"invoice_date\": \"2024-11-17\",\n  \"due_date\": \"2024-12-17\",\n  \"currency\": \"USD\",\n  \"exchange_rate\": \"1.00\",\n  \"subtotal\": \"1000.00\",\n  \"tax_amount\": \"150.00\",\n  \"total\": \"1150.00\",\n  \"status\": \"DRAFT\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Post-Gl (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk/post-gl/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk",
+                "post-gl"
+              ]
+            },
+            "description": "Partial update of post-gl",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"invoice_number\": \"AP-TEST-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Post-Gl",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk/post-gl/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk",
+                "post-gl"
+              ]
+            },
+            "description": "Delete specific post-gl"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Post-Gl\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk/post-gl\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk",
+                "post-gl\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific post-gl\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Post-Gl\\.:Format (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk/post-gl\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk",
+                "post-gl\\.:format",
+                "?"
+              ]
+            },
+            "description": "Full update of post-gl\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"invoice_number\": \"AP-TEST-001\",\n  \"invoice_date\": \"2024-11-17\",\n  \"due_date\": \"2024-12-17\",\n  \"currency\": \"USD\",\n  \"exchange_rate\": \"1.00\",\n  \"subtotal\": \"1000.00\",\n  \"tax_amount\": \"150.00\",\n  \"total\": \"1150.00\",\n  \"status\": \"DRAFT\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Post-Gl\\.:Format (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk/post-gl\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk",
+                "post-gl\\.:format",
+                "?"
+              ]
+            },
+            "description": "Partial update of post-gl\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"invoice_number\": \"AP-TEST-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Post-Gl\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk/post-gl\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk",
+                "post-gl\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific post-gl\\.:format"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Submit-For-Approval by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk/submit-for-approval/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk",
+                "submit-for-approval"
+              ]
+            },
+            "description": "Retrieve specific submit-for-approval by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Submit-For-Approval (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk/submit-for-approval/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk",
+                "submit-for-approval"
+              ]
+            },
+            "description": "Full update of submit-for-approval",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"invoice_number\": \"AP-TEST-001\",\n  \"invoice_date\": \"2024-11-17\",\n  \"due_date\": \"2024-12-17\",\n  \"currency\": \"USD\",\n  \"exchange_rate\": \"1.00\",\n  \"subtotal\": \"1000.00\",\n  \"tax_amount\": \"150.00\",\n  \"total\": \"1150.00\",\n  \"status\": \"DRAFT\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Submit-For-Approval (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk/submit-for-approval/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk",
+                "submit-for-approval"
+              ]
+            },
+            "description": "Partial update of submit-for-approval",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"invoice_number\": \"AP-TEST-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Submit-For-Approval",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk/submit-for-approval/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk",
+                "submit-for-approval"
+              ]
+            },
+            "description": "Delete specific submit-for-approval"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Submit-For-Approval\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk/submit-for-approval\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk",
+                "submit-for-approval\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific submit-for-approval\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Submit-For-Approval\\.:Format (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk/submit-for-approval\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk",
+                "submit-for-approval\\.:format",
+                "?"
+              ]
+            },
+            "description": "Full update of submit-for-approval\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"invoice_number\": \"AP-TEST-001\",\n  \"invoice_date\": \"2024-11-17\",\n  \"due_date\": \"2024-12-17\",\n  \"currency\": \"USD\",\n  \"exchange_rate\": \"1.00\",\n  \"subtotal\": \"1000.00\",\n  \"tax_amount\": \"150.00\",\n  \"total\": \"1150.00\",\n  \"status\": \"DRAFT\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Submit-For-Approval\\.:Format (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk/submit-for-approval\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk",
+                "submit-for-approval\\.:format",
+                "?"
+              ]
+            },
+            "description": "Partial update of submit-for-approval\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"invoice_number\": \"AP-TEST-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Submit-For-Approval\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/invoices/:pk/submit-for-approval\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "invoices",
+                ":pk",
+                "submit-for-approval\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific submit-for-approval\\.:format"
+          },
+          "response": []
+        }
+      ],
+      "description": "27 requests for Invoices"
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        },
+        {
+          "name": "Create ",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments"
+              ]
+            },
+            "description": "Create a new ",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"payment_number\": \"PAY-AP-TEST-001\",\n  \"payment_date\": \"2024-11-17\",\n  \"payment_method\": \"BANK_TRANSFER\",\n  \"currency\": \"USD\",\n  \"amount\": \"1000.00\",\n  \"reference\": \"TEST-REF-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List All ",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/outstanding/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                "outstanding"
+              ]
+            },
+            "description": "Retrieve all  with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "List  (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/outstanding/?status=ACTIVE&page=1&page_size=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                "outstanding",
+                "?status=ACTIVE&page=1&page_size=10"
+              ]
+            },
+            "description": "Retrieve  with status and pagination filters"
+          },
+          "response": []
+        },
+        {
+          "name": "Create ",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/outstanding/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                "outstanding"
+              ]
+            },
+            "description": "Create a new ",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"payment_number\": \"PAY-AP-TEST-001\",\n  \"payment_date\": \"2024-11-17\",\n  \"payment_method\": \"BANK_TRANSFER\",\n  \"currency\": \"USD\",\n  \"amount\": \"1000.00\",\n  \"reference\": \"TEST-REF-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Outstanding\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/outstanding\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                "outstanding\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific outstanding\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Outstanding\\.:Format (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/outstanding\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                "outstanding\\.:format",
+                "?"
+              ]
+            },
+            "description": "Full update of outstanding\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"payment_number\": \"PAY-AP-TEST-001\",\n  \"payment_date\": \"2024-11-17\",\n  \"payment_method\": \"BANK_TRANSFER\",\n  \"currency\": \"USD\",\n  \"amount\": \"1000.00\",\n  \"reference\": \"TEST-REF-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Outstanding\\.:Format (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/outstanding\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                "outstanding\\.:format",
+                "?"
+              ]
+            },
+            "description": "Partial update of outstanding\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"payment_number\": \"PAY-AP-TEST-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Outstanding\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/outstanding\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                "outstanding\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific outstanding\\.:format"
+          },
+          "response": []
+        },
+        {
+          "name": "Get :Pk by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk"
+              ]
+            },
+            "description": "Retrieve specific :pk by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update :Pk (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk"
+              ]
+            },
+            "description": "Full update of :pk",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"payment_number\": \"PAY-AP-TEST-001\",\n  \"payment_date\": \"2024-11-17\",\n  \"payment_method\": \"BANK_TRANSFER\",\n  \"currency\": \"USD\",\n  \"amount\": \"1000.00\",\n  \"reference\": \"TEST-REF-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update :Pk (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk"
+              ]
+            },
+            "description": "Partial update of :pk",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"payment_number\": \"PAY-AP-TEST-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete :Pk",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk"
+              ]
+            },
+            "description": "Delete specific :pk"
+          },
+          "response": []
+        },
+        {
+          "name": "Get :Pk\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific :pk\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update :Pk\\.:Format (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk\\.:format",
+                "?"
+              ]
+            },
+            "description": "Full update of :pk\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"payment_number\": \"PAY-AP-TEST-001\",\n  \"payment_date\": \"2024-11-17\",\n  \"payment_method\": \"BANK_TRANSFER\",\n  \"currency\": \"USD\",\n  \"amount\": \"1000.00\",\n  \"reference\": \"TEST-REF-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update :Pk\\.:Format (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk\\.:format",
+                "?"
+              ]
+            },
+            "description": "Partial update of :pk\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"payment_number\": \"PAY-AP-TEST-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete :Pk\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific :pk\\.:format"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Post by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk/post/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk",
+                "post"
+              ]
+            },
+            "description": "Retrieve specific post by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Post (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk/post/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk",
+                "post"
+              ]
+            },
+            "description": "Full update of post",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"payment_number\": \"PAY-AP-TEST-001\",\n  \"payment_date\": \"2024-11-17\",\n  \"payment_method\": \"BANK_TRANSFER\",\n  \"currency\": \"USD\",\n  \"amount\": \"1000.00\",\n  \"reference\": \"TEST-REF-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Post (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk/post/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk",
+                "post"
+              ]
+            },
+            "description": "Partial update of post",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"payment_number\": \"PAY-AP-TEST-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Post",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk/post/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk",
+                "post"
+              ]
+            },
+            "description": "Delete specific post"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Post\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk/post\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk",
+                "post\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific post\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Post\\.:Format (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk/post\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk",
+                "post\\.:format",
+                "?"
+              ]
+            },
+            "description": "Full update of post\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"payment_number\": \"PAY-AP-TEST-001\",\n  \"payment_date\": \"2024-11-17\",\n  \"payment_method\": \"BANK_TRANSFER\",\n  \"currency\": \"USD\",\n  \"amount\": \"1000.00\",\n  \"reference\": \"TEST-REF-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Post\\.:Format (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk/post\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk",
+                "post\\.:format",
+                "?"
+              ]
+            },
+            "description": "Partial update of post\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"payment_number\": \"PAY-AP-TEST-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Post\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk/post\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk",
+                "post\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific post\\.:format"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Reconcile by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk/reconcile/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk",
+                "reconcile"
+              ]
+            },
+            "description": "Retrieve specific reconcile by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Reconcile (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk/reconcile/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk",
+                "reconcile"
+              ]
+            },
+            "description": "Full update of reconcile",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"payment_number\": \"PAY-AP-TEST-001\",\n  \"payment_date\": \"2024-11-17\",\n  \"payment_method\": \"BANK_TRANSFER\",\n  \"currency\": \"USD\",\n  \"amount\": \"1000.00\",\n  \"reference\": \"TEST-REF-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Reconcile (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk/reconcile/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk",
+                "reconcile"
+              ]
+            },
+            "description": "Partial update of reconcile",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"payment_number\": \"PAY-AP-TEST-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Reconcile",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk/reconcile/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk",
+                "reconcile"
+              ]
+            },
+            "description": "Delete specific reconcile"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Reconcile\\.:Format by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk/reconcile\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk",
+                "reconcile\\.:format",
+                "?"
+              ]
+            },
+            "description": "Retrieve specific reconcile\\.:format by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Reconcile\\.:Format (Full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk/reconcile\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk",
+                "reconcile\\.:format",
+                "?"
+              ]
+            },
+            "description": "Full update of reconcile\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"payment_number\": \"PAY-AP-TEST-001\",\n  \"payment_date\": \"2024-11-17\",\n  \"payment_method\": \"BANK_TRANSFER\",\n  \"currency\": \"USD\",\n  \"amount\": \"1000.00\",\n  \"reference\": \"TEST-REF-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Reconcile\\.:Format (Partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk/reconcile\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk",
+                "reconcile\\.:format",
+                "?"
+              ]
+            },
+            "description": "Partial update of reconcile\\.:format",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": 1,\n  \"payment_number\": \"PAY-AP-TEST-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Reconcile\\.:Format",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Token {{auth_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}api/ar/payments/:pk/reconcile\\.:format/?",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ar",
+                "payments",
+                ":pk",
+                "reconcile\\.:format",
+                "?"
+              ]
+            },
+            "description": "Delete specific reconcile\\.:format"
+          },
+          "response": []
+        }
+      ],
+      "description": "34 requests for Payments"
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string",
+      "description": "Authentication token (if required)"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Pre-request script for all requests in this collection",
+          "// You can add global pre-request logic here"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Test script for all requests in this collection",
+          "// Basic status code validation",
+          "pm.test('Status code is valid', function() {",
+          "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+          "});"
+        ]
+      }
+    }
+  ]
+}

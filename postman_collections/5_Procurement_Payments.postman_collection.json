@@ -1,0 +1,807 @@
+{
+	"info": {
+		"_postman_id": "procurement-payments-001",
+		"name": "ERP Finance - Procurement: Payments",
+		"description": "Payment requests, batches, approvals, reconciliation, and payment configuration",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8007/api",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Payment Requests",
+			"item": [
+				{
+					"name": "List Payment Requests",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/requests/?status=&supplier=&date_from=&date_to=&priority=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "requests", ""],
+							"query": [
+								{"key": "status", "value": ""},
+								{"key": "supplier", "value": ""},
+								{"key": "date_from", "value": ""},
+								{"key": "date_to", "value": ""},
+								{"key": "priority", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Payment Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/requests/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "requests", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Payment Request",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"supplier\": 1,\n  \"amount\": \"10000.00\",\n  \"currency\": 1,\n  \"payment_date\": \"2025-11-20\",\n  \"priority\": \"NORMAL\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/requests/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "requests", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Payment Request",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"priority\": \"URGENT\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/requests/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "requests", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Payment Request",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/requests/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "requests", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Submit Payment Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/requests/:id/submit/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "requests", ":id", "submit", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Approve Payment Request",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"comments\": \"Approved for processing\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/requests/:id/approve/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "requests", ":id", "approve", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Reject Payment Request",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Insufficient documentation\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/requests/:id/reject/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "requests", ":id", "reject", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Process Payment Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/requests/:id/process/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "requests", ":id", "process", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Cancel Payment Request",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"No longer required\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/requests/:id/cancel/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "requests", ":id", "cancel", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Generate Payment File",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"format\": \"ACH\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/requests/:id/generate-file/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "requests", ":id", "generate-file", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Payment Batches",
+			"item": [
+				{
+					"name": "List Payment Batches",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/batches/?status=&payment_method=&date_from=&date_to=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "batches", ""],
+							"query": [
+								{"key": "status", "value": ""},
+								{"key": "payment_method", "value": ""},
+								{"key": "date_from", "value": ""},
+								{"key": "date_to", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Payment Batch",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/batches/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "batches", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Payment Batch",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"batch_name\": \"Batch 2025-11-17\",\n  \"payment_method\": \"ACH\",\n  \"payment_date\": \"2025-11-20\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/batches/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "batches", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Payment Batch",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Updated batch notes\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/batches/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "batches", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Payment Batch",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/batches/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "batches", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Add Payments to Batch",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"payment_ids\": [1, 2, 3]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/batches/:id/add-payments/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "batches", ":id", "add-payments", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Remove Payment from Batch",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"payment_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/batches/:id/remove-payment/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "batches", ":id", "remove-payment", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Finalize Batch",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/batches/:id/finalize/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "batches", ":id", "finalize", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Process Batch",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/batches/:id/process/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "batches", ":id", "process", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Generate Batch File",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/batches/:id/generate-file/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "batches", ":id", "generate-file", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Export Batch",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/batches/:id/export/?format=csv",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "batches", ":id", "export", ""],
+							"query": [{"key": "format", "value": "csv"}],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Payment Approvals",
+			"item": [
+				{
+					"name": "List Payment Approvals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/approvals/?status=&approver=&payment_request=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "approvals", ""],
+							"query": [
+								{"key": "status", "value": ""},
+								{"key": "approver", "value": ""},
+								{"key": "payment_request", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Payment Approval",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/approvals/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "approvals", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Payment Approval",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"payment_request\": 1,\n  \"approver\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/approvals/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "approvals", ""]
+						}
+					}
+				},
+				{
+					"name": "Approve Payment",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"comments\": \"Approved\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/approvals/:id/approve/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "approvals", ":id", "approve", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Reject Payment",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"comments\": \"Requires additional documentation\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/approvals/:id/reject/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "approvals", ":id", "reject", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "My Pending Approvals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/approvals/my-pending/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "approvals", "my-pending", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Bank Reconciliation",
+			"item": [
+				{
+					"name": "List Reconciliations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/reconciliations/?status=&bank_account=&date_from=&date_to=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "reconciliations", ""],
+							"query": [
+								{"key": "status", "value": ""},
+								{"key": "bank_account", "value": ""},
+								{"key": "date_from", "value": ""},
+								{"key": "date_to", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Reconciliation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/reconciliations/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "reconciliations", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Reconciliation",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bank_account\": 1,\n  \"statement_date\": \"2025-11-17\",\n  \"opening_balance\": \"50000.00\",\n  \"closing_balance\": \"45000.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/reconciliations/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "reconciliations", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Reconciliation",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Updated notes\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/reconciliations/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "reconciliations", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Reconciliation",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/reconciliations/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "reconciliations", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Match Transaction",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"item_id\": 1,\n  \"payment_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/reconciliations/:id/match-transaction/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "reconciliations", ":id", "match-transaction", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Unmatch Transaction",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"item_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/reconciliations/:id/unmatch-transaction/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "reconciliations", ":id", "unmatch-transaction", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Complete Reconciliation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/reconciliations/:id/complete/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "reconciliations", ":id", "complete", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Payment Configuration",
+			"item": [
+				{
+					"name": "List Payment Methods",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/methods/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "methods", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Payment Method",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/methods/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "methods", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Payment Method",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"ACH Transfer\",\n  \"code\": \"ACH\",\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/methods/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "methods", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Payment Method",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/methods/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "methods", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Payment Method",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/methods/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "methods", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "List Payment Terms",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/terms/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "terms", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Payment Terms",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/terms/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "terms", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Payment Terms",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Net 30\",\n  \"days\": 30\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/terms/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "terms", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Payment Terms",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"days\": 45\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/terms/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "terms", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Payment Terms",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/terms/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "terms", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "List Procurement Bank Accounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/bank-accounts/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "bank-accounts", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Procurement Bank Account",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/bank-accounts/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "bank-accounts", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Procurement Bank Account",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"account_name\": \"Main Procurement Account\",\n  \"account_number\": \"1234567890\",\n  \"bank_name\": \"ABC Bank\",\n  \"currency\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/bank-accounts/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "bank-accounts", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Procurement Bank Account",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/bank-accounts/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "bank-accounts", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Procurement Bank Account",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/payments/bank-accounts/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "payments", "bank-accounts", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		}
+	]
+}

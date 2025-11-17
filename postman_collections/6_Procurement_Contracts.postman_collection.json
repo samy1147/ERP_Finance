@@ -1,0 +1,477 @@
+{
+	"info": {
+		"_postman_id": "procurement-contracts-001",
+		"name": "ERP Finance - Procurement: Contracts",
+		"description": "Contract management including templates, milestones, amendments, SLAs, and penalties",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8007/api",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Contracts",
+			"item": [
+				{
+					"name": "List Contracts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/contracts/?status=&contract_type=&party_type=&party_id=&expiring_within_days=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "contracts", ""],
+							"query": [
+								{"key": "status", "value": ""},
+								{"key": "contract_type", "value": ""},
+								{"key": "party_type", "value": ""},
+								{"key": "party_id", "value": ""},
+								{"key": "expiring_within_days", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Contract",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/contracts/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "contracts", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Contract",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"contract_number\": \"CNT-2025-001\",\n  \"title\": \"Service Agreement\",\n  \"party_type\": \"Supplier\",\n  \"party_id\": 1,\n  \"start_date\": \"2025-11-17\",\n  \"end_date\": \"2026-11-17\",\n  \"contract_value\": \"100000.00\",\n  \"currency\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/contracts/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "contracts", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Contract",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Updated contract notes\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/contracts/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "contracts", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Contract",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/contracts/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "contracts", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Submit Contract",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/contracts/:id/submit/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "contracts", ":id", "submit", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Approve Contract",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"comments\": \"Approved\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/contracts/:id/approve/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "contracts", ":id", "approve", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Reject Contract",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Terms not acceptable\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/contracts/:id/reject/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "contracts", ":id", "reject", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Activate Contract",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/contracts/:id/activate/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "contracts", ":id", "activate", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Suspend Contract",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Performance issues\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/contracts/:id/suspend/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "contracts", ":id", "suspend", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Terminate Contract",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Breach of contract\",\n  \"effective_date\": \"2025-12-31\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/contracts/:id/terminate/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "contracts", ":id", "terminate", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Renew Contract",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"new_end_date\": \"2027-11-17\",\n  \"new_value\": \"120000.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/contracts/:id/renew/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "contracts", ":id", "renew", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Export Contract PDF",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/:id/export-pdf/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", ":id", "export-pdf", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Contract Milestones",
+			"item": [
+				{
+					"name": "Add Milestone",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Phase 1 Completion\",\n  \"due_date\": \"2025-12-31\",\n  \"value\": \"25000.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/contracts/:id/milestones/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "contracts", ":id", "milestones", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Update Milestone",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"IN_PROGRESS\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/contracts/:id/milestones/:milestoneId/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "contracts", ":id", "milestones", ":milestoneId", ""],
+							"variable": [
+								{"key": "id", "value": "1"},
+								{"key": "milestoneId", "value": "1"}
+							]
+						}
+					}
+				},
+				{
+					"name": "Complete Milestone",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"completion_notes\": \"Completed on time\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/contracts/:id/milestones/:milestoneId/complete/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "contracts", ":id", "milestones", ":milestoneId", "complete", ""],
+							"variable": [
+								{"key": "id", "value": "1"},
+								{"key": "milestoneId", "value": "1"}
+							]
+						}
+					}
+				},
+				{
+					"name": "Generate Invoice for Milestone",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/contracts/:id/milestones/:milestoneId/generate-invoice/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "contracts", ":id", "milestones", ":milestoneId", "generate-invoice", ""],
+							"variable": [
+								{"key": "id", "value": "1"},
+								{"key": "milestoneId", "value": "1"}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Contract Amendments",
+			"item": [
+				{
+					"name": "Add Amendment",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amendment_number\": \"AMD-001\",\n  \"description\": \"Scope extension\",\n  \"effective_date\": \"2025-12-01\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/contracts/:id/amendments/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "contracts", ":id", "amendments", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Approve Amendment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/contracts/:id/amendments/:amendmentId/approve/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "contracts", ":id", "amendments", ":amendmentId", "approve", ""],
+							"variable": [
+								{"key": "id", "value": "1"},
+								{"key": "amendmentId", "value": "1"}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Contract Templates",
+			"item": [
+				{
+					"name": "List Templates",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/templates/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "templates", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Template",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/templates/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "templates", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Template",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Standard Service Agreement\",\n  \"contract_type\": \"SERVICE\",\n  \"template_content\": \"Contract template text...\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/templates/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "templates", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Template",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/templates/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "templates", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Template",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/templates/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "templates", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Use Template",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"party_type\": \"Supplier\",\n  \"party_id\": 1,\n  \"start_date\": \"2025-11-17\",\n  \"end_date\": \"2026-11-17\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/templates/:id/use-template/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", "templates", ":id", "use-template", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Attachments",
+			"item": [
+				{
+					"name": "Upload Attachment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/:id/attachments/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", ":id", "attachments", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Attachment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/contracts/:id/attachments/:attachmentId/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "contracts", ":id", "attachments", ":attachmentId", ""],
+							"variable": [
+								{"key": "id", "value": "1"},
+								{"key": "attachmentId", "value": "1"}
+							]
+						}
+					}
+				}
+			]
+		}
+	]
+}

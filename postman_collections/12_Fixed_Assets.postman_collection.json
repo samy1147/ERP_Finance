@@ -1,0 +1,1079 @@
+{
+	"info": {
+		"_postman_id": "fixed-assets-001",
+		"name": "ERP Finance - Fixed Assets Management",
+		"description": "Complete fixed assets management including assets, categories, locations, transfers, retirements, adjustments, depreciation, maintenance, and approvals",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8007/api",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Asset Categories",
+			"item": [
+				{
+					"name": "List Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/categories/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "categories", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/categories/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "categories", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Category",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"CAT-001\",\n  \"name\": \"Computer Equipment\",\n  \"depreciation_method\": \"STRAIGHT_LINE\",\n  \"useful_life_months\": 36\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/categories/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "categories", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Category",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"useful_life_months\": 48\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/categories/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "categories", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/categories/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "categories", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Asset Locations",
+			"item": [
+				{
+					"name": "List Locations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/locations/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "locations", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Location",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/locations/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "locations", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Location",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"LOC-001\",\n  \"name\": \"Head Office\",\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/locations/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "locations", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Location",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/locations/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "locations", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Location",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/locations/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "locations", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Get Assets at Location",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/locations/:id/assets/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "locations", ":id", "assets", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Get Child Locations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/locations/:id/children/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "locations", ":id", "children", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Assets",
+			"item": [
+				{
+					"name": "List Assets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/assets/?status=&category=&location=",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "assets", ""],
+							"query": [
+								{"key": "status", "value": ""},
+								{"key": "category", "value": ""},
+								{"key": "location", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Asset",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/assets/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "assets", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Asset",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"asset_number\": \"ASSET-001\",\n  \"name\": \"Dell Laptop XPS 15\",\n  \"category\": 1,\n  \"location\": 1,\n  \"acquisition_cost\": \"1500.00\",\n  \"acquisition_date\": \"2025-11-17\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/assets/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "assets", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Asset",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"location\": 2\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/assets/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "assets", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Asset",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/assets/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "assets", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Capitalize Asset",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"capitalization_date\": \"2025-11-17\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/assets/:id/capitalize/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "assets", ":id", "capitalize", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Transfer Asset",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"to_location\": 2,\n  \"reason\": \"Office relocation\",\n  \"transfer_date\": \"2025-11-20\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/assets/:id/transfer/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "assets", ":id", "transfer", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Dispose Asset",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"disposal_date\": \"2025-11-17\",\n  \"disposal_method\": \"SOLD\",\n  \"disposal_proceeds\": \"500.00\",\n  \"disposal_notes\": \"Sold to employee\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/assets/:id/dispose/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "assets", ":id", "dispose", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Get Depreciation Schedule",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/assets/:id/depreciation_schedule/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "assets", ":id", "depreciation_schedule", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Get Maintenance History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/assets/:id/maintenance_history/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "assets", ":id", "maintenance_history", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Get Asset Documents",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/assets/:id/documents/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "assets", ":id", "documents", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Submit for Capitalization",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"capitalization_date\": \"2025-11-20\",\n  \"notes\": \"Ready for capitalization\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/assets/:id/submit_for_capitalization/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "assets", ":id", "submit_for_capitalization", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Recategorize Asset",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"new_category\": 2,\n  \"reason\": \"Incorrect initial categorization\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/assets/:id/recategorize/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "assets", ":id", "recategorize", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Adjust Cost",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"new_cost\": \"1800.00\",\n  \"reason\": \"Additional installation costs\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/assets/:id/adjust_cost/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "assets", ":id", "adjust_cost", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Adjust Useful Life",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"new_useful_life\": 48,\n  \"reason\": \"Extended warranty purchased\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/assets/:id/adjust_useful_life/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "assets", ":id", "adjust_useful_life", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Manual Depreciation Adjustment",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"new_accumulated_depreciation\": \"600.00\",\n  \"reason\": \"Correction for prior period error\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/assets/:id/manual_depreciation_adjustment/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "assets", ":id", "manual_depreciation_adjustment", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Submit for Retirement",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"retirement_date\": \"2025-11-25\",\n  \"retirement_type\": \"SOLD\",\n  \"disposal_proceeds\": \"400.00\",\n  \"disposal_costs\": \"50.00\",\n  \"buyer_recipient\": \"ABC Company\",\n  \"sale_invoice_number\": \"INV-001\",\n  \"reason\": \"End of useful life\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/assets/:id/submit_for_retirement/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "assets", ":id", "submit_for_retirement", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Check Source Conversion",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"source_type\": \"AP_INVOICE\",\n  \"ap_invoice_id\": 123,\n  \"ap_invoice_line\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/assets/check_source_conversion/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "assets", "check_source_conversion", ""]
+						}
+					}
+				},
+				{
+					"name": "Create from AP Invoice",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"ap_invoice_id\": 123,\n  \"line_number\": 1,\n  \"asset_data\": {\n    \"asset_number\": \"ASSET-002\",\n    \"name\": \"Office Furniture\",\n    \"category\": 2,\n    \"location\": 1\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/assets/create_from_ap_invoice/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "assets", "create_from_ap_invoice", ""]
+						}
+					}
+				},
+				{
+					"name": "Create from GRN",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"grn_line_id\": 456,\n  \"asset_data\": {\n    \"asset_number\": \"ASSET-003\",\n    \"name\": \"Manufacturing Equipment\",\n    \"category\": 3,\n    \"location\": 2\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/assets/create_from_grn/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "assets", "create_from_grn", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Asset Transfers",
+			"item": [
+				{
+					"name": "List Transfers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/transfers/?approval_status=",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "transfers", ""],
+							"query": [{"key": "approval_status", "value": ""}]
+						}
+					}
+				},
+				{
+					"name": "Get Transfer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/transfers/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "transfers", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Transfer",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"asset\": 1,\n  \"from_location\": 1,\n  \"to_location\": 2,\n  \"transfer_date\": \"2025-11-20\",\n  \"reason\": \"Office relocation\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/transfers/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "transfers", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Transfer",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"approval_status\": \"APPROVED\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/transfers/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "transfers", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Transfer",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/transfers/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "transfers", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Asset Retirements",
+			"item": [
+				{
+					"name": "List Retirements",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/retirements/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "retirements", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Retirement",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/retirements/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "retirements", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Retirement",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"asset\": 1,\n  \"retirement_date\": \"2025-11-25\",\n  \"retirement_type\": \"SOLD\",\n  \"disposal_proceeds\": \"400.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/retirements/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "retirements", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Retirement",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"approval_status\": \"APPROVED\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/retirements/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "retirements", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Retirement",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/retirements/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "retirements", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Asset Adjustments",
+			"item": [
+				{
+					"name": "List Adjustments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/adjustments/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "adjustments", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Adjustment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/adjustments/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "adjustments", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Adjustment",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"asset\": 1,\n  \"adjustment_type\": \"COST\",\n  \"adjustment_date\": \"2025-11-20\",\n  \"old_value\": \"1500.00\",\n  \"new_value\": \"1800.00\",\n  \"reason\": \"Additional costs\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/adjustments/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "adjustments", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Adjustment",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"approval_status\": \"APPROVED\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/adjustments/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "adjustments", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Adjustment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/adjustments/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "adjustments", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Asset Approvals",
+			"item": [
+				{
+					"name": "List Approvals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/approvals/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "approvals", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Approval",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/approvals/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "approvals", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Approval",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"asset\": 1,\n  \"operation_type\": \"TRANSFER\",\n  \"approval_status\": \"PENDING\",\n  \"notes\": \"Approval request\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/approvals/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "approvals", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Approval",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"approval_status\": \"APPROVED\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/approvals/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "approvals", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Approval",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/approvals/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "approvals", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Depreciation",
+			"item": [
+				{
+					"name": "List Depreciation Schedules",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/depreciation/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "depreciation", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Depreciation Schedule",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/depreciation/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "depreciation", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Asset Maintenance",
+			"item": [
+				{
+					"name": "List Maintenance Records",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/maintenance/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "maintenance", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Maintenance Record",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/maintenance/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "maintenance", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Maintenance Record",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"asset\": 1,\n  \"maintenance_date\": \"2025-11-20\",\n  \"maintenance_type\": \"PREVENTIVE\",\n  \"description\": \"Annual service\",\n  \"cost\": \"150.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/maintenance/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "maintenance", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Maintenance Record",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cost\": \"200.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/maintenance/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "maintenance", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Maintenance Record",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/maintenance/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "maintenance", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Asset Documents",
+			"item": [
+				{
+					"name": "List Documents",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/documents/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "documents", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Document",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/documents/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "documents", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Document",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"asset\": 1,\n  \"document_type\": \"INVOICE\",\n  \"document_date\": \"2025-11-17\",\n  \"document_number\": \"INV-001\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/documents/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "documents", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Document",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Updated notes\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/documents/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "documents", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Document",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/documents/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "documents", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Asset Configuration",
+			"item": [
+				{
+					"name": "List Configurations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/configuration/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "configuration", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Configuration",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/configuration/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "configuration", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Configuration",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"depreciation_frequency\": \"MONTHLY\",\n  \"capitalization_threshold\": \"1000.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/configuration/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "configuration", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Configuration",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"capitalization_threshold\": \"1500.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/configuration/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "configuration", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Configuration",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fixed-assets/configuration/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["fixed-assets", "configuration", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		}
+	]
+}

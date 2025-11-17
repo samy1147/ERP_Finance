@@ -1,0 +1,1056 @@
+{
+  "info": {
+    "name": "AP - Vendor Onboarding",
+    "_postman_id": "ap-vendor-onboarding-20251117",
+    "description": "API endpoints for AP - Vendor Onboarding",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List All ",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding"
+          ]
+        },
+        "description": "Retrieve all  with optional filters"
+      },
+      "response": []
+    },
+    {
+      "name": "List  (with filters)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/?status=ACTIVE&page=1&page_size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            "?status=ACTIVE&page=1&page_size=10"
+          ]
+        },
+        "description": "Retrieve  with status and pagination filters"
+      },
+      "response": []
+    },
+    {
+      "name": "Create ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding"
+          ]
+        },
+        "description": "Create a new ",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"VEND-TEST-001\",\n  \"name\": \"Test Vendor\",\n  \"email\": \"vendor@test.com\",\n  \"currency\": \"USD\",\n  \"payment_terms\": \"NET30\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get :Pk by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk"
+          ]
+        },
+        "description": "Retrieve specific :pk by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk"
+          ]
+        },
+        "description": "Full update of :pk",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"VEND-TEST-001\",\n  \"name\": \"Test Vendor\",\n  \"email\": \"vendor@test.com\",\n  \"currency\": \"USD\",\n  \"payment_terms\": \"NET30\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk"
+          ]
+        },
+        "description": "Partial update of :pk",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"VEND-TEST-001\",\n  \"name\": \"Test Vendor\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete :Pk",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk"
+          ]
+        },
+        "description": "Delete specific :pk"
+      },
+      "response": []
+    },
+    {
+      "name": "Get :Pk\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific :pk\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of :pk\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"VEND-TEST-001\",\n  \"name\": \"Test Vendor\",\n  \"email\": \"vendor@test.com\",\n  \"currency\": \"USD\",\n  \"payment_terms\": \"NET30\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of :pk\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"VEND-TEST-001\",\n  \"name\": \"Test Vendor\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete :Pk\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific :pk\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Complete by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk/complete/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk",
+            "complete"
+          ]
+        },
+        "description": "Retrieve specific complete by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Complete (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk/complete/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk",
+            "complete"
+          ]
+        },
+        "description": "Full update of complete",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"VEND-TEST-001\",\n  \"name\": \"Test Vendor\",\n  \"email\": \"vendor@test.com\",\n  \"currency\": \"USD\",\n  \"payment_terms\": \"NET30\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Complete (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk/complete/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk",
+            "complete"
+          ]
+        },
+        "description": "Partial update of complete",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"VEND-TEST-001\",\n  \"name\": \"Test Vendor\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Complete",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk/complete/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk",
+            "complete"
+          ]
+        },
+        "description": "Delete specific complete"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Complete\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk/complete\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk",
+            "complete\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific complete\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Complete\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk/complete\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk",
+            "complete\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of complete\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"VEND-TEST-001\",\n  \"name\": \"Test Vendor\",\n  \"email\": \"vendor@test.com\",\n  \"currency\": \"USD\",\n  \"payment_terms\": \"NET30\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Complete\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk/complete\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk",
+            "complete\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of complete\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"VEND-TEST-001\",\n  \"name\": \"Test Vendor\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Complete\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk/complete\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk",
+            "complete\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific complete\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Uncomplete by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk/uncomplete/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk",
+            "uncomplete"
+          ]
+        },
+        "description": "Retrieve specific uncomplete by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Uncomplete (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk/uncomplete/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk",
+            "uncomplete"
+          ]
+        },
+        "description": "Full update of uncomplete",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"VEND-TEST-001\",\n  \"name\": \"Test Vendor\",\n  \"email\": \"vendor@test.com\",\n  \"currency\": \"USD\",\n  \"payment_terms\": \"NET30\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Uncomplete (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk/uncomplete/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk",
+            "uncomplete"
+          ]
+        },
+        "description": "Partial update of uncomplete",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"VEND-TEST-001\",\n  \"name\": \"Test Vendor\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Uncomplete",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk/uncomplete/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk",
+            "uncomplete"
+          ]
+        },
+        "description": "Delete specific uncomplete"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Uncomplete\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk/uncomplete\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk",
+            "uncomplete\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific uncomplete\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Uncomplete\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk/uncomplete\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk",
+            "uncomplete\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of uncomplete\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"VEND-TEST-001\",\n  \"name\": \"Test Vendor\",\n  \"email\": \"vendor@test.com\",\n  \"currency\": \"USD\",\n  \"payment_terms\": \"NET30\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Uncomplete\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk/uncomplete\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk",
+            "uncomplete\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of uncomplete\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"VEND-TEST-001\",\n  \"name\": \"Test Vendor\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Uncomplete\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/ap/vendor-onboarding/:pk/uncomplete\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "ap",
+            "vendor-onboarding",
+            ":pk",
+            "uncomplete\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific uncomplete\\.:format"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

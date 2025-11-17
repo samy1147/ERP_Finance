@@ -15,14 +15,14 @@ import csv
 from django.db.models import Sum, F, Q
 from io import BytesIO
 from decimal import Decimal
-from .models import Invoice, JournalEntry, JournalLine, BankAccount, InvoiceApproval
+from .models import JournalEntry, JournalLine, BankAccount, InvoiceApproval
 from segment.models import XX_Segment
 from ar.models import ARInvoice, ARPayment
 from ap.models import APInvoice, APPayment
-from .serializers import (InvoiceSerializer,JournalLineSerializer, JournalLineDetailSerializer, JournalEntrySerializer,ARInvoiceSerializer, ARPaymentSerializer,APInvoiceSerializer, APPaymentSerializer,JournalEntryReadSerializer, BankAccountSerializer,SeedVATRequestSerializer, CorpTaxAccrualRequestSerializer)
+from .serializers import (JournalLineSerializer, JournalLineDetailSerializer, JournalEntrySerializer,ARInvoiceSerializer, ARPaymentSerializer,APInvoiceSerializer, APPaymentSerializer,JournalEntryReadSerializer, BankAccountSerializer,SeedVATRequestSerializer, CorpTaxAccrualRequestSerializer)
 from segment.serializers import AccountSerializer
 from .services import (
-    reverse_posted_invoice,post_invoice,post_entry,
+    post_entry,
     gl_post_from_ar_balanced, gl_post_from_ap_balanced,
     post_ar_payment, post_ap_payment,
     reverse_journal, seed_vat_presets, accrue_corporate_tax,
@@ -1372,19 +1372,10 @@ class CorporateTaxBreakdown(APIView):
        
        return Response(response_data, status=200)
 
-class InvoiceViewSet(viewsets.ModelViewSet):
-    queryset = Invoice.objects.prefetch_related("lines")
-    serializer_class = InvoiceSerializer
 
-    @action(detail=True, methods=["POST"])
-    def post(self, request, pk=None):
-        inv = post_invoice(pk)
-        return Response(InvoiceSerializer(inv).data, status=status.HTTP_200_OK)
-
-    @action(detail=True, methods=["POST"])
-    def reverse(self, request, pk=None):
-        rev = reverse_posted_invoice(pk)
-        return Response(InvoiceSerializer(rev).data, status=status.HTTP_201_CREATED)
+# ========== DEPRECATED LEGACY INVOICE API REMOVED ==========
+# InvoiceViewSet was removed as part of consolidation to AR/AP specific invoice models.
+# Use ARInvoiceViewSet or APInvoiceViewSet instead.
 
 
 # ========== FX (Foreign Exchange) API Endpoints ==========

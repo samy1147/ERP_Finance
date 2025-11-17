@@ -372,6 +372,22 @@ class ARPayment(models.Model):
                 self.invoice_currency = inv_currency
                 self.exchange_rate = Decimal('1.000000')
                 self.save(update_fields=['invoice_currency', 'exchange_rate'])
+    
+    def post_to_gl(self):
+        """
+        Post this payment to the General Ledger.
+        Creates journal entry: DR Bank, CR Accounts Receivable
+        Handles multi-currency with FX gain/loss.
+        Returns: (JournalEntry, created: bool, invoices_closed: list)
+        """
+        # Import here to avoid circular dependency
+        from finance.services import post_ar_payment
+        
+        if self.gl_journal:
+            # Already posted
+            return self.gl_journal, False, []
+        
+        return post_ar_payment(self)
 
 
 class ARPaymentAllocation(models.Model):

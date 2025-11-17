@@ -1,0 +1,332 @@
+{
+	"info": {
+		"_postman_id": "segments-001",
+		"name": "ERP Finance - Segments & Chart of Accounts",
+		"description": "Segment types, segment values, and chart of accounts management including hierarchical structures",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8007/api",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Segment Types",
+			"item": [
+				{
+					"name": "List Segment Types",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/segment/types/?is_required=",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "types", ""],
+							"query": [{"key": "is_required", "value": ""}]
+						}
+					}
+				},
+				{
+					"name": "Get Segment Type",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/segment/types/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "types", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Segment Type",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"DEPT\",\n  \"name\": \"Department\",\n  \"is_required\": true,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/segment/types/",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "types", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Segment Type",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/segment/types/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "types", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Segment Type",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/segment/types/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "types", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Get Segment Type Values",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/segment/types/:id/values/",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "types", ":id", "values", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Segment Values",
+			"item": [
+				{
+					"name": "List Segment Values",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/segment/values/?segment_type=&is_active=&code=",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "values", ""],
+							"query": [
+								{"key": "segment_type", "value": ""},
+								{"key": "is_active", "value": ""},
+								{"key": "code", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Segment Value",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/segment/values/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "values", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Segment Value",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"segment_type\": 1,\n  \"code\": \"100\",\n  \"name\": \"Sales Department\",\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/segment/values/",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "values", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Segment Value",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/segment/values/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "values", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Segment Value",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/segment/values/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "values", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Get Child Segments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/segment/values/:id/children/",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "values", ":id", "children", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Get Descendant Segments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/segment/values/:id/descendants/",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "values", ":id", "descendants", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Get Segment Hierarchy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/segment/values/:code/hierarchy/",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "values", ":code", "hierarchy", ""],
+							"variable": [{"key": "code", "value": "100"}]
+						}
+					}
+				},
+				{
+					"name": "Get Child Segments (Filtered)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/segment/values/child_segments/?segment_type=&is_active=",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "values", "child_segments", ""],
+							"query": [
+								{"key": "segment_type", "value": ""},
+								{"key": "is_active", "value": ""}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Chart of Accounts",
+			"item": [
+				{
+					"name": "List Accounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/segment/accounts/?code=",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "accounts", ""],
+							"query": [{"key": "code", "value": ""}]
+						}
+					}
+				},
+				{
+					"name": "Get Account",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/segment/accounts/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "accounts", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Account",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"1000\",\n  \"name\": \"Cash in Bank\",\n  \"account_type\": \"ASSET\",\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/segment/accounts/",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "accounts", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Account",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/segment/accounts/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "accounts", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Account",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/segment/accounts/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "accounts", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Get Account Hierarchy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/segment/accounts/hierarchy/",
+							"host": ["{{baseUrl}}"],
+							"path": ["segment", "accounts", "hierarchy", ""]
+						}
+					}
+				}
+			]
+		}
+	]
+}

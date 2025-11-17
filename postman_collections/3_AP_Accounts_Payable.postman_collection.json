@@ -1,0 +1,418 @@
+{
+	"info": {
+		"_postman_id": "ap-module-003",
+		"name": "ERP Finance - AP (Accounts Payable)",
+		"description": "Accounts Payable module including AP invoices, payments, and vendors/suppliers",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8007/api",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "AP Invoices",
+			"item": [
+				{
+					"name": "List AP Invoices",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ap/invoices/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "invoices", ""]
+						}
+					}
+				},
+				{
+					"name": "Get AP Invoice",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ap/invoices/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "invoices", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create AP Invoice",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"supplier\": 1,\n  \"invoice_date\": \"2025-11-17\",\n  \"due_date\": \"2025-12-17\",\n  \"currency\": 1,\n  \"total_amount\": \"1000.00\",\n  \"lines\": []\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ap/invoices/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "invoices", ""]
+						}
+					}
+				},
+				{
+					"name": "Update AP Invoice",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Updated notes\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ap/invoices/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "invoices", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete AP Invoice",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ap/invoices/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "invoices", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Post AP Invoice to GL",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ap/invoices/:id/post-gl/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "invoices", ":id", "post-gl", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Reverse AP Invoice",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ap/invoices/:id/reverse/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "invoices", ":id", "reverse", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Submit for Approval",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"submitted_by\": \"user@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ap/invoices/:id/submit-for-approval/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "invoices", ":id", "submit-for-approval", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Three-Way Match",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ap/invoices/:id/three-way-match/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "invoices", ":id", "three-way-match", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "AP Payments",
+			"item": [
+				{
+					"name": "List AP Payments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ap/payments/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "payments", ""]
+						}
+					}
+				},
+				{
+					"name": "Get AP Payment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ap/payments/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "payments", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create AP Payment",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"supplier\": 1,\n  \"payment_date\": \"2025-11-17\",\n  \"amount\": \"1000.00\",\n  \"currency\": 1,\n  \"bank_account\": 1,\n  \"invoices\": []\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ap/payments/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "payments", ""]
+						}
+					}
+				},
+				{
+					"name": "Update AP Payment",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Updated payment notes\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ap/payments/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "payments", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete AP Payment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ap/payments/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "payments", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Post AP Payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ap/payments/:id/post/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "payments", ":id", "post", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Vendors/Suppliers",
+			"item": [
+				{
+					"name": "List Vendors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ap/vendors/?is_active=",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "vendors", ""],
+							"query": [{"key": "is_active", "value": ""}]
+						}
+					}
+				},
+				{
+					"name": "Get Vendor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ap/vendors/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "vendors", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Vendor",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"ABC Supplier\",\n  \"email\": \"contact@abcsupplier.com\",\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ap/vendors/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "vendors", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Vendor",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ap/vendors/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "vendors", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Vendor",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ap/vendors/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "vendors", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Mark as Preferred Vendor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ap/vendors/:id/mark_preferred/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "vendors", ":id", "mark_preferred", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Remove Preferred Status",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ap/vendors/:id/remove_preferred/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "vendors", ":id", "remove_preferred", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Put Vendor on Hold",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Quality issues\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ap/vendors/:id/put_on_hold/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "vendors", ":id", "put_on_hold", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Remove Hold from Vendor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ap/vendors/:id/remove_hold/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "vendors", ":id", "remove_hold", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Blacklist Vendor",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Fraudulent activities\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ap/vendors/:id/blacklist/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "vendors", ":id", "blacklist", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Remove Vendor from Blacklist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ap/vendors/:id/remove_blacklist/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "vendors", ":id", "remove_blacklist", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Update Vendor Performance",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"performance_score\": 85,\n  \"quality_score\": 90,\n  \"delivery_score\": 80\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ap/vendors/:id/update_performance/",
+							"host": ["{{baseUrl}}"],
+							"path": ["ap", "vendors", ":id", "update_performance", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		}
+	]
+}

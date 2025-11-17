@@ -1,0 +1,1056 @@
+{
+  "info": {
+    "name": "FIXED-ASSETS - Locations",
+    "_postman_id": "fixed-assets-locations-20251117",
+    "description": "API endpoints for FIXED-ASSETS - Locations",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List All ",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations"
+          ]
+        },
+        "description": "Retrieve all  with optional filters"
+      },
+      "response": []
+    },
+    {
+      "name": "List  (with filters)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/?status=ACTIVE&page=1&page_size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            "?status=ACTIVE&page=1&page_size=10"
+          ]
+        },
+        "description": "Retrieve  with status and pagination filters"
+      },
+      "response": []
+    },
+    {
+      "name": "Create ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations"
+          ]
+        },
+        "description": "Create a new ",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get :Pk by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk"
+          ]
+        },
+        "description": "Retrieve specific :pk by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk"
+          ]
+        },
+        "description": "Full update of :pk",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk"
+          ]
+        },
+        "description": "Partial update of :pk",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete :Pk",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk"
+          ]
+        },
+        "description": "Delete specific :pk"
+      },
+      "response": []
+    },
+    {
+      "name": "Get :Pk\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific :pk\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of :pk\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update :Pk\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of :pk\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete :Pk\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific :pk\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Assets by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk/assets/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk",
+            "assets"
+          ]
+        },
+        "description": "Retrieve specific assets by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Assets (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk/assets/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk",
+            "assets"
+          ]
+        },
+        "description": "Full update of assets",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Assets (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk/assets/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk",
+            "assets"
+          ]
+        },
+        "description": "Partial update of assets",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Assets",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk/assets/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk",
+            "assets"
+          ]
+        },
+        "description": "Delete specific assets"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Assets\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk/assets\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk",
+            "assets\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific assets\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Assets\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk/assets\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk",
+            "assets\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of assets\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Assets\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk/assets\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk",
+            "assets\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of assets\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Assets\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk/assets\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk",
+            "assets\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific assets\\.:format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Children by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk/children/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk",
+            "children"
+          ]
+        },
+        "description": "Retrieve specific children by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Children (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk/children/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk",
+            "children"
+          ]
+        },
+        "description": "Full update of children",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Children (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk/children/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk",
+            "children"
+          ]
+        },
+        "description": "Partial update of children",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Children",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk/children/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk",
+            "children"
+          ]
+        },
+        "description": "Delete specific children"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Children\\.:Format by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk/children\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk",
+            "children\\.:format",
+            "?"
+          ]
+        },
+        "description": "Retrieve specific children\\.:format by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Children\\.:Format (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk/children\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk",
+            "children\\.:format",
+            "?"
+          ]
+        },
+        "description": "Full update of children\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\",\n  \"acquisition_date\": \"2024-11-17\",\n  \"cost\": \"5000.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Children\\.:Format (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk/children\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk",
+            "children\\.:format",
+            "?"
+          ]
+        },
+        "description": "Partial update of children\\.:format",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"asset_number\": \"FA-TEST-001\",\n  \"description\": \"Test Asset\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Children\\.:Format",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/fixed-assets/locations/:pk/children\\.:format/?",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "fixed-assets",
+            "locations",
+            ":pk",
+            "children\\.:format",
+            "?"
+          ]
+        },
+        "description": "Delete specific children\\.:format"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

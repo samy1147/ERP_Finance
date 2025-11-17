@@ -1,0 +1,172 @@
+{
+  "info": {
+    "name": "JOURNALS - Post",
+    "_postman_id": "journals-post-20251117",
+    "description": "API endpoints for JOURNALS - Post",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Post by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/journals/:pk/post/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "journals",
+            ":pk",
+            "post"
+          ]
+        },
+        "description": "Retrieve specific post by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Post (Full)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/journals/:pk/post/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "journals",
+            ":pk",
+            "post"
+          ]
+        },
+        "description": "Full update of post",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"journal_date\": \"2024-11-17\",\n  \"period\": 1,\n  \"description\": \"Test Journal Entry\",\n  \"lines\": []\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Post (Partial)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/journals/:pk/post/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "journals",
+            ":pk",
+            "post"
+          ]
+        },
+        "description": "Partial update of post",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"journal_date\": \"2024-11-17\",\n  \"period\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Post",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Token {{auth_token}}",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}api/journals/:pk/post/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "journals",
+            ":pk",
+            "post"
+          ]
+        },
+        "description": "Delete specific post"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

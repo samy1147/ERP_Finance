@@ -1,0 +1,915 @@
+{
+	"info": {
+		"_postman_id": "procurement-catalog-001",
+		"name": "ERP Finance - Procurement: Catalog Management",
+		"description": "Catalog items, framework agreements, call-off orders, units of measure, and categories",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8007/api",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Catalog Items",
+			"item": [
+				{
+					"name": "List Catalog Items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/items/?category=&supplier=&active=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "items", ""],
+							"query": [
+								{"key": "category", "value": ""},
+								{"key": "supplier", "value": ""},
+								{"key": "active", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Catalog Item",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/items/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "items", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Catalog Item",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"item_code\": \"CAT-001\",\n  \"description\": \"Office Supplies\",\n  \"supplier\": 1,\n  \"category\": 1,\n  \"unit_price\": \"25.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/items/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "items", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Catalog Item",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"unit_price\": \"30.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/items/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "items", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Catalog Item",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/items/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "items", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Get Price Tiers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/items/:id/price_tiers/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "items", ":id", "price_tiers", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Get Effective Price",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/items/:id/effective_price/?quantity=100",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "items", ":id", "effective_price", ""],
+							"query": [{"key": "quantity", "value": "100"}],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Search Catalog",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/items/search/?q=office",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "items", "search", ""],
+							"query": [{"key": "q", "value": "office"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Price Tiers",
+			"item": [
+				{
+					"name": "List Price Tiers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/price-tiers/?catalog_item=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "price-tiers", ""],
+							"query": [{"key": "catalog_item", "value": ""}]
+						}
+					}
+				},
+				{
+					"name": "Get Price Tier",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/price-tiers/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "price-tiers", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Price Tier",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"catalog_item\": 1,\n  \"min_quantity\": \"100\",\n  \"price\": \"22.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/price-tiers/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "price-tiers", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Price Tier",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"price\": \"20.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/price-tiers/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "price-tiers", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Price Tier",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/price-tiers/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "price-tiers", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Framework Agreements",
+			"item": [
+				{
+					"name": "List Framework Agreements",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/framework-agreements/?supplier=&status=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "framework-agreements", ""],
+							"query": [
+								{"key": "supplier", "value": ""},
+								{"key": "status", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Framework Agreement",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/framework-agreements/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "framework-agreements", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Framework Agreement",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"agreement_number\": \"FA-2025-001\",\n  \"supplier\": 1,\n  \"start_date\": \"2025-01-01\",\n  \"end_date\": \"2025-12-31\",\n  \"total_value\": \"100000.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/framework-agreements/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "framework-agreements", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Framework Agreement",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"total_value\": \"150000.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/framework-agreements/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "framework-agreements", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Framework Agreement",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/framework-agreements/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "framework-agreements", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Activate Framework",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/framework-agreements/:id/activate/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "framework-agreements", ":id", "activate", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Suspend Framework",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"suspension_reason\": \"Quality issues\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/framework-agreements/:id/suspend/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "framework-agreements", ":id", "suspend", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Terminate Framework",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"termination_reason\": \"Agreement completed\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/framework-agreements/:id/terminate/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "framework-agreements", ":id", "terminate", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Renew Framework",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"new_end_date\": \"2026-12-31\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/framework-agreements/:id/renew/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "framework-agreements", ":id", "renew", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Get Utilization",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/framework-agreements/:id/utilization/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "framework-agreements", ":id", "utilization", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Get Active Frameworks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/framework-agreements/active/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "framework-agreements", "active", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Expiring Soon",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/framework-agreements/expiring-soon/?days=30",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "framework-agreements", "expiring-soon", ""],
+							"query": [{"key": "days", "value": "30"}]
+						}
+					}
+				},
+				{
+					"name": "Get Statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/framework-agreements/:id/statistics/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "framework-agreements", ":id", "statistics", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Framework Items",
+			"item": [
+				{
+					"name": "List Framework Items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/framework-items/?framework=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "framework-items", ""],
+							"query": [{"key": "framework", "value": ""}]
+						}
+					}
+				},
+				{
+					"name": "Get Framework Item",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/framework-items/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "framework-items", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Framework Item",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"framework\": 1,\n  \"catalog_item\": 1,\n  \"agreed_price\": \"20.00\",\n  \"max_quantity\": \"1000\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/framework-items/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "framework-items", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Framework Item",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"agreed_price\": \"18.00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/framework-items/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "framework-items", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Framework Item",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/framework-items/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "framework-items", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Call-off Orders",
+			"item": [
+				{
+					"name": "List Call-off Orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/calloff-orders/?framework=&status=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "calloff-orders", ""],
+							"query": [
+								{"key": "framework", "value": ""},
+								{"key": "status", "value": ""}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Call-off Order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/calloff-orders/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "calloff-orders", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Call-off Order",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"framework\": 1,\n  \"order_number\": \"CO-2025-001\",\n  \"order_date\": \"2025-11-17\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/calloff-orders/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "calloff-orders", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Call-off Order",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Updated delivery requirements\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/calloff-orders/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "calloff-orders", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Call-off Order",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/calloff-orders/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "calloff-orders", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Submit Call-off",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/calloff-orders/:id/submit/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "calloff-orders", ":id", "submit", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Approve Call-off",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"approval_notes\": \"Approved\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/calloff-orders/:id/approve/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "calloff-orders", ":id", "approve", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Send Call-off to Supplier",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/calloff-orders/:id/send/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "calloff-orders", ":id", "send", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Confirm Call-off",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"confirmation_date\": \"2025-11-18\",\n  \"supplier_reference\": \"SUP-REF-001\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/calloff-orders/:id/confirm/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "calloff-orders", ":id", "confirm", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Complete Call-off",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/calloff-orders/:id/complete/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "calloff-orders", ":id", "complete", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Cancel Call-off",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cancellation_reason\": \"Requirements changed\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/calloff-orders/:id/cancel/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "calloff-orders", ":id", "cancel", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Call-off Lines",
+			"item": [
+				{
+					"name": "List Call-off Lines",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/calloff-lines/?calloff_order=",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "calloff-lines", ""],
+							"query": [{"key": "calloff_order", "value": ""}]
+						}
+					}
+				},
+				{
+					"name": "Get Call-off Line",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/calloff-lines/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "calloff-lines", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Call-off Line",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"calloff_order\": 1,\n  \"framework_item\": 1,\n  \"quantity\": \"50\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/calloff-lines/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "calloff-lines", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Call-off Line",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": \"75\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/calloff-lines/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "calloff-lines", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Call-off Line",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/calloff-lines/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "calloff-lines", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Receive Call-off Line",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"received_quantity\": \"50\",\n  \"receipt_date\": \"2025-11-20\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/calloff-lines/:id/receive/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "calloff-lines", ":id", "receive", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Units of Measure",
+			"item": [
+				{
+					"name": "List Units",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/units/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "units", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Unit",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/units/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "units", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Unit",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"EA\",\n  \"name\": \"Each\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/units/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "units", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Unit",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Each (Updated)\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/units/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "units", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Unit",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/units/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "units", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "List Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/categories/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "categories", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/categories/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "categories", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Create Category",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"CAT-001\",\n  \"name\": \"Office Supplies\",\n  \"parent\": null\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/categories/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "categories", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Category",
+					"request": {
+						"method": "PATCH",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Office Supplies & Stationery\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/categories/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "categories", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Delete Category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/categories/:id/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "categories", ":id", ""],
+							"variable": [{"key": "id", "value": "1"}]
+						}
+					}
+				},
+				{
+					"name": "Get Category Tree",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/procurement/catalog/categories/tree/",
+							"host": ["{{baseUrl}}"],
+							"path": ["procurement", "catalog", "categories", "tree", ""]
+						}
+					}
+				}
+			]
+		}
+	]
+}
