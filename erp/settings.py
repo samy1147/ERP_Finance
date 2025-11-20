@@ -112,15 +112,8 @@ SPECTACULAR_SETTINGS = {
     "COMPONENT_SPLIT_REQUEST": True,
 }
 
-# CORS Settings - Allow Next.js frontend to connect
-CORS_ALLOWED_ORIGINS = [
-    FRONTEND_URL,  # Use environment variable
-    "http://localhost:3000",  # Local development
-    "http://127.0.0.1:3000",
-    "http://localhost:3001",  # Alternative ports
-    "http://localhost:3002",
-    "http://localhost:3003",
-]
+# CORS Settings - Allow all origins (public API access)
+CORS_ALLOW_ALL_ORIGINS = True
 
 # CSRF Trusted Origins - Required for Django 4.0+
 CSRF_TRUSTED_ORIGINS = [
