@@ -131,6 +131,82 @@ class Supplier(models.Model):
     def can_transact(self):
         """Check if vendor can be used for transactions"""
         return self.is_active and not self.is_blacklisted and not self.is_on_hold
+    
+    @property
+    def can_delete(self):
+        """
+        Check if supplier can be safely deleted.
+        Returns False if supplier has any related records (invoices, bills, POs, etc.)
+        """
+        # Check for related invoices
+        if self.apinvoice_set.exists():
+            return False
+        
+        # Check for related vendor bills
+        if hasattr(self, 'vendorbill_set') and self.vendorbill_set.exists():
+            return False
+        
+        # Check for related purchase orders
+        if hasattr(self, 'poheader_set') and self.poheader_set.exists():
+            return False
+        
+        # Check for related payments
+        if hasattr(self, 'appayment_set') and self.appayment_set.exists():
+            return False
+        
+        # Check for related RFx awards
+        if hasattr(self, 'awarded_rfx_events') and self.awarded_rfx_events.exists():
+            return False
+        
+        # Check for related quotes
+        if hasattr(self, 'quotes') and self.quotes.exists():
+            return False
+        
+        return True
+    
+    def get_deletion_blockers(self):
+        """
+        Get a list of reasons why this supplier cannot be deleted.
+        Returns a list of strings describing the blocking relationships.
+        """
+        blockers = []
+        
+        # Check invoices
+        invoice_count = self.apinvoice_set.count()
+        if invoice_count > 0:
+            blockers.append(f"{invoice_count} AP Invoice(s)")
+        
+        # Check vendor bills
+        if hasattr(self, 'vendorbill_set'):
+            bill_count = self.vendorbill_set.count()
+            if bill_count > 0:
+                blockers.append(f"{bill_count} Vendor Bill(s)")
+        
+        # Check purchase orders
+        if hasattr(self, 'poheader_set'):
+            po_count = self.poheader_set.count()
+            if po_count > 0:
+                blockers.append(f"{po_count} Purchase Order(s)")
+        
+        # Check payments
+        if hasattr(self, 'appayment_set'):
+            payment_count = self.appayment_set.count()
+            if payment_count > 0:
+                blockers.append(f"{payment_count} Payment(s)")
+        
+        # Check RFx awards
+        if hasattr(self, 'awarded_rfx_events'):
+            award_count = self.awarded_rfx_events.count()
+            if award_count > 0:
+                blockers.append(f"{award_count} RFx Award(s)")
+        
+        # Check quotes
+        if hasattr(self, 'quotes'):
+            quote_count = self.quotes.count()
+            if quote_count > 0:
+                blockers.append(f"{quote_count} Quote(s)")
+        
+        return blockers
 
 
 class VendorContact(models.Model):

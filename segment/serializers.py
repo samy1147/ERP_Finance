@@ -3,14 +3,17 @@ from .models import XX_SegmentType, XX_Segment
 
 
 class SegmentTypeSerializer(serializers.ModelSerializer):
+    can_delete = serializers.ReadOnlyField()
+    
     class Meta:
         model = XX_SegmentType
         fields = [
             "segment_id", "segment_name", "segment_type",
             "is_required", "has_hierarchy", "length", "display_order",
-            "description", "is_active", "created_at", "updated_at"
+            "description", "is_active", "can_delete",
+            "created_at", "updated_at"
         ]
-        read_only_fields = ["segment_id", "created_at", "updated_at"]
+        read_only_fields = ["segment_id", "can_delete", "created_at", "updated_at"]
 
 
 class SegmentSerializer(serializers.ModelSerializer):
@@ -18,6 +21,7 @@ class SegmentSerializer(serializers.ModelSerializer):
     name = serializers.ReadOnlyField()
     type = serializers.ReadOnlyField()
     full_path = serializers.ReadOnlyField()
+    can_delete = serializers.ReadOnlyField()
     parent = serializers.SerializerMethodField()
     children = serializers.SerializerMethodField()
     
@@ -26,9 +30,9 @@ class SegmentSerializer(serializers.ModelSerializer):
         fields = [
             "id", "segment_type", "segment_type_name", "code", "parent_code",
             "alias", "name", "type", "node_type", "level", "is_active", "envelope_amount",
-            "full_path", "parent", "children", "created_at", "updated_at"
+            "full_path", "can_delete", "parent", "children", "created_at", "updated_at"
         ]
-        read_only_fields = ["id", "created_at", "updated_at", "name", "type", "full_path"]
+        read_only_fields = ["id", "created_at", "updated_at", "name", "type", "full_path", "can_delete"]
     
     def validate(self, data):
         """

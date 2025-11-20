@@ -77,6 +77,23 @@ class XX_SegmentType(models.Model):
         
         return (len(usage) > 0, usage)
     
+    @property
+    def can_delete(self):
+        """
+        Check if this segment type can be safely deleted.
+        Returns False if used in transactions or has segment values.
+        """
+        # Check if used in transactions
+        is_used, _ = self.is_used_in_transactions()
+        if is_used:
+            return False
+        
+        # Check if has any segment values
+        if self.values.exists():
+            return False
+        
+        return True
+    
     def delete(self, *args, **kwargs):
         """
         Prevent deletion if segment type is used in transactions.
@@ -297,6 +314,27 @@ class XX_Segment(models.Model):
             pass
         
         return (len(usage) > 0, usage)
+    
+    @property
+    def can_delete(self):
+        """
+        Check if this segment can be safely deleted.
+        Returns False if used in transactions or has children.
+        """
+        # Check if used in transactions
+        is_used, _ = self.is_used_in_transactions()
+        if is_used:
+            return False
+        
+        # Check if has children
+        has_children = XX_Segment.objects.filter(
+            segment_type=self.segment_type,
+            parent_code=self.code
+        ).exists()
+        if has_children:
+            return False
+        
+        return True
     
     def delete(self, *args, **kwargs):
         """

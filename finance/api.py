@@ -320,7 +320,47 @@ class JournalEntryViewSet(viewsets.ModelViewSet):
     
     @action(detail=True, methods=["post"], url_path="post")
     def post_gl(self, request, pk=None):
-        entry = self.get_object(); post_entry(entry); return Response({"status": "posted"})
+        """Post a journal entry to mark it as finalized"""
+        journal = self.get_object()
+        
+        # Check if already posted
+        if journal.posted:
+            return Response({
+                'error': 'Journal entry is already posted'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Validate that debits equal credits
+        total_debit = sum(line.debit for line in journal.lines.all())
+        total_credit = sum(line.credit for line in journal.lines.all())
+        
+        if total_debit != total_credit:
+            return Response({
+                'error': f'Cannot post: Debits ({total_debit}) do not equal Credits ({total_credit})'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Check that all lines have required segments
+        for line in journal.lines.all():
+            from segment.models import XX_SegmentType
+            active_types = XX_SegmentType.objects.filter(is_active=True)
+            line_segment_types = set(line.segments.values_list('segment_type_id', flat=True))
+            required_types = set(active_types.values_list('segment_id', flat=True))
+            
+            if line_segment_types != required_types:
+                missing = required_types - line_segment_types
+                missing_names = [st.segment_name for st in active_types if st.segment_id in missing]
+                return Response({
+                    'error': f'Cannot post: Line is missing required segments: {", ".join(missing_names)}'
+                }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Mark as posted
+        journal.posted = True
+        journal.save()
+        
+        return Response({
+            'message': 'Journal entry posted successfully',
+            'id': journal.id,
+            'posted': True
+        }, status=status.HTTP_200_OK)
     
     @action(detail=True, methods=["post"], url_path="reverse")
     def reverse_entry(self, request, pk=None):
@@ -1132,6 +1172,7 @@ class SeedVATPresets(APIView):
 # ---- List tax rates by country ----
 class ListTaxRates(APIView):
     def get(self, request):
+        """List all tax rates with optional country filter"""
         country = request.GET.get("country")
         qs = TaxRate.objects.all()
         if country:
@@ -1144,9 +1185,156 @@ class ListTaxRates(APIView):
             "category": t.category, 
             "code": t.code, 
             "effective_from": t.effective_from.isoformat() if t.effective_from else None,
-            "is_active": t.is_active  # Added is_active field
+            "effective_to": t.effective_to.isoformat() if t.effective_to else None,
+            "is_active": t.is_active
         } for t in qs.order_by("country","category","rate")]
         return Response(data)
+    
+    def post(self, request):
+        """Create a new tax rate"""
+        try:
+            # Extract and validate data
+            name = request.data.get("name")
+            rate = request.data.get("rate")
+            country = request.data.get("country", "AE")
+            category = request.data.get("category", "STANDARD")
+            code = request.data.get("code", "")
+            effective_from = request.data.get("effective_from")
+            effective_to = request.data.get("effective_to")
+            is_active = request.data.get("is_active", True)
+            
+            if not name:
+                return Response(
+                    {"error": "Name is required"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            if rate is None:
+                return Response(
+                    {"error": "Rate is required"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            # Create the tax rate
+            tax_rate = TaxRate.objects.create(
+                name=name,
+                rate=rate,
+                country=country,
+                category=category,
+                code=code,
+                effective_from=effective_from,
+                effective_to=effective_to,
+                is_active=is_active
+            )
+            
+            return Response({
+                "id": tax_rate.id,
+                "name": tax_rate.name,
+                "rate": float(tax_rate.rate),
+                "country": tax_rate.country,
+                "category": tax_rate.category,
+                "code": tax_rate.code,
+                "effective_from": tax_rate.effective_from.isoformat() if tax_rate.effective_from else None,
+                "effective_to": tax_rate.effective_to.isoformat() if tax_rate.effective_to else None,
+                "is_active": tax_rate.is_active
+            }, status=status.HTTP_201_CREATED)
+            
+        except Exception as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+
+class TaxRateDetail(APIView):
+    """Detail view for individual tax rate (GET, PUT, DELETE)"""
+    
+    def get(self, request, pk):
+        """Get a specific tax rate"""
+        try:
+            tax_rate = TaxRate.objects.get(pk=pk)
+            return Response({
+                "id": tax_rate.id,
+                "name": tax_rate.name,
+                "rate": float(tax_rate.rate),
+                "country": tax_rate.country,
+                "category": tax_rate.category,
+                "code": tax_rate.code,
+                "effective_from": tax_rate.effective_from.isoformat() if tax_rate.effective_from else None,
+                "effective_to": tax_rate.effective_to.isoformat() if tax_rate.effective_to else None,
+                "is_active": tax_rate.is_active
+            })
+        except TaxRate.DoesNotExist:
+            return Response(
+                {"error": "Tax rate not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+    
+    def put(self, request, pk):
+        """Update a tax rate"""
+        try:
+            tax_rate = TaxRate.objects.get(pk=pk)
+            
+            # Update fields if provided
+            if "name" in request.data:
+                tax_rate.name = request.data["name"]
+            if "rate" in request.data:
+                tax_rate.rate = request.data["rate"]
+            if "country" in request.data:
+                tax_rate.country = request.data["country"]
+            if "category" in request.data:
+                tax_rate.category = request.data["category"]
+            if "code" in request.data:
+                tax_rate.code = request.data["code"]
+            if "effective_from" in request.data:
+                tax_rate.effective_from = request.data["effective_from"]
+            if "effective_to" in request.data:
+                tax_rate.effective_to = request.data["effective_to"]
+            if "is_active" in request.data:
+                tax_rate.is_active = request.data["is_active"]
+            
+            tax_rate.save()
+            
+            return Response({
+                "id": tax_rate.id,
+                "name": tax_rate.name,
+                "rate": float(tax_rate.rate),
+                "country": tax_rate.country,
+                "category": tax_rate.category,
+                "code": tax_rate.code,
+                "effective_from": tax_rate.effective_from.isoformat() if tax_rate.effective_from else None,
+                "effective_to": tax_rate.effective_to.isoformat() if tax_rate.effective_to else None,
+                "is_active": tax_rate.is_active
+            })
+            
+        except TaxRate.DoesNotExist:
+            return Response(
+                {"error": "Tax rate not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+    
+    def delete(self, request, pk):
+        """Delete a tax rate"""
+        try:
+            tax_rate = TaxRate.objects.get(pk=pk)
+            tax_rate.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except TaxRate.DoesNotExist:
+            return Response(
+                {"error": "Tax rate not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
 
 # ---- Corporate tax accrual ----
 class CorporateTaxAccrual(APIView):

@@ -1,0 +1,60 @@
+# Fix assets_adjustment table foreign key issues
+from django.db import migrations
+
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('fixed_assets', '0011_create_missing_tables'),
+    ]
+    
+    atomic = False
+
+    operations = [
+        migrations.RunSQL(
+            sql=["PRAGMA foreign_keys = OFF;"],
+            reverse_sql=migrations.RunSQL.noop,
+        ),
+        # Drop and recreate assets_adjustment with correct structure
+        migrations.RunSQL(
+            sql=["DROP TABLE IF EXISTS assets_adjustment;"],
+            reverse_sql=migrations.RunSQL.noop,
+        ),
+        migrations.RunSQL(
+            sql=["""
+                CREATE TABLE assets_adjustment (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    asset_id INTEGER NOT NULL,
+                    adjustment_date DATE NOT NULL,
+                    adjustment_type VARCHAR(20) NOT NULL,
+                    old_cost DECIMAL(15, 2),
+                    new_cost DECIMAL(15, 2),
+                    cost_difference DECIMAL(15, 2),
+                    old_useful_life DECIMAL(5, 2),
+                    new_useful_life DECIMAL(5, 2),
+                    depreciation_adjustment_amount DECIMAL(15, 2),
+                    old_category_id INTEGER,
+                    new_category_id INTEGER,
+                    reason TEXT NOT NULL,
+                    notes TEXT,
+                    approval_status VARCHAR(20) DEFAULT 'DRAFT',
+                    submitted_by_id INTEGER,
+                    submitted_at DATETIME,
+                    approved_by_id INTEGER,
+                    approved_at DATETIME,
+                    approval_notes TEXT,
+                    is_posted BOOLEAN DEFAULT 0,
+                    journal_entry_id INTEGER,
+                    posted_at DATETIME,
+                    created_at DATETIME NOT NULL,
+                    updated_at DATETIME NOT NULL,
+                    created_by_id INTEGER
+                );
+            """],
+            reverse_sql=migrations.RunSQL.noop,
+        ),
+        migrations.RunSQL(
+            sql=["PRAGMA foreign_keys = ON;"],
+            reverse_sql=migrations.RunSQL.noop,
+        ),
+    ]

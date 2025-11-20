@@ -9,7 +9,7 @@ from segment.api import AccountViewSet
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from finance.api import TrialBalanceReport, ARAgingReport, APAgingReport
 from rest_framework.urlpatterns import format_suffix_patterns
-from finance.api import SeedVATPresets, ListTaxRates, CorporateTaxAccrual,CorporateTaxFile,CorporateTaxBreakdown,CorporateTaxFilingDetail
+from finance.api import SeedVATPresets, ListTaxRates, TaxRateDetail, CorporateTaxAccrual,CorporateTaxFile,CorporateTaxBreakdown,CorporateTaxFilingDetail
 from finance.api import ExchangeRateViewSet, CurrencyConvertView, CreateExchangeRateView, FXGainLossAccountViewSet, BaseCurrencyView
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 from crm.api import CustomerViewSet
@@ -76,6 +76,7 @@ urlpatterns = [
     path("api/reports/ap-aging/", APAgingReport.as_view()),
     path("api/tax/seed-presets/", SeedVATPresets.as_view()),
     path("api/tax/rates/", ListTaxRates.as_view()),
+    path("api/tax/rates/<int:pk>/", TaxRateDetail.as_view()),
     path("api/tax/corporate-accrual/", CorporateTaxAccrual.as_view()),
     path("api/tax/corporate-file/<int:filing_id>/",    CorporateTaxFile.as_view()),
     path("api/tax/corporate-filing/<int:filing_id>/",  CorporateTaxFilingDetail.as_view()),

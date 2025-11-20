@@ -81,6 +81,8 @@ class SupplierListSerializer(serializers.ModelSerializer):
     currency_code = serializers.CharField(source='currency.code', read_only=True)
     status = serializers.SerializerMethodField()
     can_transact = serializers.ReadOnlyField()
+    can_delete = serializers.ReadOnlyField()
+    deletion_blockers = serializers.SerializerMethodField()
     
     class Meta:
         model = Supplier
@@ -90,7 +92,7 @@ class SupplierListSerializer(serializers.ModelSerializer):
             'currency', 'currency_code',
             'vendor_category', 'vendor_category_display', 'is_active', 'is_preferred',
             'is_blacklisted', 'is_on_hold', 'onboarding_status', 'performance_score',
-            'status', 'can_transact'
+            'status', 'can_transact', 'can_delete', 'deletion_blockers'
         ]
     
     def get_status(self, obj):
@@ -102,6 +104,10 @@ class SupplierListSerializer(serializers.ModelSerializer):
         if not obj.is_active:
             return 'INACTIVE'
         return 'ACTIVE'
+    
+    def get_deletion_blockers(self, obj):
+        """Get list of reasons why supplier cannot be deleted"""
+        return obj.get_deletion_blockers()
 
 
 class SupplierDetailSerializer(serializers.ModelSerializer):
@@ -110,6 +116,8 @@ class SupplierDetailSerializer(serializers.ModelSerializer):
     onboarding_status_display = serializers.CharField(source='get_onboarding_status_display', read_only=True)
     currency_code = serializers.CharField(source='currency.code', read_only=True)
     can_transact = serializers.ReadOnlyField()
+    can_delete = serializers.ReadOnlyField()
+    deletion_blockers = serializers.SerializerMethodField()
     
     # Nested relationships
     contacts = VendorContactSerializer(many=True, read_only=True)
@@ -153,7 +161,7 @@ class SupplierDetailSerializer(serializers.ModelSerializer):
             'performance_score', 'quality_score', 'delivery_score', 'price_score',
             
             # Metadata
-            'notes', 'created_at', 'updated_at', 'created_by', 'can_transact',
+            'notes', 'created_at', 'updated_at', 'created_by', 'can_transact', 'can_delete', 'deletion_blockers',
             
             # Nested relationships
             'contacts', 'documents', 'performance_records', 'onboarding_checklist',
@@ -163,7 +171,7 @@ class SupplierDetailSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['id', 
             'created_at', 'updated_at', 'performance_score', 'quality_score',
-            'delivery_score', 'price_score', 'can_transact'
+            'delivery_score', 'price_score', 'can_transact', 'can_delete', 'deletion_blockers'
         ]
     
     def get_total_invoices(self, obj):
@@ -196,6 +204,10 @@ class SupplierDetailSerializer(serializers.ModelSerializer):
             balance += invoice.outstanding_amount()
         
         return balance
+    
+    def get_deletion_blockers(self, obj):
+        """Get list of reasons why supplier cannot be deleted"""
+        return obj.get_deletion_blockers()
 
 
 class SupplierCreateUpdateSerializer(serializers.ModelSerializer):
